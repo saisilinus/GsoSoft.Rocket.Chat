@@ -1,21 +1,27 @@
+import { IUser } from '@rocket.chat/core-typings';
 import { Field, FieldGroup, Box } from '@rocket.chat/fuselage';
 import { useSafely } from '@rocket.chat/fuselage-hooks';
 import { useMethod, useTranslation } from '@rocket.chat/ui-contexts';
 import { Meteor } from 'meteor/meteor';
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState, ReactElement } from 'react';
 
 import UserAvatarEditor from '../../components/avatar/UserAvatarEditor';
 import { useEndpointData } from '../../hooks/useEndpointData';
-import AccountInfo from './ViewAccountInfo';
+import ViewAccountInfo from './ViewAccountInfo';
 
-function AccountProfileForm({ values, handlers, user, settings, ...props }) {
+type Props = {
+	values: Record<string, string>;
+	handlers: Record<string, (eventOrValue: unknown) => void>;
+	user: IUser;
+	settings: any;
+};
+
+function ViewProfileForm({ values, handlers, user, settings, ...props }: Props): ReactElement {
 	const t = useTranslation();
 
 	const getAvatarSuggestions = useMethod('getAvatarSuggestion');
 
 	const [avatarSuggestions, setAvatarSuggestions] = useSafely(useState());
-
-	const { allowUserAvatarChange } = settings;
 
 	const { email, username, password } = values;
 
@@ -51,8 +57,8 @@ function AccountProfileForm({ values, handlers, user, settings, ...props }) {
 	);
 
 	const userWithCredit = useMemo(() => {
-		const { user } = data || { user: {} };
-		return user || {};
+		const { user } = data || { user: { credit: 0, trustScore: 0 } };
+		return user;
 	}, [data]);
 
 	const dummyCredit = {
@@ -91,9 +97,19 @@ function AccountProfileForm({ values, handlers, user, settings, ...props }) {
 	}, [user.trustScore]);
 
 	const careerItems = [
-		{ icon: 'user', content: 'Employee/er/broker', rc: true },
-		{ icon: 'credit', content: `Credit point: ${userWithCredit.credit ? userWithCredit.credit : 0}`, rc: false },
-		{ icon: 'trust-score', content: `Trust score: ${userWithCredit.trustScore ? userWithCredit.trustScore * 100 : 0}/100`, rc: false },
+		{ icon: 'user', content: `${t('gso_viewProfileForm_careerItems_employee')}`, rc: true },
+		{
+			icon: 'credit',
+			content: `${t('gso_viewProfileForm_careerItems_creditPoints')}: ${userWithCredit.credit !== 0 ? userWithCredit.credit : 0}`,
+			rc: false,
+		},
+		{
+			icon: 'trust-score',
+			content: `${t('gso_viewProfileForm_careerItems_trustScore')}: ${
+				userWithCredit.trustScore !== 0 ? userWithCredit.trustScore * 100 : 0
+			}/100`,
+			rc: false,
+		},
 	];
 
 	const privateInfo = [
@@ -103,10 +119,10 @@ function AccountProfileForm({ values, handlers, user, settings, ...props }) {
 	];
 
 	const services = [
-		{ icon: 'lock', content: 'Update profile/Chan', rc: true },
-		{ icon: 'info', content: 'Customer support', rc: false },
-		{ icon: 'credit-card', content: 'Verify identity', rc: false },
-		{ icon: 'info', content: 'About us', rc: false },
+		{ icon: 'lock', content: `${t('gso_viewProfileForm_services_updateProfile')}`, rc: true },
+		{ icon: 'info', content: `${t('gso_viewProfileForm_services_customerSupport')}`, rc: false },
+		{ icon: 'credit-card', content: `${t('gso_viewProfileForm_services_verifyIdentity')}`, rc: false },
+		{ icon: 'info', content: `${t('gso_viewProfileForm_services_aboutUs')}`, rc: false },
 	];
 
 	return (
@@ -119,9 +135,8 @@ function AccountProfileForm({ values, handlers, user, settings, ...props }) {
 							currentUsername={user.username}
 							username={username}
 							setAvatarObj={handleAvatar}
-							disabled={!allowUserAvatarChange}
+							disabled={true}
 							suggestions={avatarSuggestions}
-							userId={user._id}
 						/>
 					</Field>
 				),
@@ -129,12 +144,12 @@ function AccountProfileForm({ values, handlers, user, settings, ...props }) {
 			)}
 			<Box style={{ margin: '0px auto', fontSize: '16px' }}>{user.bio ? user.bio : 'No user bio...'}</Box>
 			<Box display='flex' flexDirection='column' style={{ marginTop: '30px' }}>
-				<AccountInfo title={t('Career')} items={careerItems} />
-				<AccountInfo title={t('Private Information')} items={privateInfo} />
-				<AccountInfo title={t('Services')} items={services} />
+				<ViewAccountInfo title={t('gso_viewProfileForm_viewAccountInfo_careerItems')} items={careerItems} />
+				<ViewAccountInfo title={t('gso_viewProfileForm_viewAccountInfo_privateInfo')} items={privateInfo} />
+				<ViewAccountInfo title={t('gso_viewProfileForm_viewAccountInfo_services')} items={services} />
 			</Box>
 		</FieldGroup>
 	);
 }
 
-export default AccountProfileForm;
+export default ViewProfileForm;

@@ -9,6 +9,7 @@ import {
 	useMethod,
 	useTranslation,
 } from '@rocket.chat/ui-contexts';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 import { SHA256 } from 'meteor/sha';
 import React, { useMemo, useState, useCallback } from 'react';
 
@@ -16,9 +17,8 @@ import { getUserEmailAddress } from '../../../lib/getUserEmailAddress';
 import ConfirmOwnerChangeWarningModal from '../../components/ConfirmOwnerChangeWarningModal';
 import Page from '../../components/Page';
 import { useForm } from '../../hooks/useForm';
-import { useUpdateAvatar } from '../../hooks/useUpdateAvatar';
-import AccountProfileForm from './AccountProfileForm';
 import ActionConfirmModal from './ActionConfirmModal';
+import ViewProfileForm from './ViewProfileForm';
 
 const getInitialValues = (user) => ({
 	realname: user.name ?? '',
@@ -35,24 +35,20 @@ const getInitialValues = (user) => ({
 	nickname: user.nickname ?? '',
 });
 
-const AccountProfilePage = () => {
+const ViewProfilePage = () => {
 	const t = useTranslation();
 	const dispatchToastMessage = useToastMessageDispatch();
-
 	const user = useUser();
 
-	const { values, handlers, hasUnsavedChanges, commit, reset } = useForm(getInitialValues(user ?? {}));
+	const { values, handlers, hasUnsavedChanges, reset } = useForm(getInitialValues(user ?? {}));
 	const setModal = useSetModal();
 	const logout = useLogout();
 	const [loggingOut, setLoggingOut] = useState(false);
 
 	const logoutOtherClients = useEndpoint('POST', 'users.logoutOtherClients');
 	const deleteOwnAccount = useMethod('deleteUserOwnAccount');
-	const saveFn = useMethod('saveUserProfile');
 
 	const closeModal = useCallback(() => setModal(null), [setModal]);
-
-	const localPassword = Boolean(user?.services?.password?.exists);
 
 	const erasureType = useSetting('Message_ErasureType');
 	const allowRealNameChange = useSetting('Accounts_AllowRealNameChange');
@@ -65,10 +61,6 @@ const AccountProfilePage = () => {
 	const allowDeleteOwnAccount = useSetting('Accounts_AllowDeleteOwnAccount');
 	const requireName = useSetting('Accounts_RequireNameForSignUp');
 	const namesRegexSetting = useSetting('UTF8_User_Names_Validation');
-
-	if (allowPasswordChange && !allowOAuthPasswordChange) {
-		allowPasswordChange = localPassword;
-	}
 
 	const namesRegex = useMemo(() => new RegExp(`^${namesRegexSetting}$`), [namesRegexSetting]);
 
@@ -97,68 +89,9 @@ const AccountProfilePage = () => {
 		],
 	);
 
-	const { realname, email, avatar, username, password, statusText, statusType, customFields, bio, nickname } = values;
-
-	const { handleAvatar, handlePassword, handleConfirmationPassword } = handlers;
-
-	const updateAvatar = useUpdateAvatar(avatar, user?._id);
-
-	const onSave = useCallback(async () => {
-		const save = async (typedPassword) => {
-			try {
-				await saveFn(
-					{
-						...(allowRealNameChange && { realname }),
-						...(allowEmailChange && getUserEmailAddress(user) !== email && { email }),
-						...(allowPasswordChange && { newPassword: password }),
-						...(canChangeUsername && { username }),
-						...(allowUserStatusMessageChange && { statusText }),
-						...(typedPassword && { typedPassword: SHA256(typedPassword) }),
-						statusType,
-						nickname,
-						bio: bio || '',
-					},
-					customFields,
-				);
-				handlePassword('');
-				handleConfirmationPassword('');
-				const avatarResult = await updateAvatar();
-				if (avatarResult) {
-					handleAvatar('');
-				}
-				commit();
-				dispatchToastMessage({ type: 'success', message: t('Profile_saved_successfully') });
-			} catch (error) {
-				dispatchToastMessage({ type: 'error', message: error });
-			}
-		};
-
-		save();
-	}, [
-		saveFn,
-		allowEmailChange,
-		allowPasswordChange,
-		allowRealNameChange,
-		allowUserStatusMessageChange,
-		bio,
-		canChangeUsername,
-		email,
-		password,
-		realname,
-		statusText,
-		username,
-		user,
-		updateAvatar,
-		handleAvatar,
-		dispatchToastMessage,
-		t,
-		customFields,
-		statusType,
-		commit,
-		nickname,
-		handlePassword,
-		handleConfirmationPassword,
-	]);
+	const handleEdit = () => {
+		FlowRouter.go('/account/profile');
+	};
 
 	const handleLogoutOtherLocations = useCallback(async () => {
 		setLoggingOut(true);
@@ -217,8 +150,8 @@ const AccountProfilePage = () => {
 			}
 		};
 
-		return setModal(() => <ActionConfirmModal onConfirm={handleConfirm} onCancel={closeModal} isPassword={localPassword} />);
-	}, [closeModal, dispatchToastMessage, localPassword, setModal, handleConfirmOwnerChange, deleteOwnAccount, logout, t]);
+		return setModal(() => <ActionConfirmModal onConfirm={handleConfirm} onCancel={closeModal} isPassword={true} />);
+	}, [closeModal, dispatchToastMessage, setModal, handleConfirmOwnerChange, deleteOwnAccount, logout, t]);
 
 	return (
 		<Page>
@@ -227,14 +160,14 @@ const AccountProfilePage = () => {
 					<Button primary danger disabled={!hasUnsavedChanges} onClick={reset}>
 						{t('Reset')}
 					</Button>
-					<Button primary onClick={onSave}>
-						{t('Edit')}
+					<Button primary onClick={handleEdit}>
+						{t('gso_viewProfilePage_btnEdit')}
 					</Button>
 				</ButtonGroup>
 			</Page.Header>
 			<Page.ScrollableContentWithShadow>
 				<Box maxWidth='600px' w='full' alignSelf='center'>
-					<AccountProfileForm values={values} handlers={handlers} user={user ?? { emails: [] }} settings={settings} />
+					<ViewProfileForm values={values} handlers={handlers} user={user ?? { emails: [] }} settings={settings} />
 					<ButtonGroup stretch mb='x12'>
 						<Button onClick={handleLogoutOtherLocations} flexGrow={0} disabled={loggingOut}>
 							{t('Logout_Others')}
@@ -252,4 +185,4 @@ const AccountProfilePage = () => {
 	);
 };
 
-export default AccountProfilePage;
+export default ViewProfilePage;

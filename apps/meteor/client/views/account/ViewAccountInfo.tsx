@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Icon } from '@rocket.chat/fuselage';
-import { useCurrentRoute, useRouteParameter } from '@rocket.chat/ui-contexts';
+import { useCurrentRoute, useRouteParameter, useTranslation } from '@rocket.chat/ui-contexts';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import React, { ReactElement, useContext } from 'react';
 
@@ -10,20 +10,20 @@ type Props = {
 	items: Record<string, any>[];
 };
 
-const AccountInfo = ({ title, items }: Props): ReactElement => {
+const ViewAccountInfo = ({ title, items }: Props): ReactElement => {
 	const { dispatch } = useContext(DispatchPreviousPageContext);
-
+	const t = useTranslation();
 	const [routeName] = useCurrentRoute();
 	const page = useRouteParameter('group');
 
-	const handleChange = (): void => {
+	const handleTopUp = (): void => {
 		dispatch({ type: 'ADD_LOCATION', payload: { location: `${routeName}/${page}` } });
 		FlowRouter.go('/account/topup');
 	};
 	return (
 		<Box>
 			<h4 style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold', background: '#ddd', height: '50px', marginTop: '20px' }}>
-				<span style={{ marginLeft: '8px' }}>{title}</span>
+				<span style={{ marginLeft: '9px' }}>{title}</span>
 			</h4>
 			{items.length
 				? items.map((item, index) => (
@@ -41,8 +41,9 @@ const AccountInfo = ({ title, items }: Props): ReactElement => {
 									<Flex.Item>
 										<Box style={{ marginLeft: '8px' }}>{item.content}</Box>
 										{item.icon === 'credit' ? (
-											<Button style={{ marginLeft: 'auto' }} primary onClick={handleChange}>
-												Top up
+											<Button style={{ marginLeft: 'auto' }} primary onClick={handleTopUp}>
+												{/* tslint:disable-next-line */}
+												{t('gso_viewProfileForm_viewAccountInfo_btnTopUp')}
 											</Button>
 										) : null}
 									</Flex.Item>
@@ -55,4 +56,4 @@ const AccountInfo = ({ title, items }: Props): ReactElement => {
 	);
 };
 
-export default AccountInfo;
+export default ViewAccountInfo;

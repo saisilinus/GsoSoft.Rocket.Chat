@@ -6,6 +6,7 @@ import NotAuthorizedPage from '../notAuthorized/NotAuthorizedPage';
 import TopUpView from '../topup/TopUpView';
 import AccountIntegrationsPage from './AccountIntegrationsPage';
 import AccountProfilePage from './AccountProfilePage';
+import ViewProfilePage from './ViewProfilePage';
 import AccountPreferencesPage from './preferences/AccountPreferencesPage';
 import AccountSecurityPage from './security/AccountSecurityPage';
 import AccountTokensPage from './tokens/AccountTokensPage';
@@ -21,7 +22,7 @@ const AccountRoute = () => {
 			return;
 		}
 
-		!page && router.push({ group: 'profile' });
+		!page && router.push({ group: 'view-profile' });
 	}, [routeName, page, router]);
 
 	useEffect(() => {
@@ -62,6 +63,10 @@ const AccountRoute = () => {
 
 	if (page === 'topup') {
 		return <TopUpView />;
+	}
+
+	if (page === 'view-profile') {
+		return <ViewProfilePage />;
 	}
 
 	return null;
