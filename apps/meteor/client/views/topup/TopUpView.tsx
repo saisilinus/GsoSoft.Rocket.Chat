@@ -1,10 +1,17 @@
+import { Accordion, Box } from '@rocket.chat/fuselage';
+import { useTranslation } from '@rocket.chat/ui-contexts';
 import { Meteor } from 'meteor/meteor';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useMemo, useState } from 'react';
 
 import { IGateway } from '../../../definition/IGateway';
+import Page from '../../components/Page';
+import BankTransfer from './components/BankTransfer';
+import PerfectMoneyVoucher from './components/PerfectMoneyVoucher';
+import './topup.css';
 
 const TopUpView = (): ReactElement => {
 	const [fetchedGateways, setFetchedGateways] = useState<IGateway[]>([]);
+	const t = useTranslation();
 	const gateways = [
 		{
 			_id: 'perfect-money-voucher',
@@ -48,8 +55,10 @@ const TopUpView = (): ReactElement => {
 		},
 	];
 
+	const sortedGateways = useMemo(() => fetchedGateways.sort((a, b) => a.sortOrder - b.sortOrder), [fetchedGateways]);
+
 	const getGatewaysFn = (): void => {
-		Meteor.call('getGateways', {}, {}, (error, result) => {
+		Meteor.call('getGateways', {}, {}, (_error, result) => {
 			if (result) {
 				if (result.length) {
 					setFetchedGateways(result);
@@ -59,7 +68,7 @@ const TopUpView = (): ReactElement => {
 						// The server requires us to wait atleast 2 seconds before sending in a new request.
 						if (index > 0) {
 							setTimeout(() => {
-								Meteor.call('addGateway', gateway, (error, result) => {
+								Meteor.call('addGateway', gateway, (_error, result) => {
 									if (result) {
 										console.log('Gateway was created');
 									}
@@ -71,16 +80,50 @@ const TopUpView = (): ReactElement => {
 						if (index === gateways.length - 1) {
 							getGatewaysFn();
 						}
+						return null;
 					});
 				}
 			}
 		});
 	};
+
 	useEffect(() => {
 		getGatewaysFn();
 	}, []);
 
-	return <div>TopUpView</div>;
+	const capitalizeAndJoin = (word: string): string => {
+		const capitalize = word.charAt(0).toUpperCase() + word.slice(1);
+		return capitalize.replace(/-/g, ' ');
+	};
+
+	return (
+		<Page id='topup-page'>
+			<Page.Header title={t('gso_topupView_header')} />
+			<Box style={{ margin: '15px 15px 0 15px' }}>
+				<h3 style={{ fontSize: '19px', marginBottom: '10px' }}>{t('gso_topupView_title')}</h3>
+				<p style={{ fontSize: '16px' }}>{t('gso_topupView_info')}</p>
+				<Accordion style={{ margin: '15px 0' }}>
+					{sortedGateways.length ? (
+						<>
+							<PerfectMoneyVoucher title={capitalizeAndJoin(sortedGateways[0]._id)} />
+							<BankTransfer title={capitalizeAndJoin(sortedGateways[1]._id)} />
+						</>
+					) : (
+						'Loading...'
+					)}
+					{sortedGateways.length
+						? sortedGateways.slice(2).map((gateway, index) => (
+								<Accordion.Item title={capitalizeAndJoin(gateway._id)} key={index}>
+									<Box color='default' fontScale='p2'>
+										{capitalizeAndJoin(gateway._id)}
+									</Box>
+								</Accordion.Item>
+						  ))
+						: 'Loading...'}
+				</Accordion>
+			</Box>
+		</Page>
+	);
 };
 
 export default TopUpView;

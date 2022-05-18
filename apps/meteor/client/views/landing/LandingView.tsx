@@ -1,5 +1,5 @@
-import React, { ReactElement, useState } from 'react';
 import { Meteor } from 'meteor/meteor';
+import React, { ReactElement, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 
 import BottomBar from '../../components/BottomBar';
@@ -9,6 +9,7 @@ import SingleBlogPost from '../blog/SingleBlogPost';
 
 const LandingView = (): ReactElement => {
 	const [blogResults, setBlogResults] = useState([]);
+
 	Meteor.startup(() => {
 		if (!blogResults.length)
 			Meteor.call('getBlogs', 10, (error, result) => {
