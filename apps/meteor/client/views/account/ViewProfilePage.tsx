@@ -50,8 +50,6 @@ const ViewProfilePage = () => {
 
 	const closeModal = useCallback(() => setModal(null), [setModal]);
 
-	const localPassword = Boolean(user?.services?.password?.exists);
-
 	const erasureType = useSetting('Message_ErasureType');
 	const allowRealNameChange = useSetting('Accounts_AllowRealNameChange');
 	const allowUserStatusMessageChange = useSetting('Accounts_AllowUserStatusMessageChange');
@@ -63,10 +61,6 @@ const ViewProfilePage = () => {
 	const allowDeleteOwnAccount = useSetting('Accounts_AllowDeleteOwnAccount');
 	const requireName = useSetting('Accounts_RequireNameForSignUp');
 	const namesRegexSetting = useSetting('UTF8_User_Names_Validation');
-
-	if (allowPasswordChange && !allowOAuthPasswordChange) {
-		allowPasswordChange = localPassword;
-	}
 
 	const namesRegex = useMemo(() => new RegExp(`^${namesRegexSetting}$`), [namesRegexSetting]);
 
@@ -156,8 +150,8 @@ const ViewProfilePage = () => {
 			}
 		};
 
-		return setModal(() => <ActionConfirmModal onConfirm={handleConfirm} onCancel={closeModal} isPassword={localPassword} />);
-	}, [closeModal, dispatchToastMessage, localPassword, setModal, handleConfirmOwnerChange, deleteOwnAccount, logout, t]);
+		return setModal(() => <ActionConfirmModal onConfirm={handleConfirm} onCancel={closeModal} isPassword={true} />);
+	}, [closeModal, dispatchToastMessage, setModal, handleConfirmOwnerChange, deleteOwnAccount, logout, t]);
 
 	return (
 		<Page>

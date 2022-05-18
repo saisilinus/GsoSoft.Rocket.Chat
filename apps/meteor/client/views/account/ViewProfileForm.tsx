@@ -1,14 +1,22 @@
+import { IUser } from '@rocket.chat/core-typings';
 import { Field, FieldGroup, Box } from '@rocket.chat/fuselage';
 import { useSafely } from '@rocket.chat/fuselage-hooks';
 import { useMethod, useTranslation } from '@rocket.chat/ui-contexts';
 import { Meteor } from 'meteor/meteor';
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState, ReactElement } from 'react';
 
 import UserAvatarEditor from '../../components/avatar/UserAvatarEditor';
 import { useEndpointData } from '../../hooks/useEndpointData';
 import ViewAccountInfo from './ViewAccountInfo';
 
-function ViewProfileForm({ values, handlers, user, settings, ...props }) {
+type Props = {
+	values: Record<string, string>;
+	handlers: Record<string, (eventOrValue: unknown) => void>;
+	user: IUser;
+	settings: any;
+};
+
+function ViewProfileForm({ values, handlers, user, settings, ...props }: Props): ReactElement {
 	const t = useTranslation();
 
 	const getAvatarSuggestions = useMethod('getAvatarSuggestion');
@@ -49,8 +57,8 @@ function ViewProfileForm({ values, handlers, user, settings, ...props }) {
 	);
 
 	const userWithCredit = useMemo(() => {
-		const { user } = data || { user: {} };
-		return user || {};
+		const { user } = data || { user: { credit: 0, trustScore: 0 } };
+		return user;
 	}, [data]);
 
 	const dummyCredit = {
@@ -92,12 +100,14 @@ function ViewProfileForm({ values, handlers, user, settings, ...props }) {
 		{ icon: 'user', content: `${t('gso_viewProfileForm_careerItems_employee')}`, rc: true },
 		{
 			icon: 'credit',
-			content: `${t('gso_viewProfileForm_careerItems_creditPoints')}: ${userWithCredit.credit ? userWithCredit.credit : 0}`,
+			content: `${t('gso_viewProfileForm_careerItems_creditPoints')}: ${userWithCredit.credit !== 0 ? userWithCredit.credit : 0}`,
 			rc: false,
 		},
 		{
 			icon: 'trust-score',
-			content: `${t('gso_viewProfileForm_careerItems_trustScore')}: ${userWithCredit.trustScore ? userWithCredit.trustScore * 100 : 0}/100`,
+			content: `${t('gso_viewProfileForm_careerItems_trustScore')}: ${
+				userWithCredit.trustScore !== 0 ? userWithCredit.trustScore * 100 : 0
+			}/100`,
 			rc: false,
 		},
 	];
@@ -127,7 +137,6 @@ function ViewProfileForm({ values, handlers, user, settings, ...props }) {
 							setAvatarObj={handleAvatar}
 							disabled={true}
 							suggestions={avatarSuggestions}
-							userId={user._id}
 						/>
 					</Field>
 				),
