@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Icon } from '@rocket.chat/fuselage';
 import { useCurrentRoute, useRouteParameter, useTranslation } from '@rocket.chat/ui-contexts';
+// @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import React, { ReactElement, useContext } from 'react';
 
@@ -42,7 +43,7 @@ const ViewAccountInfo = ({ title, items }: Props): ReactElement => {
 										<Box style={{ marginLeft: '8px' }}>{item.content}</Box>
 										{item.icon === 'credit' ? (
 											<Button style={{ marginLeft: 'auto' }} primary onClick={handleTopUp}>
-												{/* tslint:disable-next-line */}
+												{/* @ts-ignore */}
 												{t('gso_viewProfileForm_viewAccountInfo_btnTopUp')}
 											</Button>
 										) : null}

@@ -11,6 +11,7 @@ import AccountPreferencesPage from './preferences/AccountPreferencesPage';
 import AccountSecurityPage from './security/AccountSecurityPage';
 import AccountTokensPage from './tokens/AccountTokensPage';
 import './sidebarItems';
+import PaymentResult from '../topup/components/PaymentResult';
 
 const AccountRoute = () => {
 	const [routeName] = useCurrentRoute();
@@ -67,6 +68,10 @@ const AccountRoute = () => {
 
 	if (page === 'view-profile') {
 		return <ViewProfilePage />;
+	}
+
+	if (page === 'payment-result') {
+		return <PaymentResult />;
 	}
 
 	return null;
