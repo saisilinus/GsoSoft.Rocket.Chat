@@ -3,10 +3,12 @@ import React, { ReactElement } from 'react';
 
 type Props = {
 	title?: string;
+	id: string;
+	onToggle: (e: React.KeyboardEvent<Element> | React.MouseEvent<Element, MouseEvent>) => void;
 };
 
-const PerfectMoneyVoucher = ({ title }: Props): ReactElement => (
-	<Accordion.Item title={title} defaultExpanded>
+const PerfectMoneyVoucher = ({ title, id, onToggle }: Props): ReactElement => (
+	<Accordion.Item title={title} id={id} onToggle={onToggle}>
 		<Box color='default' fontScale='p2'>
 			<h4>Enter your voucher</h4>
 			<Field>

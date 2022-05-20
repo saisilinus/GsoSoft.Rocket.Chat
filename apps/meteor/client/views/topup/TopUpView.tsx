@@ -11,6 +11,8 @@ import './topup.css';
 
 const TopUpView = (): ReactElement => {
 	const [fetchedGateways, setFetchedGateways] = useState<IGateway[]>([]);
+	const [openGateway, setOpenGateway] = useState<Record<string, any>>({});
+	const [closeGateway, setCloseGateway] = useState('');
 	const t = useTranslation();
 	const gateways = [
 		{
@@ -62,6 +64,7 @@ const TopUpView = (): ReactElement => {
 			if (result) {
 				if (result.length) {
 					setFetchedGateways(result);
+					setOpenGateway({ open: 'true', id: result[0]._id });
 					console.log('Gateways were fetched');
 				} else {
 					gateways.map((gateway, index) => {
@@ -91,9 +94,50 @@ const TopUpView = (): ReactElement => {
 		getGatewaysFn();
 	}, []);
 
+	const openGatewayFn = useMemo((): void => {
+		if (openGateway) {
+			const element = document.querySelector(`#${openGateway.id}`);
+			if (element) {
+				console.log(openGateway, 'gateway');
+				// If the Accordion Item is closed then open it, otherwise close it.
+				if (openGateway.open === 'true') {
+					element.firstElementChild.setAttribute('aria-expanded', 'true');
+					element.lastElementChild.className =
+						'rcx-box rcx-box--full rcx-box--animated rcx-accordion-item__panel--expanded rcx-accordion-item__panel';
+				} else {
+					element.firstElementChild.setAttribute('aria-expanded', 'false');
+					element.lastElementChild.className = 'rcx-box rcx-box--full rcx-box--animated rcx-accordion-item__panel';
+				}
+			}
+		}
+	}, [openGateway]);
+
+	const closePreviousAccordionItem = useMemo(() => {
+		if (closeGateway) {
+			const element = document.querySelector(`#${closeGateway}`);
+			if (element) {
+				element.firstElementChild.setAttribute('aria-expanded', 'false');
+				element.lastElementChild.className = 'rcx-box rcx-box--full rcx-box--animated rcx-accordion-item__panel';
+			}
+		}
+	}, [closeGateway]);
+
 	const capitalizeAndJoin = (word: string): string => {
 		const capitalize = word.charAt(0).toUpperCase() + word.slice(1);
 		return capitalize.replace(/-/g, ' ');
+	};
+
+	const onAccordionToggle = (e) => {
+		// Close the previously opened gateway
+		if (openGateway.id) {
+			setCloseGateway(openGateway.id);
+		}
+		const accordionItem = e.currentTarget.parentNode;
+		let open = 'false';
+		if (e.currentTarget.getAttribute('aria-expanded') === 'false') {
+			open = 'true';
+		}
+		setOpenGateway({ open, id: accordionItem.id });
 	};
 
 	return (
@@ -105,15 +149,23 @@ const TopUpView = (): ReactElement => {
 				<Accordion style={{ margin: '15px 0' }}>
 					{sortedGateways.length ? (
 						<>
-							<PerfectMoneyVoucher title={capitalizeAndJoin(sortedGateways[0]._id)} />
-							<BankTransfer title={capitalizeAndJoin(sortedGateways[1]._id)} />
+							<PerfectMoneyVoucher
+								title={capitalizeAndJoin(sortedGateways[0]._id)}
+								id={sortedGateways[0]._id}
+								onToggle={(e) => onAccordionToggle(e)}
+							/>
+							<BankTransfer
+								title={capitalizeAndJoin(sortedGateways[1]._id)}
+								id={sortedGateways[1]._id}
+								onToggle={(e) => onAccordionToggle(e)}
+							/>
 						</>
 					) : (
 						'Loading...'
 					)}
 					{sortedGateways.length
 						? sortedGateways.slice(2).map((gateway, index) => (
-								<Accordion.Item title={capitalizeAndJoin(gateway._id)} key={index}>
+								<Accordion.Item title={capitalizeAndJoin(gateway._id)} onToggle={(e) => onAccordionToggle(e)} id={gateway._id} key={index}>
 									<Box color='default' fontScale='p2'>
 										{capitalizeAndJoin(gateway._id)}
 									</Box>

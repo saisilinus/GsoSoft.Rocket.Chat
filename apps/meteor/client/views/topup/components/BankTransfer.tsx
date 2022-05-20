@@ -3,10 +3,12 @@ import React, { ReactElement } from 'react';
 
 type Props = {
 	title?: string;
+	id: string;
+	onToggle: (e: React.KeyboardEvent<Element> | React.MouseEvent<Element, MouseEvent>) => void;
 };
 
-const BankTransfer = ({ title }: Props): ReactElement => (
-	<Accordion.Item title={title}>
+const BankTransfer = ({ title, id, onToggle }: Props): ReactElement => (
+	<Accordion.Item title={title} id={id} onToggle={onToggle}>
 		<Box color='default' fontScale='p2'>
 			<p style={{ fontSize: '16px' }}>You need to transfer 150 RMB to the bank act below </p>
 			<Field>
