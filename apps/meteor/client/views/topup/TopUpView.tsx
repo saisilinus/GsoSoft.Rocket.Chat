@@ -98,7 +98,6 @@ const TopUpView = (): ReactElement => {
 		if (openGateway) {
 			const element = document.querySelector(`#${openGateway.id}`);
 			if (element) {
-				console.log(openGateway, 'gateway');
 				// If the Accordion Item is closed then open it, otherwise close it.
 				if (openGateway.open === 'true') {
 					element.firstElementChild.setAttribute('aria-expanded', 'true');
@@ -142,9 +141,11 @@ const TopUpView = (): ReactElement => {
 
 	return (
 		<Page id='topup-page'>
-			<Page.Header title={t('gso_topupView_header')} />
+			<Page.Header title={t('Edit')} />
 			<Box style={{ margin: '15px 15px 0 15px' }}>
+				{/* @ts-ignore */}
 				<h3 style={{ fontSize: '19px', marginBottom: '10px' }}>{t('gso_topupView_title')}</h3>
+				{/* @ts-ignore */}
 				<p style={{ fontSize: '16px' }}>{t('gso_topupView_info')}</p>
 				<Accordion style={{ margin: '15px 0' }}>
 					{sortedGateways.length ? (
@@ -165,6 +166,7 @@ const TopUpView = (): ReactElement => {
 					)}
 					{sortedGateways.length
 						? sortedGateways.slice(2).map((gateway, index) => (
+								// @ts-ignore
 								<Accordion.Item title={capitalizeAndJoin(gateway._id)} onToggle={(e) => onAccordionToggle(e)} id={gateway._id} key={index}>
 									<Box color='default' fontScale='p2'>
 										{capitalizeAndJoin(gateway._id)}

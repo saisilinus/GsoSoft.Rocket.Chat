@@ -9,7 +9,9 @@ import {
 	useMethod,
 	useTranslation,
 } from '@rocket.chat/ui-contexts';
+// @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
+// @ts-ignore
 import { SHA256 } from 'meteor/sha';
 import React, { useMemo, useState, useCallback } from 'react';
 
@@ -44,7 +46,7 @@ const ViewProfilePage = () => {
 	const setModal = useSetModal();
 	const logout = useLogout();
 	const [loggingOut, setLoggingOut] = useState(false);
-
+	/* @ts-ignore */
 	const logoutOtherClients = useEndpoint('POST', 'users.logoutOtherClients');
 	const deleteOwnAccount = useMethod('deleteUserOwnAccount');
 
@@ -124,6 +126,7 @@ const ViewProfilePage = () => {
 				<ConfirmOwnerChangeWarningModal
 					onConfirm={handleConfirm}
 					onCancel={closeModal}
+					/* @ts-ignore */
 					contentTitle={t(`Delete_User_Warning_${erasureType}`)}
 					confirmLabel={t('Delete')}
 					shouldChangeOwner={shouldChangeOwner}
@@ -161,13 +164,14 @@ const ViewProfilePage = () => {
 						{t('Reset')}
 					</Button>
 					<Button primary onClick={handleEdit}>
+						{/* @ts-ignore */}
 						{t('Gso_viewProfilePage_btnEdit')}
 					</Button>
 				</ButtonGroup>
 			</Page.Header>
 			<Page.ScrollableContentWithShadow>
 				<Box maxWidth='600px' w='full' alignSelf='center'>
-					<ViewProfileForm values={values} handlers={handlers} user={user ?? { emails: [] }} settings={settings} />
+					<ViewProfileForm values={values} handlers={handlers} user={user} settings={settings} />
 					<ButtonGroup stretch mb='x12'>
 						<Button onClick={handleLogoutOtherLocations} flexGrow={0} disabled={loggingOut}>
 							{t('Logout_Others')}

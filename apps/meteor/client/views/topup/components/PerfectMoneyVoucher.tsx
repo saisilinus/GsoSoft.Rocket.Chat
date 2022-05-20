@@ -8,6 +8,7 @@ type Props = {
 };
 
 const PerfectMoneyVoucher = ({ title, id, onToggle }: Props): ReactElement => (
+	// @ts-ignore
 	<Accordion.Item title={title} id={id} onToggle={onToggle}>
 		<Box color='default' fontScale='p2'>
 			<h4>Enter your voucher</h4>

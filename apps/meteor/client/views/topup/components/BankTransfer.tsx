@@ -8,6 +8,7 @@ type Props = {
 };
 
 const BankTransfer = ({ title, id, onToggle }: Props): ReactElement => (
+	// @ts-ignore
 	<Accordion.Item title={title} id={id} onToggle={onToggle}>
 		<Box color='default' fontScale='p2'>
 			<p style={{ fontSize: '16px' }}>You need to transfer 150 RMB to the bank act below </p>
