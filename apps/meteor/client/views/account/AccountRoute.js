@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { SideNav } from '../../../app/ui-utils/client';
 import NotAuthorizedPage from '../notAuthorized/NotAuthorizedPage';
 import TopUpView from '../topup/TopUpView';
+import PaymentResult from '../topup/components/PaymentResult';
 import AccountIntegrationsPage from './AccountIntegrationsPage';
 import AccountProfilePage from './AccountProfilePage';
 import ViewProfilePage from './ViewProfilePage';
@@ -67,6 +68,10 @@ const AccountRoute = () => {
 
 	if (page === 'view-profile') {
 		return <ViewProfilePage />;
+	}
+
+	if (page === 'payment-result') {
+		return <PaymentResult />;
 	}
 
 	return null;
