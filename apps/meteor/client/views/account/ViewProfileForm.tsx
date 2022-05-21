@@ -10,13 +10,12 @@ import { useEndpointData } from '../../hooks/useEndpointData';
 import ViewAccountInfo from './ViewAccountInfo';
 
 type Props = {
-	values: Record<string, string>;
+	values: Record<string, unknown>;
 	handlers: Record<string, (eventOrValue: unknown) => void>;
 	user: IUser;
-	settings: any;
 };
 
-function ViewProfileForm({ values, handlers, user, settings, ...props }: Props): ReactElement {
+function ViewProfileForm({ values, handlers, user, ...props }: Props): ReactElement {
 	const t = useTranslation();
 
 	const getAvatarSuggestions = useMethod('getAvatarSuggestion');
@@ -28,7 +27,7 @@ function ViewProfileForm({ values, handlers, user, settings, ...props }: Props):
 	const { handleConfirmationPassword, handleAvatar } = handlers;
 
 	useEffect(() => {
-		const getSuggestions = async () => {
+		const getSuggestions = async (): Promise<void> => {
 			const suggestions = await getAvatarSuggestions();
 			setAvatarSuggestions(suggestions);
 		};
@@ -46,13 +45,14 @@ function ViewProfileForm({ values, handlers, user, settings, ...props }: Props):
 		emails: [],
 	} = user;
 
-	const handleSubmit = (e) => {
+	const handleSubmit = (e): void => {
 		e.preventDefault();
 	};
 
 	// Refetch user data so that we can get createdAt field.
 	const { value: data } = useEndpointData(
 		'users.info',
+		/* @ts-ignore */
 		useMemo(() => ({ ...(username && { username }) }), [username]),
 	);
 
@@ -68,8 +68,8 @@ function ViewProfileForm({ values, handlers, user, settings, ...props }: Props):
 		currency: 'USD',
 	};
 
-	// eslint-disable-next-line no-unused-vars
-	const buyCredit = useMemo(() => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const _buyCredit = useMemo(() => {
 		if (!user.credit) {
 			Meteor.call('buyCredit', dummyCredit, (error, result) => {
 				if (result) {
@@ -80,10 +80,11 @@ function ViewProfileForm({ values, handlers, user, settings, ...props }: Props):
 				}
 			});
 		}
-	}, [user.credit, dummyCredit]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [user.credit]);
 
-	// eslint-disable-next-line no-unused-vars
-	const setRandomTrustScore = useMemo(() => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const _setRandomTrustScore = useMemo(() => {
 		if (!user.trustScore) {
 			Meteor.call('setRandomTrustScore', (error, result) => {
 				if (result) {
@@ -97,14 +98,17 @@ function ViewProfileForm({ values, handlers, user, settings, ...props }: Props):
 	}, [user.trustScore]);
 
 	const careerItems = [
+		/* @ts-ignore */
 		{ icon: 'user', content: `${t('gso_viewProfileForm_careerItems_employee')}`, rc: true },
 		{
 			icon: 'credit',
+			/* @ts-ignore */
 			content: `${t('gso_viewProfileForm_careerItems_creditPoints')}: ${userWithCredit.credit !== 0 ? userWithCredit.credit : 0}`,
 			rc: false,
 		},
 		{
 			icon: 'trust-score',
+			/* @ts-ignore */
 			content: `${t('gso_viewProfileForm_careerItems_trustScore')}: ${
 				userWithCredit.trustScore !== 0 ? userWithCredit.trustScore * 100 : 0
 			}/100`,
@@ -119,9 +123,13 @@ function ViewProfileForm({ values, handlers, user, settings, ...props }: Props):
 	];
 
 	const services = [
+		/* @ts-ignore */
 		{ icon: 'lock', content: `${t('gso_viewProfileForm_services_updateProfile')}`, rc: true },
+		/* @ts-ignore */
 		{ icon: 'info', content: `${t('gso_viewProfileForm_services_customerSupport')}`, rc: false },
+		/* @ts-ignore */
 		{ icon: 'credit-card', content: `${t('gso_viewProfileForm_services_verifyIdentity')}`, rc: false },
+		/* @ts-ignore */
 		{ icon: 'info', content: `${t('gso_viewProfileForm_services_aboutUs')}`, rc: false },
 	];
 
@@ -131,8 +139,8 @@ function ViewProfileForm({ values, handlers, user, settings, ...props }: Props):
 				() => (
 					<Field>
 						<UserAvatarEditor
-							etag={user.avatarETag}
-							currentUsername={user.username}
+							etag={user?.avatarETag}
+							currentUsername={user?.username}
 							username={username}
 							setAvatarObj={handleAvatar}
 							disabled={true}
@@ -140,12 +148,15 @@ function ViewProfileForm({ values, handlers, user, settings, ...props }: Props):
 						/>
 					</Field>
 				),
-				[username, user.username, handleAvatar, avatarSuggestions, user.avatarETag, user._id],
+				[username, user.username, handleAvatar, avatarSuggestions, user.avatarETag],
 			)}
 			<Box style={{ margin: '0px auto', fontSize: '16px' }}>{user.bio ? user.bio : 'No user bio...'}</Box>
 			<Box display='flex' flexDirection='column' style={{ marginTop: '30px' }}>
+				{/* @ts-ignore */}
 				<ViewAccountInfo title={t('gso_viewProfileForm_viewAccountInfo_careerItems')} items={careerItems} />
+				{/* @ts-ignore */}
 				<ViewAccountInfo title={t('gso_viewProfileForm_viewAccountInfo_privateInfo')} items={privateInfo} />
+				{/* @ts-ignore */}
 				<ViewAccountInfo title={t('gso_viewProfileForm_viewAccountInfo_services')} items={services} />
 			</Box>
 		</FieldGroup>

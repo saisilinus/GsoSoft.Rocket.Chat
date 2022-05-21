@@ -74,7 +74,8 @@ function AccountProfileForm({ values, handlers, user, settings, ...props }) {
 				}
 			});
 		}
-	}, [user.credit, dummyCredit]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [user.credit]);
 
 	// eslint-disable-next-line no-unused-vars
 	const setRandomTrustScore = useMemo(() => {
@@ -125,7 +126,7 @@ function AccountProfileForm({ values, handlers, user, settings, ...props }) {
 						/>
 					</Field>
 				),
-				[username, user.username, handleAvatar, avatarSuggestions, user.avatarETag, user._id],
+				[username, user.username, handleAvatar, avatarSuggestions, allowUserAvatarChange, user.avatarETag, user._id],
 			)}
 			<Box style={{ margin: '0px auto', fontSize: '16px' }}>{user.bio ? user.bio : 'No user bio...'}</Box>
 			<Box display='flex' flexDirection='column' style={{ marginTop: '30px' }}>
