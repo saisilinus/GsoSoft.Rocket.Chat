@@ -1,7 +1,9 @@
 import { Accordion, Box, Button, Field, InputBox } from '@rocket.chat/fuselage';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { Meteor } from 'meteor/meteor';
 import React, { ReactElement, useContext, useState } from 'react';
+
 import { DispatchPaymentResultContext } from '../../../contexts/PaymentResultContext/GlobalState';
 
 type Props = {
@@ -17,7 +19,7 @@ const BankTransfer = ({ title, id, onToggle, capitalize }: Props): ReactElement 
 	const [bank3, setBank3] = useState(1454254545);
 	const { dispatch } = useContext(DispatchPaymentResultContext);
 
-	const handleGatewaySubmit = () => {
+	const handleGatewaySubmit = (): void => {
 		setBank1(0);
 		setBank2(0);
 		setBank3(0);
@@ -54,15 +56,15 @@ const BankTransfer = ({ title, id, onToggle, capitalize }: Props): ReactElement 
 				<Field>
 					<Field.Label htmlFor='bank-1'>Bank 1</Field.Label>
 					<Field.Row>
-						<InputBox type='text' id='bank-1' value={bank1} onChange={(e: any) => setBank1(e.target.value)} />
+						<InputBox type='text' id='bank-1' value={bank1} onChange={(e: any): void => setBank1(e.target.value)} />
 					</Field.Row>
 					<Field.Label htmlFor='bank-2'>Bank 2</Field.Label>
 					<Field.Row>
-						<InputBox type='text' id='bank-2' value={bank2} onChange={(e: any) => setBank2(e.target.value)} />
+						<InputBox type='text' id='bank-2' value={bank2} onChange={(e: any): void => setBank2(e.target.value)} />
 					</Field.Row>
 					<Field.Label htmlFor='bank-3'>Bank 3</Field.Label>
 					<Field.Row>
-						<InputBox type='text' id='bank-3' value={bank3} onChange={(e: any) => setBank3(e.target.value)} />
+						<InputBox type='text' id='bank-3' value={bank3} onChange={(e: any): void => setBank3(e.target.value)} />
 					</Field.Row>
 					<Button primary style={{ marginTop: '12px' }} onClick={handleGatewaySubmit}>
 						I have transferred

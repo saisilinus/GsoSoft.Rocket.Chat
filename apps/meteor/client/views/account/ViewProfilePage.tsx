@@ -13,7 +13,7 @@ import {
 import { FlowRouter } from 'meteor/kadira:flow-router';
 // @ts-ignore
 import { SHA256 } from 'meteor/sha';
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useState, useCallback, ReactElement } from 'react';
 
 import { getUserEmailAddress } from '../../../lib/getUserEmailAddress';
 import ConfirmOwnerChangeWarningModal from '../../components/ConfirmOwnerChangeWarningModal';
@@ -22,7 +22,7 @@ import { useForm } from '../../hooks/useForm';
 import ActionConfirmModal from './ActionConfirmModal';
 import ViewProfileForm from './ViewProfileForm';
 
-const getInitialValues = (user) => ({
+const getInitialValues = (user): any => ({
 	realname: user.name ?? '',
 	email: getUserEmailAddress(user) ?? '',
 	username: user.username ?? '',
@@ -37,7 +37,7 @@ const getInitialValues = (user) => ({
 	nickname: user.nickname ?? '',
 });
 
-const ViewProfilePage = () => {
+const ViewProfilePage = (): ReactElement => {
 	const t = useTranslation();
 	const dispatchToastMessage = useToastMessageDispatch();
 	const user = useUser();
@@ -53,45 +53,9 @@ const ViewProfilePage = () => {
 	const closeModal = useCallback(() => setModal(null), [setModal]);
 
 	const erasureType = useSetting('Message_ErasureType');
-	const allowRealNameChange = useSetting('Accounts_AllowRealNameChange');
-	const allowUserStatusMessageChange = useSetting('Accounts_AllowUserStatusMessageChange');
-	const canChangeUsername = useSetting('Accounts_AllowUsernameChange');
-	const allowEmailChange = useSetting('Accounts_AllowEmailChange');
-	let allowPasswordChange = useSetting('Accounts_AllowPasswordChange');
-	const allowOAuthPasswordChange = useSetting('Accounts_AllowPasswordChangeForOAuthUsers');
-	const allowUserAvatarChange = useSetting('Accounts_AllowUserAvatarChange');
 	const allowDeleteOwnAccount = useSetting('Accounts_AllowDeleteOwnAccount');
-	const requireName = useSetting('Accounts_RequireNameForSignUp');
-	const namesRegexSetting = useSetting('UTF8_User_Names_Validation');
 
-	const namesRegex = useMemo(() => new RegExp(`^${namesRegexSetting}$`), [namesRegexSetting]);
-
-	const settings = useMemo(
-		() => ({
-			allowRealNameChange,
-			allowUserStatusMessageChange,
-			allowEmailChange,
-			allowPasswordChange,
-			allowUserAvatarChange,
-			allowDeleteOwnAccount,
-			canChangeUsername,
-			requireName,
-			namesRegex,
-		}),
-		[
-			allowDeleteOwnAccount,
-			allowEmailChange,
-			allowPasswordChange,
-			allowRealNameChange,
-			allowUserAvatarChange,
-			allowUserStatusMessageChange,
-			canChangeUsername,
-			requireName,
-			namesRegex,
-		],
-	);
-
-	const handleEdit = () => {
+	const handleEdit = (): void => {
 		FlowRouter.go('/account/profile');
 	};
 
@@ -111,7 +75,7 @@ const ViewProfilePage = () => {
 
 	const handleConfirmOwnerChange = useCallback(
 		(passwordOrUsername, shouldChangeOwner, shouldBeRemoved) => {
-			const handleConfirm = async () => {
+			const handleConfirm = async (): Promise<void> => {
 				try {
 					await deleteOwnAccount(SHA256(passwordOrUsername), true);
 					dispatchToastMessage({ type: 'success', message: t('User_has_been_deleted') });
@@ -138,7 +102,7 @@ const ViewProfilePage = () => {
 	);
 
 	const handleDeleteOwnAccount = useCallback(async () => {
-		const handleConfirm = async (passwordOrUsername) => {
+		const handleConfirm = async (passwordOrUsername): Promise<any> => {
 			try {
 				await deleteOwnAccount(SHA256(passwordOrUsername));
 				dispatchToastMessage({ type: 'success', message: t('User_has_been_deleted') });
@@ -171,7 +135,7 @@ const ViewProfilePage = () => {
 			</Page.Header>
 			<Page.ScrollableContentWithShadow>
 				<Box maxWidth='600px' w='full' alignSelf='center'>
-					<ViewProfileForm values={values} handlers={handlers} user={user} settings={settings} />
+					<ViewProfileForm values={values} handlers={handlers} user={user} />
 					<ButtonGroup stretch mb='x12'>
 						<Button onClick={handleLogoutOtherLocations} flexGrow={0} disabled={loggingOut}>
 							{t('Logout_Others')}

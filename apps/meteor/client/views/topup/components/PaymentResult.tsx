@@ -2,13 +2,13 @@ import { Box, Button } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import React, { useContext } from 'react';
+import React, { ReactElement, useContext } from 'react';
 
 import Page from '../../../components/Page';
 import { PaymentResultContext, DispatchPaymentResultContext } from '../../../contexts/PaymentResultContext/GlobalState';
 import { UserPreviousPageContext, DispatchPreviousPageContext } from '../../../contexts/UserPreviousPageContext/GlobalState';
 
-const PaymentResult = () => {
+const PaymentResult = (): ReactElement => {
 	const t = useTranslation();
 	const { dispatch } = useContext(DispatchPaymentResultContext);
 	const previousPageDispatch = useContext(DispatchPreviousPageContext);
@@ -18,7 +18,7 @@ const PaymentResult = () => {
 	const successMessage = `You have successfully paid using`;
 	const errorMessage = `Your transaction has failed using`;
 
-	const handleRerouting = () => {
+	const handleRerouting = (): void => {
 		FlowRouter.go(`${value.location}`);
 		previousPageDispatch.dispatch({ type: 'CLEAR_LOCATION' });
 		dispatch({ type: 'REMOVE_RESULT_DETAILS' });

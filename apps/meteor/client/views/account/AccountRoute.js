@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { SideNav } from '../../../app/ui-utils/client';
 import NotAuthorizedPage from '../notAuthorized/NotAuthorizedPage';
 import TopUpView from '../topup/TopUpView';
+import PaymentResult from '../topup/components/PaymentResult';
 import AccountIntegrationsPage from './AccountIntegrationsPage';
 import AccountProfilePage from './AccountProfilePage';
 import ViewProfilePage from './ViewProfilePage';
@@ -11,7 +12,6 @@ import AccountPreferencesPage from './preferences/AccountPreferencesPage';
 import AccountSecurityPage from './security/AccountSecurityPage';
 import AccountTokensPage from './tokens/AccountTokensPage';
 import './sidebarItems';
-import PaymentResult from '../topup/components/PaymentResult';
 
 const AccountRoute = () => {
 	const [routeName] = useCurrentRoute();

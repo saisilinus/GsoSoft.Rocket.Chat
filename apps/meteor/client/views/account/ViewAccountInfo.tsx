@@ -4,7 +4,7 @@ import { useCurrentRoute, useRouteParameter, useTranslation } from '@rocket.chat
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import React, { ReactElement, useContext } from 'react';
 
-import { DispatchPreviousPageContext, UserPreviousPageContext } from '../../contexts/UserPreviousPageContext/GlobalState';
+import { DispatchPreviousPageContext } from '../../contexts/UserPreviousPageContext/GlobalState';
 
 type Props = {
 	title: string;

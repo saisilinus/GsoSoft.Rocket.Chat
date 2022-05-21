@@ -13,10 +13,9 @@ type Props = {
 	values: Record<string, unknown>;
 	handlers: Record<string, (eventOrValue: unknown) => void>;
 	user: IUser;
-	settings: any;
 };
 
-function ViewProfileForm({ values, handlers, user, settings, ...props }: Props): ReactElement {
+function ViewProfileForm({ values, handlers, user, ...props }: Props): ReactElement {
 	const t = useTranslation();
 
 	const getAvatarSuggestions = useMethod('getAvatarSuggestion');
@@ -28,7 +27,7 @@ function ViewProfileForm({ values, handlers, user, settings, ...props }: Props):
 	const { handleConfirmationPassword, handleAvatar } = handlers;
 
 	useEffect(() => {
-		const getSuggestions = async () => {
+		const getSuggestions = async (): Promise<void> => {
 			const suggestions = await getAvatarSuggestions();
 			setAvatarSuggestions(suggestions);
 		};
@@ -46,7 +45,7 @@ function ViewProfileForm({ values, handlers, user, settings, ...props }: Props):
 		emails: [],
 	} = user;
 
-	const handleSubmit = (e) => {
+	const handleSubmit = (e): void => {
 		e.preventDefault();
 	};
 
@@ -69,8 +68,8 @@ function ViewProfileForm({ values, handlers, user, settings, ...props }: Props):
 		currency: 'USD',
 	};
 
-	// eslint-disable-next-line no-unused-vars
-	const buyCredit = useMemo(() => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const _buyCredit = useMemo(() => {
 		if (!user.credit) {
 			Meteor.call('buyCredit', dummyCredit, (error, result) => {
 				if (result) {
@@ -81,10 +80,11 @@ function ViewProfileForm({ values, handlers, user, settings, ...props }: Props):
 				}
 			});
 		}
-	}, [user?.credit, dummyCredit]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [user.credit]);
 
-	// eslint-disable-next-line no-unused-vars
-	const setRandomTrustScore = useMemo(() => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const _setRandomTrustScore = useMemo(() => {
 		if (!user.trustScore) {
 			Meteor.call('setRandomTrustScore', (error, result) => {
 				if (result) {
@@ -148,7 +148,7 @@ function ViewProfileForm({ values, handlers, user, settings, ...props }: Props):
 						/>
 					</Field>
 				),
-				[username, user.username, handleAvatar, avatarSuggestions, user.avatarETag, user._id],
+				[username, user.username, handleAvatar, avatarSuggestions, user.avatarETag],
 			)}
 			<Box style={{ margin: '0px auto', fontSize: '16px' }}>{user.bio ? user.bio : 'No user bio...'}</Box>
 			<Box display='flex' flexDirection='column' style={{ marginTop: '30px' }}>

@@ -92,9 +92,10 @@ const TopUpView = (): ReactElement => {
 
 	useEffect(() => {
 		getGatewaysFn();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
-	const openGatewayFn = useMemo((): void => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const _openGatewayFn = useMemo((): void => {
 		if (openGateway) {
 			const element = document.querySelector(`#${openGateway.id}`);
 			if (element) {
@@ -110,8 +111,8 @@ const TopUpView = (): ReactElement => {
 			}
 		}
 	}, [openGateway]);
-
-	const closePreviousAccordionItem = useMemo(() => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const _closePreviousAccordionItem = useMemo(() => {
 		if (closeGateway) {
 			const element = document.querySelector(`#${closeGateway}`);
 			if (element) {
@@ -126,7 +127,7 @@ const TopUpView = (): ReactElement => {
 		return capitalize.replace(/-/g, ' ');
 	};
 
-	const onAccordionToggle = (e) => {
+	const onAccordionToggle = (e): void => {
 		// Close the previously opened gateway
 		if (openGateway.id) {
 			setCloseGateway(openGateway.id);
@@ -153,13 +154,13 @@ const TopUpView = (): ReactElement => {
 							<PerfectMoneyVoucher
 								title={capitalizeAndJoin(sortedGateways[0]._id)}
 								id={sortedGateways[0]._id}
-								onToggle={(e) => onAccordionToggle(e)}
+								onToggle={(e): void => onAccordionToggle(e)}
 								capitalize={capitalizeAndJoin}
 							/>
 							<BankTransfer
 								title={capitalizeAndJoin(sortedGateways[1]._id)}
 								id={sortedGateways[1]._id}
-								onToggle={(e) => onAccordionToggle(e)}
+								onToggle={(e): void => onAccordionToggle(e)}
 								capitalize={capitalizeAndJoin}
 							/>
 						</>
@@ -169,7 +170,12 @@ const TopUpView = (): ReactElement => {
 					{sortedGateways.length
 						? sortedGateways.slice(2).map((gateway, index) => (
 								// @ts-ignore
-								<Accordion.Item title={capitalizeAndJoin(gateway._id)} onToggle={(e) => onAccordionToggle(e)} id={gateway._id} key={index}>
+								<Accordion.Item
+									title={capitalizeAndJoin(gateway._id)}
+									onToggle={(e): void => onAccordionToggle(e)}
+									id={gateway._id}
+									key={index}
+								>
 									<Box color='default' fontScale='p2'>
 										{capitalizeAndJoin(gateway._id)}
 									</Box>
