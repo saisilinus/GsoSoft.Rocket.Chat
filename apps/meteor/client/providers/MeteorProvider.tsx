@@ -9,6 +9,7 @@ import CustomSoundProvider from './CustomSoundProvider';
 import LayoutProvider from './LayoutProvider';
 import ModalProvider from './ModalProvider';
 import OmnichannelProvider from './OmnichannelProvider';
+import PaymentResultProvider from './PaymentResultProvider';
 import RouterProvider from './RouterProvider';
 import ServerProvider from './ServerProvider';
 import SessionProvider from './SessionProvider';
@@ -37,7 +38,9 @@ const MeteorProvider: FC = ({ children }) => (
 															<OmnichannelProvider>
 																<ModalProvider>
 																	<UserPreviousPageProvider>
-																		<AttachmentProvider>{children}</AttachmentProvider>
+																		<PaymentResultProvider>
+																			<AttachmentProvider>{children}</AttachmentProvider>
+																		</PaymentResultProvider>
 																	</UserPreviousPageProvider>
 																</ModalProvider>
 															</OmnichannelProvider>

@@ -154,11 +154,13 @@ const TopUpView = (): ReactElement => {
 								title={capitalizeAndJoin(sortedGateways[0]._id)}
 								id={sortedGateways[0]._id}
 								onToggle={(e) => onAccordionToggle(e)}
+								capitalize={capitalizeAndJoin}
 							/>
 							<BankTransfer
 								title={capitalizeAndJoin(sortedGateways[1]._id)}
 								id={sortedGateways[1]._id}
 								onToggle={(e) => onAccordionToggle(e)}
+								capitalize={capitalizeAndJoin}
 							/>
 						</>
 					) : (

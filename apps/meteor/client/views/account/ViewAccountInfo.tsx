@@ -4,7 +4,7 @@ import { useCurrentRoute, useRouteParameter, useTranslation } from '@rocket.chat
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import React, { ReactElement, useContext } from 'react';
 
-import { DispatchPreviousPageContext } from '../../contexts/UserPreviousPageContext/GlobalState';
+import { DispatchPreviousPageContext, UserPreviousPageContext } from '../../contexts/UserPreviousPageContext/GlobalState';
 
 type Props = {
 	title: string;
@@ -18,7 +18,7 @@ const ViewAccountInfo = ({ title, items }: Props): ReactElement => {
 	const page = useRouteParameter('group');
 
 	const handleTopUp = (): void => {
-		dispatch({ type: 'ADD_LOCATION', payload: { location: `${routeName}/${page}` } });
+		dispatch({ type: 'ADD_LOCATION', payload: { location: `/${routeName}/${page}` } });
 		FlowRouter.go('/account/topup');
 	};
 	return (

@@ -1,18 +1,21 @@
 import { Accordion, Box, Button, Field, InputBox } from '@rocket.chat/fuselage';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useContext, useState } from 'react';
+import { DispatchPaymentResultContext } from '../../../contexts/PaymentResultContext/GlobalState';
 
 type Props = {
 	title?: string;
 	id: string;
 	onToggle: (e: React.KeyboardEvent<Element> | React.MouseEvent<Element, MouseEvent>) => void;
+	capitalize: Function;
 };
 
-const BankTransfer = ({ title, id, onToggle }: Props): ReactElement => {
+const BankTransfer = ({ title, id, onToggle, capitalize }: Props): ReactElement => {
 	const [bank1, setBank1] = useState(3424323434);
 	const [bank2, setBank2] = useState(6464534675);
 	const [bank3, setBank3] = useState(1454254545);
+	const { dispatch } = useContext(DispatchPaymentResultContext);
 
 	const handleGatewaySubmit = () => {
 		setBank1(0);
@@ -29,6 +32,10 @@ const BankTransfer = ({ title, id, onToggle }: Props): ReactElement => {
 			(error, result) => {
 				if (result) {
 					console.log(result, 'success');
+					dispatch({
+						type: 'ADD_RESULT_DETAILS',
+						payload: { credit: result.amount, status: result.status, gateway: capitalize(result.gateway) },
+					});
 					FlowRouter.go('/account/payment-result');
 				}
 

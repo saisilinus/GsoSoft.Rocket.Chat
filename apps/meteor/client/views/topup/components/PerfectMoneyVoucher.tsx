@@ -2,17 +2,21 @@ import { Accordion, Box, Button, Field, InputBox } from '@rocket.chat/fuselage';
 import { Meteor } from 'meteor/meteor';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useContext, useState } from 'react';
+
+import { DispatchPaymentResultContext, PaymentResultContext } from '../../../contexts/PaymentResultContext/GlobalState';
 
 type Props = {
 	title?: string;
 	id: string;
 	onToggle: (e: React.KeyboardEvent<Element> | React.MouseEvent<Element, MouseEvent>) => void;
+	capitalize: Function;
 };
 
-const PerfectMoneyVoucher = ({ title, id, onToggle }: Props): ReactElement => {
+const PerfectMoneyVoucher = ({ title, id, onToggle, capitalize }: Props): ReactElement => {
 	const [eVoucherNumber, setEVoucherNumber] = useState('');
 	const [activationCode, setActivationCode] = useState('');
+	const { dispatch } = useContext(DispatchPaymentResultContext);
 
 	const handleGatewaySubmit = () => {
 		setEVoucherNumber('');
@@ -28,6 +32,10 @@ const PerfectMoneyVoucher = ({ title, id, onToggle }: Props): ReactElement => {
 			(error, result) => {
 				if (result) {
 					console.log(result, 'success');
+					dispatch({
+						type: 'ADD_RESULT_DETAILS',
+						payload: { credit: result.amount, status: result.status, gateway: capitalize(result.gateway) },
+					});
 					FlowRouter.go('/account/payment-result');
 				}
 
