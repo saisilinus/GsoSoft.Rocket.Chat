@@ -1,21 +1,34 @@
 import { Box, Button, Icon, InputBox, Select } from '@rocket.chat/fuselage';
+import { Meteor } from 'meteor/meteor';
 import React, { useEffect, useState } from 'react';
 import Page from '../../components/Page';
 import { useFormatDate } from '../../hooks/useFormatDate';
+import PaymentModule from './components/paymentModule';
 
 const PaymentHistory = () => {
 	const [_statusSelect, setStatusSelect] = useState('');
+	const [transactionResults, setTransactionResults] = useState<Record<string, any>[]>([]);
 	const formatDate = useFormatDate();
 	// const currentDate = new Date().getUTCDate();
 	// const addDays = (days: number) => new Date(new Date().setDate(currentDate + days));
-	// useEffect(() => {
 
-	// }, []);
+	useEffect(() => {
+		Meteor.call('getTransactions', { offset: 1, count: 10 }, {}, (error, result) => {
+			if (result) {
+				console.log('Fetched transactions');
+				setTransactionResults(result);
+			}
+
+			if (error) {
+				console.log(error, 'error');
+			}
+		});
+	}, []);
 	return (
 		<Page>
 			<Icon name='chevron-right' fontSize='32px' />
 			<Page.Header title='Purchase history' />
-			<Page.Content>
+			<Page.ScrollableContentWithShadow>
 				<Box display='flex' justifyContent='space-between'>
 					<Box>
 						<span>Range: </span>
@@ -33,18 +46,21 @@ const PaymentHistory = () => {
 						/>
 					</Box>
 				</Box>
-				<Box style={{ marginTop: '20px' }}>
-					<span>{formatDate(new Date().getDate())}</span>
-					<Box display='flex' alignItems='center' style={{ fontWeight: 'bold', background: '#ddd', height: '50px', marginTop: '8px' }}>
-						<span style={{ marginLeft: '10px' }}>Paypal: 160 USD - 11 points</span>
-					</Box>
+				{transactionResults.length
+					? transactionResults.map((result, index) => (
+							<PaymentModule
+								gateway={result.gateway}
+								amount={result.amount}
+								quantity={result.quantity}
+								currency={result.currency}
+								key={index}
+							/>
+					  ))
+					: 'Loading...'}
+				<Box width='full' display='flex' justifyContent='center' style={{ marginTop: '20px' }}>
+					<Button primary>Load More..</Button>
 				</Box>
-				<Box width='full' display='flex' justifyContent='center'>
-					<Button primary style={{ position: 'absolute', bottom: '50px', float: 'right' }}>
-						Load More..
-					</Button>
-				</Box>
-			</Page.Content>
+			</Page.ScrollableContentWithShadow>
 		</Page>
 	);
 };
