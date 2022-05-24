@@ -21,6 +21,11 @@ const ViewAccountInfo = ({ title, items }: Props): ReactElement => {
 		dispatch({ type: 'ADD_LOCATION', payload: { location: `/${routeName}/${page}` } });
 		FlowRouter.go('/account/topup');
 	};
+
+	const handlePurchaseHistoryRoute = (icon: string): void => {
+		if (icon === 'file') FlowRouter.go('/account/payment-history');
+	};
+	console.log(items, 'items');
 	return (
 		<Box>
 			<h4 style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold', background: '#ddd', height: '50px', marginTop: '20px' }}>
@@ -28,7 +33,7 @@ const ViewAccountInfo = ({ title, items }: Props): ReactElement => {
 			</h4>
 			{items.length
 				? items.map((item, index) => (
-						<Box style={{ margin: '8px 0' }} key={index}>
+						<Box style={{ margin: '8px 0', cursor: 'pointer' }} key={index} onClick={() => handlePurchaseHistoryRoute(item.icon)}>
 							<Flex.Container alignItems='center'>
 								<Box>
 									<Flex.Item>

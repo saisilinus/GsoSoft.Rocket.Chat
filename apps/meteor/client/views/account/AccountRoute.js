@@ -5,6 +5,7 @@ import { SideNav } from '../../../app/ui-utils/client';
 import NotAuthorizedPage from '../notAuthorized/NotAuthorizedPage';
 import TopUpView from '../topup/TopUpView';
 import PaymentResult from '../topup/components/PaymentResult';
+import PaymentHistory from '../paymentHistory/paymentHistory';
 import AccountIntegrationsPage from './AccountIntegrationsPage';
 import AccountProfilePage from './AccountProfilePage';
 import ViewProfilePage from './ViewProfilePage';
@@ -72,6 +73,10 @@ const AccountRoute = () => {
 
 	if (page === 'payment-result') {
 		return <PaymentResult />;
+	}
+
+	if (page === 'payment-history') {
+		return <PaymentHistory />;
 	}
 
 	return null;
