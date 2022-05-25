@@ -126,6 +126,8 @@ function ViewProfileForm({ values, handlers, user, ...props }: Props): ReactElem
 		/* @ts-ignore */
 		{ icon: 'lock', content: `${t('gso_viewProfileForm_services_updateProfile')}`, rc: true },
 		/* @ts-ignore */
+		{ icon: 'file', content: `${t('gso_viewProfileForm_services_purchaseHistory')}`, rc: true },
+		/* @ts-ignore */
 		{ icon: 'info', content: `${t('gso_viewProfileForm_services_customerSupport')}`, rc: false },
 		/* @ts-ignore */
 		{ icon: 'credit-card', content: `${t('gso_viewProfileForm_services_verifyIdentity')}`, rc: false },

@@ -1,8 +1,8 @@
 import { useRouteParameter, useRoute, useCurrentRoute, useSetting, usePermission } from '@rocket.chat/ui-contexts';
 import React, { useEffect } from 'react';
 
-import { SideNav } from '../../../app/ui-utils/client';
 import NotAuthorizedPage from '../notAuthorized/NotAuthorizedPage';
+import PaymentHistory from '../paymentHistory/paymentHistory';
 import TopUpView from '../topup/TopUpView';
 import PaymentResult from '../topup/components/PaymentResult';
 import AccountIntegrationsPage from './AccountIntegrationsPage';
@@ -25,11 +25,6 @@ const AccountRoute = () => {
 
 		!page && router.push({ group: 'view-profile' });
 	}, [routeName, page, router]);
-
-	useEffect(() => {
-		SideNav.setFlex('accountFlex');
-		SideNav.openFlex();
-	});
 
 	const webdavEnabled = useSetting('Webdav_Integration_Enabled');
 	const canCreateTokens = usePermission('create-personal-access-tokens');
@@ -72,6 +67,10 @@ const AccountRoute = () => {
 
 	if (page === 'payment-result') {
 		return <PaymentResult />;
+	}
+
+	if (page === 'payment-history') {
+		return <PaymentHistory />;
 	}
 
 	return null;
