@@ -25,7 +25,6 @@ const ViewAccountInfo = ({ title, items }: Props): ReactElement => {
 	const handlePurchaseHistoryRoute = (icon: string): void => {
 		if (icon === 'file') FlowRouter.go('/account/payment-history');
 	};
-	console.log(items, 'items');
 	return (
 		<Box>
 			<h4 style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold', background: '#ddd', height: '50px', marginTop: '20px' }}>

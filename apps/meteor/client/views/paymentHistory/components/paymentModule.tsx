@@ -9,16 +9,16 @@ type Props = {
 	amount: number;
 	quantity: number;
 	currency: string;
+	date: Date;
+	openModal: React.MouseEventHandler<HTMLElement>;
 };
 
-const PaymentModule = ({ gateway, amount, quantity, currency }: Props) => {
+const PaymentModule = ({ gateway, amount, quantity, currency, openModal, date }: Props) => {
 	const capitalize = useCapitalizeAndJoin();
 	const formatDate = useFormatDate();
-
-	const handleModal = (): void => {};
 	return (
 		<Box style={{ marginTop: '20px' }}>
-			<span>{formatDate(new Date().getDate())}</span>
+			<span>{formatDate(date)}</span>
 			<Box
 				display='flex'
 				alignItems='center'
@@ -26,7 +26,7 @@ const PaymentModule = ({ gateway, amount, quantity, currency }: Props) => {
 				style={{ fontWeight: 'bold', background: '#ddd', height: '50px', marginTop: '8px' }}
 			>
 				<span style={{ marginLeft: '10px' }}>{`${capitalize(gateway)}: ${amount} ${capitalize(currency)} - ${quantity} points`}</span>
-				<Icon onClick={handleModal} style={{ marginRight: '10px' }} name='info' fontSize='32px' />
+				<Icon onClick={openModal} style={{ marginRight: '10px', cursor: 'pointer' }} name='info' fontSize='32px' />
 			</Box>
 		</Box>
 	);
