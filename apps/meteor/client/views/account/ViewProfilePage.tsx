@@ -120,10 +120,18 @@ const ViewProfilePage = (): ReactElement => {
 		return setModal(() => <ActionConfirmModal onConfirm={handleConfirm} onCancel={closeModal} isPassword={true} />);
 	}, [closeModal, dispatchToastMessage, setModal, handleConfirmOwnerChange, deleteOwnAccount, logout, t]);
 
+	const handleRouteBack = (): void => {
+		FlowRouter.go('/home');
+	};
+
 	return (
 		<Page>
-			<Page.Header title={t('Profile')}>
-				<ButtonGroup>
+			<Box style={{ height: '60px', width: '100%', marginTop: '10px' }} display='flex' alignItems='center' justifyContent='space-between'>
+				<Box display='flex'>
+					<Icon name='chevron-right' style={{ marginLeft: '10px', cursor: 'pointer' }} onClick={handleRouteBack} fontSize='32px' />
+					<h4 style={{ fontWeight: 'bold', fontSize: '24px', marginLeft: '8px' }}>{t('Profile')}</h4>
+				</Box>
+				<ButtonGroup style={{ marginRight: '20px' }}>
 					<Button primary danger disabled={!hasUnsavedChanges} onClick={reset}>
 						{t('Reset')}
 					</Button>
@@ -132,7 +140,8 @@ const ViewProfilePage = (): ReactElement => {
 						{t('Gso_viewProfilePage_btnEdit')}
 					</Button>
 				</ButtonGroup>
-			</Page.Header>
+			</Box>
+
 			<Page.ScrollableContentWithShadow>
 				<Box maxWidth='600px' w='full' alignSelf='center'>
 					<ViewProfileForm values={values} handlers={handlers} user={user} />

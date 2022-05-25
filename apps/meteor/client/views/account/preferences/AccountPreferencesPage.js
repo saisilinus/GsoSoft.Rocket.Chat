@@ -25,6 +25,7 @@ const AccountPreferencesPage = () => {
 
 	const onChange = useCallback(
 		({ initialValue, value, key }) => {
+			console.log(initialValue, value, key, 'here');
 			const { current } = saveData;
 			if (JSON.stringify(initialValue) !== JSON.stringify(value)) {
 				current[key] = value;
