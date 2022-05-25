@@ -1,5 +1,5 @@
 import { Box, Icon } from '@rocket.chat/fuselage';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { useCapitalizeAndJoin } from '../../../hooks/useCapitalization';
 import { useFormatDate } from '../../../hooks/useFormatDate';
@@ -13,7 +13,7 @@ type Props = {
 	openModal: React.MouseEventHandler<HTMLElement>;
 };
 
-const PaymentModule = ({ gateway, amount, quantity, currency, openModal, date }: Props) => {
+const PaymentModule = ({ gateway, amount, quantity, currency, openModal, date }: Props): ReactElement => {
 	const capitalize = useCapitalizeAndJoin();
 	const formatDate = useFormatDate();
 	return (

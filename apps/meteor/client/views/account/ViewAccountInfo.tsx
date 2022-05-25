@@ -32,7 +32,7 @@ const ViewAccountInfo = ({ title, items }: Props): ReactElement => {
 			</h4>
 			{items.length
 				? items.map((item, index) => (
-						<Box style={{ margin: '8px 0', cursor: 'pointer' }} key={index} onClick={() => handlePurchaseHistoryRoute(item.icon)}>
+						<Box style={{ margin: '8px 0', cursor: 'pointer' }} key={index} onClick={(): void => handlePurchaseHistoryRoute(item.icon)}>
 							<Flex.Container alignItems='center'>
 								<Box>
 									<Flex.Item>

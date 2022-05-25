@@ -1,10 +1,13 @@
 import { Accordion, Box } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
+// @ts-ignore
+import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Meteor } from 'meteor/meteor';
 import React, { ReactElement, useEffect, useMemo, useState } from 'react';
 
 import { IGateway } from '../../../definition/IGateway';
 import Page from '../../components/Page';
+import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
 import { useCapitalizeAndJoin } from '../../hooks/useCapitalization';
 import BankTransfer from './components/BankTransfer';
 import PerfectMoneyVoucher from './components/PerfectMoneyVoucher';
@@ -137,10 +140,14 @@ const TopUpView = (): ReactElement => {
 		setOpenGateway({ open, id: accordionItem.id });
 	};
 
+	const handleRouteBack = (): void => {
+		FlowRouter.go('/account/view-profile');
+	};
+
 	return (
 		<Page id='topup-page'>
-			<Page.Header title={t('Edit')} />
-			<Box style={{ margin: '15px 15px 0 15px' }}>
+			<ProfileHeader title='Topup' handleRouteBack={handleRouteBack} />
+			<Page.ScrollableContentWithShadow>
 				{/* @ts-ignore */}
 				<h3 style={{ fontSize: '19px', marginBottom: '10px' }}>{t('gso_topupView_title')}</h3>
 				{/* @ts-ignore */}
@@ -175,7 +182,7 @@ const TopUpView = (): ReactElement => {
 						  ))
 						: 'Loading...'}
 				</Accordion>
-			</Box>
+			</Page.ScrollableContentWithShadow>
 		</Page>
 	);
 };

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
-export const useAccurateTimeAgo = (): ((date: Date) => string) => {
-	return useCallback((date) => {
+export const useAccurateTimeAgo = (): ((date: Date) => string) =>
+	useCallback((date) => {
 		const currentTimeAndDate = new Date();
 
 		const seconds = Math.floor((currentTimeAndDate.getTime() - date.getTime()) / 1000);
@@ -29,4 +29,3 @@ export const useAccurateTimeAgo = (): ((date: Date) => string) => {
 		}
 		return `${Math.floor(seconds)} seconds ago`;
 	}, []);
-};
