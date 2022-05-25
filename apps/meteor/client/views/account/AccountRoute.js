@@ -27,10 +27,10 @@ const AccountRoute = () => {
 		!page && router.push({ group: 'view-profile' });
 	}, [routeName, page, router]);
 
-	useEffect(() => {
-		SideNav.setFlex('accountFlex');
-		SideNav.openFlex();
-	});
+	// useEffect(() => {
+	// 	SideNav.setFlex('accountFlex');
+	// 	SideNav.openFlex();
+	// });
 
 	const webdavEnabled = useSetting('Webdav_Integration_Enabled');
 	const canCreateTokens = usePermission('create-personal-access-tokens');
