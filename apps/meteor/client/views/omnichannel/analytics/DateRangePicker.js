@@ -13,12 +13,19 @@ const getMonthRange = (monthsToSubtractFromToday) => ({
 	end: formatToDateInput(monthsToSubtractFromToday === 0 ? moment() : moment().subtract(monthsToSubtractFromToday).date(0)),
 });
 
+// Customized the fucntion specifically for the paymentHistory page so that users can
+// get back the results from one month ago once the page loads.
+const getCustomMonthRange = (monthsToSubtractFromToday) => ({
+	start: formatToDateInput(moment().subtract(monthsToSubtractFromToday, 'month')),
+	end: formatToDateInput(moment()),
+});
+
 const getWeekRange = (daysToSubtractFromStart, daysToSubtractFromEnd) => ({
 	start: formatToDateInput(moment().subtract(daysToSubtractFromStart, 'day')),
 	end: formatToDateInput(moment().subtract(daysToSubtractFromEnd, 'day')),
 });
 
-const DateRangePicker = ({ onChange = () => {}, ...props }) => {
+const DateRangePicker = ({ onChange = (dateRange) => {}, initialLoad, ...props }) => {
 	const t = useTranslation();
 	const [range, setRange] = useState({ start: '', end: '' });
 
@@ -48,11 +55,12 @@ const DateRangePicker = ({ onChange = () => {}, ...props }) => {
 	});
 
 	useEffect(() => {
+		const result = getCustomMonthRange(1);
 		handleRange({
-			start: todayDate,
-			end: todayDate,
+			start: initialLoad ? result.start : todayDate,
+			end: initialLoad ? result.end : todayDate,
 		});
-	}, [handleRange]);
+	}, [handleRange, initialLoad]);
 
 	const options = useMemo(
 		() => ({

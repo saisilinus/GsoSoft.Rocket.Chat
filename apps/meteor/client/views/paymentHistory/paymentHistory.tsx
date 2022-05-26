@@ -2,22 +2,34 @@ import { Box, Button, Select } from '@rocket.chat/fuselage';
 /* @ts-ignore */
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Meteor } from 'meteor/meteor';
+import { isMobile, isDesktop } from 'react-device-detect';
 import React, { ReactElement, useEffect, useState } from 'react';
 
 import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
+import DateRangePicker from '../omnichannel/analytics/DateRangePicker';
 import CustomerSupport from './components/customerSupport';
 import PaymentModule from './components/paymentModule';
 
+interface dateRange {
+	start: string;
+	end: string;
+}
+
 const PaymentHistory = (): ReactElement => {
 	const [_statusSelect, setStatusSelect] = useState('');
-	const [_dateRange, setDateRange] = useState('');
+	const [_dateRange, setDateRange] = useState<dateRange>({ start: '', end: '' });
 	const [transactionResults, setTransactionResults] = useState<Record<string, any>[]>([]);
 	const [openModal, setModal] = useState(false);
+	const [initialLoad, setInitialLoad] = useState(true);
+
+	const handeDateRange = (range: any): void => {
+		console.log(range, 'range');
+		setDateRange(range);
+	};
 
 	const fetchTransactions = (type: string): void => {
-		const currentDate = new Date().getUTCDate();
-		const addDays = (days: number): Date => new Date(new Date().setDate(currentDate + days));
+		const convertDate = (initialDate: string): Date => new Date(initialDate);
 
 		const queryOptions = {
 			sort: {},
@@ -31,10 +43,10 @@ const PaymentHistory = (): ReactElement => {
 		}
 
 		if (_dateRange) {
-			const numOfDays = parseInt(_dateRange);
-			const result = addDays(-numOfDays);
+			const startDate = convertDate(_dateRange.start);
+			const endDate = convertDate(_dateRange.end);
 			// eslint-disable-next-line dot-notation
-			queryOptions.query['createdAt'] = { $gte: result };
+			queryOptions.query['createdAt'] = { $gte: startDate, $lte: endDate };
 		}
 
 		console.log(queryOptions, 'queryOptions');
@@ -70,20 +82,21 @@ const PaymentHistory = (): ReactElement => {
 			<ProfileHeader title='Purchase history' handleRouteBack={handleRouteBack} />
 			{openModal ? <CustomerSupport closeModal={(): void => setModal(false)} /> : null}
 			<Page.ScrollableContentWithShadow>
-				<Box display='flex' justifyContent='space-between'>
-					<Box>
+				{isMobile ? (
+					<Box style={{ marginBottom: '12px' }}>
 						<span>Range: </span>
-						<Select
-							onChange={(e: any): void => setDateRange(e)}
-							options={[
-								['7', '7 days'],
-								['30', '30 days'],
-								['90', '90 days'],
-							]}
-							placeholder='Date range'
-						/>
+						<DateRangePicker onChange={handeDateRange} initialLoad={initialLoad} />
 					</Box>
-					<Box>
+				) : null}
+				<Box display='flex' justifyContent='space-between'>
+					{isDesktop ? (
+						<Box>
+							<span>Range: </span>
+							<DateRangePicker onChange={handeDateRange} initialLoad={initialLoad} />
+						</Box>
+					) : null}
+
+					<Box display='flex' flexDirection='column'>
 						<span>Status: </span>
 						<Select
 							onChange={(e: any): void => setStatusSelect(e)}
