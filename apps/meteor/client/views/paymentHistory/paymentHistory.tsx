@@ -25,7 +25,8 @@ const PaymentHistory = (): ReactElement => {
 	const [openModal, setModal] = useState(false);
 	const [initialLoad, setInitialLoad] = useState(true);
 	const [channelCreated, setChannelCreated] = useState(false);
-	const [route, setRoute] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [liveChatData, setLiveChatData] = useState<Record<string, any>>({});
 
 	const handeDateRange = (range: any): void => {
 		setDateRange(range);
@@ -81,31 +82,38 @@ const PaymentHistory = (): ReactElement => {
 	const { value: data } = useEndpointData('directory', query);
 
 	const createChannel = () => {
-		Meteor.call('createChannel', 'test1-livechat', [''], (error, result) => {
+		Meteor.call('createChannel', 'ryan-livechat', [''], (error, result) => {
 			if (result) {
 				setChannelCreated(true);
+				handleDirectChatRoute();
 			}
-
 			if (error) {
-				console.log(error);
+				if (error.error === 'error-duplicate-channel-name') {
+					setChannelCreated(true);
+					handleDirectChatRoute();
+				}
 			}
 		});
 	};
 
-	const handleDirectChatRoute = useMemo((): void => {
-		console.log(data, 'inside usememo');
-		if (data && route) {
+	const handleDirectChatRoute = (): void => {
+		setLoading(true);
+		console.log(liveChatData, 'inside usememo');
+		if (Object.keys(liveChatData).length) {
 			// Create a new channel if the General channel is the only one available.
 			// @ts-ignore
-			const { result } = data;
+			const { result } = liveChatData;
 			if (result.length === 1 && !channelCreated) {
 				createChannel();
 			} else {
+				setLoading(false);
 				const routeName = result[1].fname;
-				if (routeName) FlowRouter.go(`/group/${routeName}`);
+				if (routeName) FlowRouter.go(`/channel/${routeName}`);
 			}
 		}
-	}, [data, channelCreated, route]);
+	};
+
+	const getLiveChatData = useMemo(() => setLiveChatData(data), [data]);
 
 	useEffect(() => {
 		fetchTransactions('initialFetch');
@@ -114,7 +122,10 @@ const PaymentHistory = (): ReactElement => {
 	return (
 		<Page>
 			<ProfileHeader title='Purchase history' handleRouteBack={handleRouteBack} />
-			{openModal ? <CustomerSupport closeModal={(): void => setModal(false)} directChatRoute={(): void => setRoute(true)} /> : null}
+			{/* @ts-ignore */}
+			{openModal ? (
+				<CustomerSupport closeModal={(): void => setModal(false)} directChatRoute={(): void => handleDirectChatRoute()} loading={loading} />
+			) : null}
 			<Page.ScrollableContentWithShadow>
 				{isMobile ? (
 					<Box style={{ marginBottom: '12px' }}>
