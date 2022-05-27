@@ -3,9 +3,10 @@ import React, { ReactElement } from 'react';
 
 type Props = {
 	closeModal: React.MouseEventHandler<HTMLElement>;
+	directChatRoute: React.MouseEventHandler<HTMLElement>;
 };
 
-const CustomerSupport = ({ closeModal }: Props): ReactElement => (
+const CustomerSupport = ({ closeModal, directChatRoute }: Props): ReactElement => (
 	<Modal>
 		<Modal.Header>
 			<Modal.Icon name='headset' />
@@ -18,7 +19,7 @@ const CustomerSupport = ({ closeModal }: Props): ReactElement => (
 				<Button danger onClick={closeModal}>
 					No
 				</Button>
-				<Button primary onClick={closeModal}>
+				<Button primary onClick={directChatRoute}>
 					Yes
 				</Button>
 			</ButtonGroup>

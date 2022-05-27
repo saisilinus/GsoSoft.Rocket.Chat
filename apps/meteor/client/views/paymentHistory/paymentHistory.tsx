@@ -3,13 +3,15 @@ import { Box, Button, Select } from '@rocket.chat/fuselage';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Meteor } from 'meteor/meteor';
 import { isMobile, isDesktop } from 'react-device-detect';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useMemo, useState } from 'react';
 
 import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
 import DateRangePicker from '../omnichannel/analytics/DateRangePicker';
 import CustomerSupport from './components/customerSupport';
 import PaymentModule from './components/paymentModule';
+import { useEndpointData } from '../../hooks/useEndpointData';
+import { useQuery } from '../directory/hooks';
 
 interface dateRange {
 	start: string;
@@ -22,9 +24,10 @@ const PaymentHistory = (): ReactElement => {
 	const [transactionResults, setTransactionResults] = useState<Record<string, any>[]>([]);
 	const [openModal, setModal] = useState(false);
 	const [initialLoad, setInitialLoad] = useState(true);
+	const [channelCreated, setChannelCreated] = useState(false);
+	const [route, setRoute] = useState(false);
 
 	const handeDateRange = (range: any): void => {
-		console.log(range, 'range');
 		setDateRange(range);
 	};
 
@@ -49,13 +52,10 @@ const PaymentHistory = (): ReactElement => {
 			queryOptions.query['createdAt'] = { $gte: startDate, $lte: endDate };
 		}
 
-		console.log(queryOptions, 'queryOptions');
-
 		Meteor.call('getTransactions', { offset: 1, count: 10 }, queryOptions, (error, result) => {
 			if (result) {
 				console.log('Fetched transactions');
 				if (type === 'initialFetch') {
-					console.log(result, 'result');
 					setTransactionResults(result);
 				} else if (type === 'loadMore') {
 					const newTransactionsArray = transactionResults.concat(result);
@@ -73,6 +73,40 @@ const PaymentHistory = (): ReactElement => {
 		FlowRouter.go('/account/view-profile');
 	};
 
+	const sort = ['name', 'asc'];
+	const params = { current: 0, itemsPerPage: 25 };
+	// @ts-ignore
+	const query = useQuery(params, sort, 'channels');
+	// @ts-ignore
+	const { value: data } = useEndpointData('directory', query);
+
+	const createChannel = () => {
+		Meteor.call('createChannel', 'test1-livechat', [''], (error, result) => {
+			if (result) {
+				setChannelCreated(true);
+			}
+
+			if (error) {
+				console.log(error);
+			}
+		});
+	};
+
+	const handleDirectChatRoute = useMemo((): void => {
+		console.log(data, 'inside usememo');
+		if (data && route) {
+			// Create a new channel if the General channel is the only one available.
+			// @ts-ignore
+			const { result } = data;
+			if (result.length === 1 && !channelCreated) {
+				createChannel();
+			} else {
+				const routeName = result[1].fname;
+				if (routeName) FlowRouter.go(`/group/${routeName}`);
+			}
+		}
+	}, [data, channelCreated, route]);
+
 	useEffect(() => {
 		fetchTransactions('initialFetch');
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -80,7 +114,7 @@ const PaymentHistory = (): ReactElement => {
 	return (
 		<Page>
 			<ProfileHeader title='Purchase history' handleRouteBack={handleRouteBack} />
-			{openModal ? <CustomerSupport closeModal={(): void => setModal(false)} /> : null}
+			{openModal ? <CustomerSupport closeModal={(): void => setModal(false)} directChatRoute={(): void => setRoute(true)} /> : null}
 			<Page.ScrollableContentWithShadow>
 				{isMobile ? (
 					<Box style={{ marginBottom: '12px' }}>
