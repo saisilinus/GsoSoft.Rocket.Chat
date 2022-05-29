@@ -2,27 +2,28 @@ import { Box, Button, Select } from '@rocket.chat/fuselage';
 /* @ts-ignore */
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Meteor } from 'meteor/meteor';
-import { isMobile, isDesktop } from 'react-device-detect';
 import React, { ReactElement, useEffect, useMemo, useState } from 'react';
+import { isMobile, isDesktop } from 'react-device-detect';
 
 import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
+import { useEndpointData } from '../../hooks/useEndpointData';
+import { useQuery } from '../directory/hooks';
 import DateRangePicker from '../omnichannel/analytics/DateRangePicker';
 import CustomerSupport from './components/customerSupport';
 import PaymentModule from './components/paymentModule';
-import { useEndpointData } from '../../hooks/useEndpointData';
-import { useQuery } from '../directory/hooks';
 
-interface dateRange {
+interface IDateRange {
 	start: string;
 	end: string;
 }
 
 const PaymentHistory = (): ReactElement => {
 	const [_statusSelect, setStatusSelect] = useState('');
-	const [_dateRange, setDateRange] = useState<dateRange>({ start: '', end: '' });
+	const [_dateRange, setDateRange] = useState<IDateRange>({ start: '', end: '' });
 	const [transactionResults, setTransactionResults] = useState<Record<string, any>[]>([]);
 	const [openModal, setModal] = useState(false);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [initialLoad, setInitialLoad] = useState(true);
 	const [channelCreated, setChannelCreated] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -85,11 +86,13 @@ const PaymentHistory = (): ReactElement => {
 		Meteor.call('createChannel', 'ryan-livechat', [''], (error, result) => {
 			if (result) {
 				setChannelCreated(true);
+				// eslint-disable-next-line @typescript-eslint/no-use-before-define
 				handleDirectChatRoute();
 			}
 			if (error) {
 				if (error.error === 'error-duplicate-channel-name') {
 					setChannelCreated(true);
+					// eslint-disable-next-line @typescript-eslint/no-use-before-define
 					handleDirectChatRoute();
 				}
 			}
@@ -113,6 +116,7 @@ const PaymentHistory = (): ReactElement => {
 		}
 	};
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const getLiveChatData = useMemo(() => setLiveChatData(data), [data]);
 
 	useEffect(() => {
