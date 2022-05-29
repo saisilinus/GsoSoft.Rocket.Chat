@@ -2,22 +2,38 @@ import { Box, Button, Select } from '@rocket.chat/fuselage';
 /* @ts-ignore */
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Meteor } from 'meteor/meteor';
-import React, { ReactElement, useEffect, useState } from 'react';
+import { isMobile, isDesktop } from 'react-device-detect';
+import React, { ReactElement, useEffect, useMemo, useState } from 'react';
 
 import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
+import DateRangePicker from '../omnichannel/analytics/DateRangePicker';
 import CustomerSupport from './components/customerSupport';
 import PaymentModule from './components/paymentModule';
+import { useEndpointData } from '../../hooks/useEndpointData';
+import { useQuery } from '../directory/hooks';
+
+interface dateRange {
+	start: string;
+	end: string;
+}
 
 const PaymentHistory = (): ReactElement => {
 	const [_statusSelect, setStatusSelect] = useState('');
-	const [_dateRange, setDateRange] = useState('');
+	const [_dateRange, setDateRange] = useState<dateRange>({ start: '', end: '' });
 	const [transactionResults, setTransactionResults] = useState<Record<string, any>[]>([]);
 	const [openModal, setModal] = useState(false);
+	const [initialLoad, setInitialLoad] = useState(true);
+	const [channelCreated, setChannelCreated] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [liveChatData, setLiveChatData] = useState<Record<string, any>>({});
+
+	const handeDateRange = (range: any): void => {
+		setDateRange(range);
+	};
 
 	const fetchTransactions = (type: string): void => {
-		const currentDate = new Date().getUTCDate();
-		const addDays = (days: number): Date => new Date(new Date().setDate(currentDate + days));
+		const convertDate = (initialDate: string): Date => new Date(initialDate);
 
 		const queryOptions = {
 			sort: {},
@@ -31,19 +47,16 @@ const PaymentHistory = (): ReactElement => {
 		}
 
 		if (_dateRange) {
-			const numOfDays = parseInt(_dateRange);
-			const result = addDays(-numOfDays);
+			const startDate = convertDate(_dateRange.start);
+			const endDate = convertDate(_dateRange.end);
 			// eslint-disable-next-line dot-notation
-			queryOptions.query['createdAt'] = { $gte: result };
+			queryOptions.query['createdAt'] = { $gte: startDate, $lte: endDate };
 		}
-
-		console.log(queryOptions, 'queryOptions');
 
 		Meteor.call('getTransactions', { offset: 1, count: 10 }, queryOptions, (error, result) => {
 			if (result) {
 				console.log('Fetched transactions');
 				if (type === 'initialFetch') {
-					console.log(result, 'result');
 					setTransactionResults(result);
 				} else if (type === 'loadMore') {
 					const newTransactionsArray = transactionResults.concat(result);
@@ -61,6 +74,47 @@ const PaymentHistory = (): ReactElement => {
 		FlowRouter.go('/account/view-profile');
 	};
 
+	const sort = ['name', 'asc'];
+	const params = { current: 0, itemsPerPage: 25 };
+	// @ts-ignore
+	const query = useQuery(params, sort, 'channels');
+	// @ts-ignore
+	const { value: data } = useEndpointData('directory', query);
+
+	const createChannel = () => {
+		Meteor.call('createChannel', 'ryan-livechat', [''], (error, result) => {
+			if (result) {
+				setChannelCreated(true);
+				handleDirectChatRoute();
+			}
+			if (error) {
+				if (error.error === 'error-duplicate-channel-name') {
+					setChannelCreated(true);
+					handleDirectChatRoute();
+				}
+			}
+		});
+	};
+
+	const handleDirectChatRoute = (): void => {
+		setLoading(true);
+		console.log(liveChatData, 'inside usememo');
+		if (Object.keys(liveChatData).length) {
+			// Create a new channel if the General channel is the only one available.
+			// @ts-ignore
+			const { result } = liveChatData;
+			if (result.length === 1 && !channelCreated) {
+				createChannel();
+			} else {
+				setLoading(false);
+				const routeName = result[1].fname;
+				if (routeName) FlowRouter.go(`/channel/${routeName}`);
+			}
+		}
+	};
+
+	const getLiveChatData = useMemo(() => setLiveChatData(data), [data]);
+
 	useEffect(() => {
 		fetchTransactions('initialFetch');
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,22 +122,26 @@ const PaymentHistory = (): ReactElement => {
 	return (
 		<Page>
 			<ProfileHeader title='Purchase history' handleRouteBack={handleRouteBack} />
-			{openModal ? <CustomerSupport closeModal={(): void => setModal(false)} /> : null}
+			{/* @ts-ignore */}
+			{openModal ? (
+				<CustomerSupport closeModal={(): void => setModal(false)} directChatRoute={(): void => handleDirectChatRoute()} loading={loading} />
+			) : null}
 			<Page.ScrollableContentWithShadow>
-				<Box display='flex' justifyContent='space-between'>
-					<Box>
+				{isMobile ? (
+					<Box style={{ marginBottom: '12px' }}>
 						<span>Range: </span>
-						<Select
-							onChange={(e: any): void => setDateRange(e)}
-							options={[
-								['7', '7 days'],
-								['30', '30 days'],
-								['90', '90 days'],
-							]}
-							placeholder='Date range'
-						/>
+						<DateRangePicker onChange={handeDateRange} initialLoad={initialLoad} />
 					</Box>
-					<Box>
+				) : null}
+				<Box display='flex' justifyContent='space-between'>
+					{isDesktop ? (
+						<Box>
+							<span>Range: </span>
+							<DateRangePicker onChange={handeDateRange} initialLoad={initialLoad} />
+						</Box>
+					) : null}
+
+					<Box display='flex' flexDirection='column'>
 						<span>Status: </span>
 						<Select
 							onChange={(e: any): void => setStatusSelect(e)}

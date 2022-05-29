@@ -153,6 +153,8 @@ function ChannelsTable() {
 		[formatDate, mediaQuery, onClick],
 	);
 
+	console.log(data, 'channels');
+
 	return (
 		<GenericTable
 			header={header}
