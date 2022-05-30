@@ -242,10 +242,10 @@ jobs:
       - name: Unit Test
         run: yarn testunit
 
-      - name: Install Playwright
-        run: |
-          cd ./apps/meteor
-          npx playwright install --with-deps
+   #   - name: Install Playwright
+    #    run: |
+     #     cd ./apps/meteor
+      #    npx playwright install --with-deps
 
       - name: E2E Test API
         env:
@@ -329,7 +329,7 @@ jobs:
           tar xzf Rocket.Chat.tar.gz
           rm Rocket.Chat.tar.gz
           cd /tmp/gso-build/bundle/programs/server && npm install --production
-          rm -rf /opt/gso
+          sudo rm -rf /opt/gso
           sudo mv /tmp/gso-build/bundle /opt/gso
           pm2 restart gso
         # pm2 startOrReload config.js --update-env
