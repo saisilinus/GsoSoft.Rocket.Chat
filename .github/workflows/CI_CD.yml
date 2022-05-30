@@ -265,7 +265,7 @@ jobs:
           MONGO_OPLOG_URL: mongodb://localhost:27017/local
         run: |
           cd ./apps/meteor
-          echo -e 'pcm.!default {\n type hw\n card 0\n}\n\nctl.!default {\n type hw\n card 0\n}' > ~/.asoundrc
+     # echo -e 'pcm.!default {\n type hw\n card 0\n}\n\nctl.!default {\n type hw\n card 0\n}' > ~/.asoundrc
       #    Xvfb -screen 0 1024x768x24 :99 &
        #   for i in $(seq 1 2); do (docker exec mongo mongo rocketchat --eval 'db.dropDatabase()') && npm run testci -- --test=testui && s=0 && break || s=$? && ([ ! -w tests/cypress/screenshots ] || mv tests/cypress/screenshots tests/cypress/screenshots-$i) && ([ ! -w tests/cypress/videos ] || mv tests/cypress/videos tests/cypress/videos-$i) && sleep 1; done; (exit $s)
 
@@ -325,7 +325,11 @@ jobs:
           AWS_DEFAULT_REGION: 'us-east-1'
 
         run: |
-          cd /tmp/build
+          cd /tmp/gso-build
           tar xzf Rocket.Chat.tar.gz
           rm Rocket.Chat.tar.gz
-
+          cd /tmp/gso-build/bundle/programs/server && npm install --production
+          rm -rf /opt/gso
+          sudo mv /tmp/gso-build/bundle /opt/gso
+          pm2 restart gso
+        # pm2 startOrReload config.js --update-env
