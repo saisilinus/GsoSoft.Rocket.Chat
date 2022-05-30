@@ -81,7 +81,7 @@ const PaymentHistory = (): ReactElement => {
 	const query = useQuery(params, sort, 'channels');
 	// @ts-ignore
 	const { value: data } = useEndpointData('directory', query);
-
+	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 	const createChannel = () => {
 		Meteor.call('createChannel', 'ryan-livechat', [''], (error, result) => {
 			if (result) {
