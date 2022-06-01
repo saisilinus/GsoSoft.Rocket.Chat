@@ -65,11 +65,11 @@ API.helperMethods.set(
 				});
 			}
 		}
-
 		// Verify the user's selected fields only contains ones which their role allows
 		if (typeof fields === 'object') {
 			let nonSelectableFields = Object.keys(API.v1.defaultFieldsToExclude);
 			if (this.request.route.includes('/v1/users.')) {
+				// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 				const getFields = () =>
 					Object.keys(
 						hasPermission(this.userId, 'view-full-other-user-info')
