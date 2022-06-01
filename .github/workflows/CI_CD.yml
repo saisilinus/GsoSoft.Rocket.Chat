@@ -306,7 +306,7 @@ jobs:
 
   deploy:  ## https://docs.rocket.chat/quick-start/installing-and-updating/other-deployment-methods/manual-installation/debian-based-distros/ubuntu
     runs-on: [self-hosted, linux, x64, gso-staging]
-    if: github.event_name == 'release' || github.ref == 'refs/heads/develop'
+    if: github.event_name == 'release'      #  || github.ref == 'refs/heads/develop'
     needs: [test]
 
     steps:
@@ -330,5 +330,5 @@ jobs:
           rm Rocket.Chat.tar.gz
           cd /tmp/gso-build/bundle/programs/server && npm install --production
           sudo mv /opt/gso /opt/gso_$(date +%F)
-          sudo mv /tmp/bundle /opt/gso
+          sudo mv /tmp/gso-build/bundle /opt/gso
           pm2 startOrRestart /etc/pm2/apps.config.js --env production
