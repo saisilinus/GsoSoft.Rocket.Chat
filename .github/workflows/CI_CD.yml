@@ -242,9 +242,9 @@ jobs:
       - name: Unit Test
         run: yarn testunit
 
-   #   - name: Install Playwright
-    #    run: |
-     #     cd ./apps/meteor
+      #   - name: Install Playwright
+      #    run: |
+      #     cd ./apps/meteor
       #    npx playwright install --with-deps
 
       - name: E2E Test API
@@ -265,9 +265,9 @@ jobs:
           MONGO_OPLOG_URL: mongodb://localhost:27017/local
         run: |
           cd ./apps/meteor
-     # echo -e 'pcm.!default {\n type hw\n card 0\n}\n\nctl.!default {\n type hw\n card 0\n}' > ~/.asoundrc
+      # echo -e 'pcm.!default {\n type hw\n card 0\n}\n\nctl.!default {\n type hw\n card 0\n}' > ~/.asoundrc
       #    Xvfb -screen 0 1024x768x24 :99 &
-       #   for i in $(seq 1 2); do (docker exec mongo mongo rocketchat --eval 'db.dropDatabase()') && npm run testci -- --test=testui && s=0 && break || s=$? && ([ ! -w tests/cypress/screenshots ] || mv tests/cypress/screenshots tests/cypress/screenshots-$i) && ([ ! -w tests/cypress/videos ] || mv tests/cypress/videos tests/cypress/videos-$i) && sleep 1; done; (exit $s)
+      #   for i in $(seq 1 2); do (docker exec mongo mongo rocketchat --eval 'db.dropDatabase()') && npm run testci -- --test=testui && s=0 && break || s=$? && ([ ! -w tests/cypress/screenshots ] || mv tests/cypress/screenshots tests/cypress/screenshots-$i) && ([ ! -w tests/cypress/videos ] || mv tests/cypress/videos tests/cypress/videos-$i) && sleep 1; done; (exit $s)
 
       - name: E2E Test UI
         env:
@@ -277,7 +277,7 @@ jobs:
         run: |
           cd ./apps/meteor
           echo -e 'pcm.!default {\n type hw\n card 0\n}\n\nctl.!default {\n type hw\n card 0\n}' > ~/.asoundrc
-      #    Xvfb -screen 0 1024x768x24 :99 &
+        #    Xvfb -screen 0 1024x768x24 :99 &
         #  docker exec mongo mongo rocketchat --eval 'db.dropDatabase()' && npm run testci -- --test=test:playwright
 
       - name: Store playwright test trace
@@ -310,7 +310,7 @@ jobs:
     needs: [test]
 
     steps:
-      - uses: actions/checkout@v3
+      #      - uses: actions/checkout@v3
 
       - name: Restore build
         uses: actions/download-artifact@v2
@@ -329,7 +329,6 @@ jobs:
           tar xzf Rocket.Chat.tar.gz
           rm Rocket.Chat.tar.gz
           cd /tmp/gso-build/bundle/programs/server && npm install --production
-          sudo rm -rf /opt/gso
-          sudo mv /tmp/gso-build/bundle /opt/gso
-          pm2 restart gso
-        # pm2 startOrReload config.js --update-env
+          sudo mv /opt/gso /opt/gso_$(date +%F)
+          sudo mv /tmp/bundle /opt/gso
+          pm2 startOrRestart /etc/pm2/apps.config.js --env production
