@@ -11,7 +11,6 @@ import toastr from 'toastr';
 import { KonchatNotification } from '../../app/ui/client';
 import { APIClient } from '../../app/utils/client';
 import { appLayout } from '../lib/appLayout';
-import { createTemplateForComponent } from '../lib/portals/createTemplateForComponent';
 import { dispatchToastMessage } from '../lib/toast';
 import { handleError } from '../lib/utils/handleError';
 import BlazeTemplate from '../views/root/BlazeTemplate';
@@ -24,6 +23,7 @@ const ResetPasswordPage = lazy(() => import('../views/login/ResetPassword/ResetP
 const SetupWizardRoute = lazy(() => import('../views/setupWizard/SetupWizardRoute'));
 const MailerUnsubscriptionPage = lazy(() => import('../views/mailer/MailerUnsubscriptionPage'));
 const NotFoundPage = lazy(() => import('../views/notFound/NotFoundPage'));
+const LandingViewPage = lazy(() => import('../views/landing/LandingView'));
 const MeetPage = lazy(() => import('../views/meet/MeetPage'));
 const DirectoryPage = lazy(() => import('../views/directory/DirectoryPage'));
 const OmnichannelDirectoryPage = lazy(() => import('../views/omnichannel/directory/OmnichannelDirectoryPage'));
@@ -100,9 +100,9 @@ FlowRouter.route('/home', {
 
 	action(_params, queryParams) {
 		KonchatNotification.getDesktopPermission();
-		const LandingViewPage = createTemplateForComponent('LandingViewPage', () => import('../views/landing/LandingView'), {
-			attachment: 'at-parent',
-		});
+		// const LandingViewPage = createTemplateForComponent('LandingViewPage', () => import('../views/landing/LandingView'), {
+		// 	attachment: 'at-parent',
+		// });
 		if (queryParams?.saml_idp_credentialToken !== undefined) {
 			const token = queryParams.saml_idp_credentialToken;
 			FlowRouter.setQueryParams({
