@@ -331,4 +331,9 @@ jobs:
           cd /tmp/gso-build/bundle/programs/server && npm install --production
           sudo mv /opt/gso /opt/gso_$(date +%F)
           sudo mv /tmp/gso-build/bundle /opt/gso
+
+          # under maintenance for nginx
+          #sudo touch /opt/gso-static/maintenance.on
           pm2 startOrRestart /etc/pm2/apps.config.js --env production
+          # remove maintenance for nginx
+          #sudo rm /opt/gso-static/maintenance.on
