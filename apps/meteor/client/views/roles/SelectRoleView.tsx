@@ -8,6 +8,7 @@ import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
 import { useCapitalizeAndJoin } from '../../hooks/useCapitalization';
 import { UserPreviousPageContext } from '../../contexts/UserPreviousPageContext/GlobalState';
+import EmployerRole from './components/EmployerRole';
 
 const SelectRoleView = () => {
     const [fetchedRoles, setFetchedRoles] = useState<Record<string, any>[]>([]);
@@ -81,21 +82,17 @@ const SelectRoleView = () => {
 	};
   return (
     <Page id='topup-page'>
-			<ProfileHeader title='Select Role' handleRouteBack={handleRouteBack} />
+			{/* @ts-ignore */}
+			<ProfileHeader title={`${t('gso_selectRoleView_profileHeader')}`} handleRouteBack={handleRouteBack} />
 			<Page.ScrollableContentWithShadow>
 				{/* @ts-ignore */}
-				<h3 style={{ fontSize: '19px', marginBottom: '10px' }}>{t('gso_topupView_title')}</h3>
-				{/* @ts-ignore */}
-				<p style={{ fontSize: '16px' }}>{t('gso_topupView_info')}</p>
+				<p style={{ fontSize: '16px' }}>{t('gso_selectRoleView_info')}</p>
 				<Accordion style={{ margin: '15px 0' }}>
 					{fetchedRoles.length
 						? fetchedRoles.map((role, index) => (
-								// @ts-ignore
-								<Accordion.Item title={capitalize(role.id)} onToggle={(e): void => onAccordionToggle(e)} id={role.id} key={index}>
-									<Box color='default' fontScale='p2'>
-										{capitalize(role.id)}
-									</Box>
-								</Accordion.Item>
+                            <div key={index}>
+                                {role.cmpClass === 'EmployerRoleFormCmp' ? <EmployerRole title={capitalize(role.id)} id={role.id} onToggle={onAccordionToggle} /> : null}
+                            </div>
 						  ))
 						: 'Loading...'}
 				</Accordion>
