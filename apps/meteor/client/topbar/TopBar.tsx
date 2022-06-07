@@ -1,4 +1,6 @@
 import { TopBarTitle, TopBarToolBox, TopBarActions, TopBarAction, Menu, Box, Icon } from '@rocket.chat/fuselage';
+// @ts-ignore
+import { FlowRouter } from 'meteor/kadira:flow-router';
 import React, { ReactElement } from 'react';
 
 const TopBar = (): ReactElement => (
@@ -9,7 +11,19 @@ const TopBar = (): ReactElement => (
 			<Menu
 				className='topBarMenu'
 				options={{
-					delete: {
+					selectRole: {
+						action: function noRefCheck(): void {
+							// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
+							FlowRouter.go('/select-role')
+						},
+						label: (
+							<Box alignItems='center' display='flex'>
+								<Icon mie='x4' name='user' size='x16' />
+								Select a role
+							</Box>
+						),
+					},
+					logout: {
 						action: function noRefCheck(): void {
 							// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
 							console.log('refCheck');
@@ -21,7 +35,7 @@ const TopBar = (): ReactElement => (
 							</Box>
 						),
 					},
-					makeAdmin: {
+					changePassword: {
 						action: function noRefCheck(): void {
 							// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
 							console.log('refCheck');

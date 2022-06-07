@@ -1,86 +1,82 @@
+// @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import React, {lazy} from 'react'
 
 import { appLayout } from '../lib/appLayout';
-import { createTemplateForComponent } from '../lib/portals/createTemplateForComponent';
+import MainLayout from '../views/root/MainLayout';
+
+const BlogViewPage = lazy(() => import('../views/blog/BlogView'));
+const GamesViewPage = lazy(() => import('../views/games/GamesView'));
+const ProductsViewPage = lazy(() => import('../views/products/ProductsView'));
+const StoreViewPage = lazy(() => import('../views/store/StoreView'));
+const MessagesViewPage = lazy(() => import('../views/messages/MessagesView'));
+const SelectRoleViewPage = lazy(() => import('../views/roles/SelectRoleView'));
+const BlogDetailPageView = lazy(() => import('../views/blog/BlogDetail'));
+const GameDetailPageView = lazy(() => import('../views/games/SingleGameDetails'));
+const ProductDetailPageView = lazy(() => import('../views/products/SIngleProductDetails'));
+
 
 // New Routes for GSO app
 
 FlowRouter.route('/blogs', {
 	name: 'blogs',
 	action: () => {
-		const BlogViewPage = createTemplateForComponent('BlogViewPage', () => import('../views/blog/BlogView'), {
-			attachment: 'at-parent',
-		});
-		appLayout.renderMainLayout({ center: BlogViewPage });
+		appLayout.render(<MainLayout><BlogViewPage /></MainLayout>);
 	},
 });
 
 FlowRouter.route('/games', {
 	name: 'games',
 	action: () => {
-		const GamesViewPage = createTemplateForComponent('GamesViewPage', () => import('../views/games/GamesView'), {
-			attachment: 'at-parent',
-		});
-		appLayout.renderMainLayout({ center: GamesViewPage });
+		appLayout.render(<MainLayout><GamesViewPage /></MainLayout>);
 	},
 });
 
 FlowRouter.route('/products', {
 	name: 'products',
 	action: () => {
-		const ProductsViewPage = createTemplateForComponent('ProductsViewPage', () => import('../views/products/ProductsView'), {
-			attachment: 'at-parent',
-		});
-		appLayout.renderMainLayout({ center: ProductsViewPage });
+		appLayout.render(<MainLayout><ProductsViewPage /></MainLayout>);
 	},
 });
 
 FlowRouter.route('/store', {
 	name: 'store',
 	action: () => {
-		const StoreViewPage = createTemplateForComponent('StoreViewPage', () => import('../views/store/StoreView'), {
-			attachment: 'at-parent',
-		});
-		appLayout.renderMainLayout({ center: StoreViewPage });
+		appLayout.render(<MainLayout><StoreViewPage /></MainLayout>);
 	},
 });
 
 FlowRouter.route('/messages', {
 	name: 'messages',
 	action: () => {
-		const MessagesViewPage = createTemplateForComponent('MessagesViewPage', () => import('../views/messages/MessagesView'), {
-			attachment: 'at-parent',
-		});
-		appLayout.renderMainLayout({ center: MessagesViewPage });
+		appLayout.render(<MainLayout><MessagesViewPage /></MainLayout>);
+	},
+});
+
+FlowRouter.route('/select-role', {
+	name: 'select-role',
+	action: () => {
+		appLayout.render(<MainLayout><SelectRoleViewPage /></MainLayout>);
 	},
 });
 
 FlowRouter.route('/blog/detail/:id', {
 	name: 'blog-detail',
 	action: () => {
-		const BlogDetailPageView = createTemplateForComponent('BlogDetailPage', () => import('../views/blog/BlogDetail'), {
-			attachment: 'at-parent',
-		});
-		appLayout.renderMainLayout({ center: BlogDetailPageView });
+		appLayout.render(<MainLayout><BlogDetailPageView /></MainLayout>);
 	},
 });
 
 FlowRouter.route('/games/detail/:id', {
 	name: 'games-detail',
 	action: () => {
-		const GameDetailPageView = createTemplateForComponent('GameDetailPage', () => import('../views/games/SingleGameDetails'), {
-			attachment: 'at-parent',
-		});
-		appLayout.renderMainLayout({ center: GameDetailPageView });
+		appLayout.render(<MainLayout><GameDetailPageView /></MainLayout>);
 	},
 });
 
 FlowRouter.route('/products/detail/:id', {
 	name: 'products-detail',
 	action: () => {
-		const ProductDetailPageView = createTemplateForComponent('ProductDetailPage', () => import('../views/products/SIngleProductDetails'), {
-			attachment: 'at-parent',
-		});
-		appLayout.renderMainLayout({ center: ProductDetailPageView });
+		appLayout.render(<MainLayout><ProductDetailPageView /></MainLayout>);
 	},
 });

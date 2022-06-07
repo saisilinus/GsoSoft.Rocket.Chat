@@ -1,7 +1,9 @@
 import type { IUser } from '@rocket.chat/core-typings';
 import { Accounts } from 'meteor/accounts-base';
+// @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Meteor } from 'meteor/meteor';
+// @ts-ignore
 import { TAPi18n } from 'meteor/rocketchat:tap-i18n';
 import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
@@ -203,6 +205,7 @@ FlowRouter.route('/legal-notice', {
 
 FlowRouter.route('/room-not-found/:type/:name', {
 	name: 'room-not-found',
+	// @ts-ignore
 	action: ({ type, name } = {}) => {
 		Session.set('roomNotFound', { type, name });
 		appLayout.render(
