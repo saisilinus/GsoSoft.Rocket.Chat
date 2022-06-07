@@ -1,12 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 
-import { TransactionService } from '../services/transaction/service';
+import { EscrowService } from '../services/escrow/service';
 
 if (Meteor.isServer) {
-	const Transactions = new TransactionService();
+	const Escrows = new EscrowService();
 
-	Meteor.publish('transactions.getList', function (paginationOptions, queryOptions) {
+	Meteor.publish('escrow.getList', function (paginationOptions, queryOptions) {
 		check(
 			paginationOptions,
 			Match.ObjectIncluding({
@@ -22,8 +22,9 @@ if (Meteor.isServer) {
 			}),
 		);
 
-		return Transactions.list(paginationOptions, {
+		return Escrows.list(paginationOptions, {
 			sort: queryOptions.sort,
-			query: { ...queryOptions.query, createdBy: Meteor.userId() }});
+			query: { ...queryOptions.query, userId: Meteor.userId() },
+		});
 	});
 }
