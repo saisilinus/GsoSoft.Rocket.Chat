@@ -101,7 +101,6 @@ const PaymentHistory = (): ReactElement => {
 
 	const handleDirectChatRoute = (): void => {
 		setLoading(true);
-		console.log(liveChatData, 'inside usememo');
 		if (Object.keys(liveChatData).length) {
 			// Create a new channel if the General channel is the only one available.
 			// @ts-ignore
