@@ -43,7 +43,7 @@ const BlogView = (): ReactElement => {
 	return (
 		<Page flexDirection='row'>
 			<Page>
-				<TopBar />
+				<TopBar location='blogs' />
 				<PageInlineNavbar />
 				<CreateBlogForm
 					showModal={showModal}

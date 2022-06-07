@@ -1,9 +1,17 @@
 import { TopBarTitle, TopBarToolBox, TopBarActions, TopBarAction, Menu, Box, Icon } from '@rocket.chat/fuselage';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useContext } from 'react';
+import { DispatchPreviousPageContext } from '../contexts/UserPreviousPageContext/GlobalState';
 
-const TopBar = (): ReactElement => (
+type Props = {
+	location?: string
+}
+
+const TopBar = ({location}: Props): ReactElement => {
+	const { dispatch } = useContext(DispatchPreviousPageContext);
+
+	return (
 	<TopBarToolBox>
 		<TopBarTitle>RocketChat App</TopBarTitle>
 		<TopBarActions>
@@ -14,6 +22,7 @@ const TopBar = (): ReactElement => (
 					selectRole: {
 						action: function noRefCheck(): void {
 							// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
+							dispatch({ type: 'ADD_LOCATION', payload: { location: `/${location}` } });
 							FlowRouter.go('/select-role')
 						},
 						label: (
@@ -53,6 +62,6 @@ const TopBar = (): ReactElement => (
 			</Menu>
 		</TopBarActions>
 	</TopBarToolBox>
-);
+)}
 
 export default TopBar;

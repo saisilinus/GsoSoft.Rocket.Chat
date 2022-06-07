@@ -1,4 +1,5 @@
 import { Accordion, Box, Button, Field, InputBox } from '@rocket.chat/fuselage';
+import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Meteor } from 'meteor/meteor';
@@ -17,6 +18,7 @@ const PerfectMoneyVoucher = ({ title, id, onToggle, capitalize }: Props): ReactE
 	const [eVoucherNumber, setEVoucherNumber] = useState('');
 	const [activationCode, setActivationCode] = useState('');
 	const { dispatch } = useContext(DispatchPaymentResultContext);
+	const t = useTranslation()
 
 	const handleGatewaySubmit = (): void => {
 		setEVoucherNumber('');
@@ -49,10 +51,12 @@ const PerfectMoneyVoucher = ({ title, id, onToggle, capitalize }: Props): ReactE
 		// @ts-ignore
 		<Accordion.Item title={title} id={id} onToggle={onToggle}>
 			<Box color='default' fontScale='p2'>
-				<h4>Enter your voucher</h4>
+				{/* @ts-ignore */}
+				<h4>{t('gso_topupView_perfectMoneyVoucher_title')}</h4>
 				<Field>
 					<Field.Row>
-						<Field.Label htmlFor='e-voucher-number'>E-voucher number</Field.Label>
+						{/* @ts-ignore */}
+						<Field.Label htmlFor='e-voucher-number'>{t('gso_topupView_perfectMoneyVoucher_eVoucher')}</Field.Label>
 						<InputBox
 							type='text'
 							id='e-voucher-number'
@@ -61,7 +65,8 @@ const PerfectMoneyVoucher = ({ title, id, onToggle, capitalize }: Props): ReactE
 						/>
 					</Field.Row>
 					<Field.Row>
-						<Field.Label htmlFor='activation-code'>Activation code</Field.Label>
+						{/* @ts-ignore */}
+						<Field.Label htmlFor='activation-code'>{t('gso_topupView_perfectMoneyVoucher_activationCode')}</Field.Label>
 						<InputBox
 							type='text'
 							id='activation-code'
@@ -70,10 +75,12 @@ const PerfectMoneyVoucher = ({ title, id, onToggle, capitalize }: Props): ReactE
 						/>
 					</Field.Row>
 					<Button primary style={{ marginTop: '12px' }} onClick={handleGatewaySubmit}>
-						Submit
+						{/* @ts-ignore */}
+						{t('gso_topupView_perfectMoneyVoucher_submitBtn')}
 					</Button>
 					<Field.Link href='#' style={{ marginTop: '5px' }}>
-						How to buy e-voucher?
+						{/* @ts-ignore */}
+						{t('gso_topupView_perfectMoneyVoucher_eVoucherLink')}
 					</Field.Link>
 				</Field>
 			</Box>

@@ -67,6 +67,7 @@ import './methods/unmuteUserInRoom';
 import './methods/userSetUtcOffset';
 import './methods/transactions';
 import './methods/gateways';
+import './methods/escrow';
 import './methods/addComment';
 import './methods/createBlog';
 import './methods/createGame';

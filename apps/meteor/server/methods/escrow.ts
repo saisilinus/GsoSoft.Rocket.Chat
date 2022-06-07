@@ -31,7 +31,7 @@ Meteor.methods({
 				escrow: 80,
 			},
 		};
-		return { employerConfig, employeeConfig, brokerConfig };
+		return [ employerConfig, employeeConfig, brokerConfig ];
 	},
 	async addEscrow(params: IEscrowCreateParams) {
 		check(
