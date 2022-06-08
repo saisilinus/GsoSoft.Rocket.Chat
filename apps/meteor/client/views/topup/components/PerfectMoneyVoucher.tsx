@@ -27,7 +27,7 @@ const PerfectMoneyVoucher = ({ title, id, onToggle, capitalize }: Props): ReactE
 			'buyCredit',
 			{
 				gateway: 'perfect-money-voucher',
-				quantity: 18,
+				quantity: 80,
 				amount: 524,
 				currency: 'USD',
 			},
@@ -36,7 +36,7 @@ const PerfectMoneyVoucher = ({ title, id, onToggle, capitalize }: Props): ReactE
 					console.log(result, 'success');
 					dispatch({
 						type: 'ADD_RESULT_DETAILS',
-						payload: { credit: result.amount, status: result.status, gateway: capitalize(result.gateway) },
+						payload: { credit: result.quantity, status: result.status, gateway: capitalize(result.gateway) },
 					});
 					FlowRouter.go('/account/payment-result');
 				}

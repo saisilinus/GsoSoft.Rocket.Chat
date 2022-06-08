@@ -29,7 +29,7 @@ const BankTransfer = ({ title, id, onToggle, capitalize }: Props): ReactElement 
 			'buyCredit',
 			{
 				gateway: 'bank-transfer',
-				quantity: 12,
+				quantity: 50,
 				amount: 358,
 				currency: 'KES',
 			},
@@ -38,7 +38,7 @@ const BankTransfer = ({ title, id, onToggle, capitalize }: Props): ReactElement 
 					console.log(result, 'success');
 					dispatch({
 						type: 'ADD_RESULT_DETAILS',
-						payload: { credit: result.amount, status: result.status, gateway: capitalize(result.gateway) },
+						payload: { credit: result.quantity, status: result.status, gateway: capitalize(result.gateway) },
 					});
 					FlowRouter.go('/account/payment-result');
 				}
