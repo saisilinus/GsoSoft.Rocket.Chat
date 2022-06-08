@@ -1,5 +1,6 @@
 import { Accordion, Box, Button } from '@rocket.chat/fuselage'
 import { useTranslation } from '@rocket.chat/ui-contexts';
+import { Meteor } from 'meteor/meteor'
 import React from 'react'
 
 import {dispatchToastMessage} from '../../../lib/toast'
@@ -17,9 +18,19 @@ const BrokerRole = ({ title, id, cmpConfig, credits, onToggle }: Props) => {
     const t = useTranslation()
 
     const handleSubmit = () => {
-      if (cmpConfig.escrow < credits) {
-        // @ts-ignore
-        dispatchToastMessage({type: 'success', message: t('gso_selectRoleView_successMessage')})
+      if (credits >= cmpConfig.escrow) {
+        Meteor.call('addEscrow', {amount: cmpConfig.escrow, type: id}, (error, result) => {
+          if (result) {
+          // @ts-ignore
+          dispatchToastMessage({type: 'success', message: t('gso_selectRoleView_successMessage')})
+          }
+
+          if (error) {
+            // @ts-ignore
+            dispatchToastMessage({type: 'error', message: error})
+          }
+        })
+        
       } else {
         // @ts-ignore
         dispatchToastMessage({type: 'error', message: t('gso_selectRoleView_errorMessage')})

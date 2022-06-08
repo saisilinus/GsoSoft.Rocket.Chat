@@ -46,6 +46,7 @@ const SelectRoleView = () => {
 		Meteor.call('getConfig', (_error, result) => {
 			if (result) {
 				setFetchedRoles(result);
+				console.log(result, 'fetchedRoles')
 				setOpenRole({ open: 'true', id: result[0].id });
 				console.log('Roles were fetched');
 			}
@@ -121,7 +122,7 @@ const SelectRoleView = () => {
 										/>
 									) : null}
 									{role.cmpClass === 'EmployeeRoleFormCmp' ? (
-										<EmployeeRole title={capitalize(role.id)} id={role.id} credits={userCredit} onToggle={onAccordionToggle} />
+										<EmployeeRole title={capitalize(role.id)} id={role.id} credits={userCredit} cmpConfig={role.cmpConfig} onToggle={onAccordionToggle} />
 									) : null}
 									{role.cmpClass === 'BrokerRoleFormCmp' ? (
 										<BrokerRole
