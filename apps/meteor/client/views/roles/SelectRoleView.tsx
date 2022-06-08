@@ -1,8 +1,8 @@
-import { Accordion, Box } from '@rocket.chat/fuselage';
-import { useTranslation } from '@rocket.chat/ui-contexts';
+import { Accordion, Box, ToastBar } from '@rocket.chat/fuselage';
+import { useTranslation, useUser } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
@@ -11,29 +11,49 @@ import { UserPreviousPageContext } from '../../contexts/UserPreviousPageContext/
 import EmployerRole from './components/EmployerRole';
 import EmployeeRole from './components/EmployeeRole';
 import BrokerRole from './components/BrokerRole';
+import { useEndpointData } from '../../hooks/useEndpointData';
 
 const SelectRoleView = () => {
-    const [fetchedRoles, setFetchedRoles] = useState<Record<string, any>[]>([]);
+	const [fetchedRoles, setFetchedRoles] = useState<Record<string, any>[]>([]);
 	const [openRole, setOpenRole] = useState<Record<string, any>>({});
 	const [closeRole, setCloseRole] = useState('');
+	const [userCredit, setUserCredit] = useState(0);
+	const [roleState, setRoleState] = useState('');
 	const t = useTranslation();
 	const capitalize = useCapitalizeAndJoin();
-    const {value} = useContext(UserPreviousPageContext)
+	const { value } = useContext(UserPreviousPageContext);
+	const successMessage = '';
+	const errorMessage = "You don't have enough credit points to chose this role";
 
+	const user = useUser();
+
+	const { username } = user;
+
+	const { value: data } = useEndpointData(
+		'users.info',
+		// @ts-ignore
+		useMemo(() => ({ ...(username && { username }) }), [username]),
+	);
+
+	const _setUserData = useMemo(() => {
+		if (data) {
+			const { user } = data;
+			setUserCredit(user.credit);
+		}
+	}, [data]);
 
 	const getRolesFn = (): void => {
 		Meteor.call('getConfig', (_error, result) => {
 			if (result) {
-                console.log(result, 'fetchedRoles')
-					setFetchedRoles(result);
-                    setOpenRole({ open: 'true', id: result[0].id })
-					console.log('Roles were fetched');
+				setFetchedRoles(result);
+				setOpenRole({ open: 'true', id: result[0].id });
+				console.log('Roles were fetched');
 			}
 		});
 	};
 
 	useEffect(() => {
-        if (!fetchedRoles.length) getRolesFn();
+		if (!fetchedRoles.length) getRolesFn();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fetchedRoles]);
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -70,7 +90,6 @@ const SelectRoleView = () => {
 			setCloseRole(openRole.id);
 		}
 		const accordionItem = e.currentTarget.parentNode;
-        console.log(accordionItem)
 		let open = 'false';
 		if (e.currentTarget.getAttribute('aria-expanded') === 'false') {
 			open = 'true';
@@ -79,11 +98,10 @@ const SelectRoleView = () => {
 	};
 
 	const handleRouteBack = (): void => {
-        console.log(value.location)
 		FlowRouter.go(`${value.location}`);
 	};
-  return (
-    <Page id='topup-page'>
+	return (
+		<Page id='topup-page'>
 			{/* @ts-ignore */}
 			<ProfileHeader title={`${t('gso_selectRoleView_profileHeader')}`} handleRouteBack={handleRouteBack} />
 			<Page.ScrollableContentWithShadow>
@@ -92,17 +110,35 @@ const SelectRoleView = () => {
 				<Accordion style={{ margin: '15px 0' }}>
 					{fetchedRoles.length
 						? fetchedRoles.map((role, index) => (
-                            <div key={index}>
-                                {role.cmpClass === 'EmployerRoleFormCmp' ? <EmployerRole title={capitalize(role.id)} id={role.id} onToggle={onAccordionToggle} /> : null}
-                                {role.cmpClass === 'EmployeeRoleFormCmp' ? <EmployeeRole title={capitalize(role.id)} id={role.id} onToggle={onAccordionToggle} /> : null}
-                                {role.cmpClass === 'BrokerRoleFormCmp' ? <BrokerRole title={capitalize(role.id)} id={role.id} onToggle={onAccordionToggle} /> : null}
-                            </div>
+								<div key={index}>
+									{role.cmpClass === 'EmployerRoleFormCmp' ? (
+										<EmployerRole
+											title={capitalize(role.id)}
+											id={role.id}
+											cmpConfig={role.cmpConfig}
+											credits={userCredit}
+											onToggle={onAccordionToggle}
+										/>
+									) : null}
+									{role.cmpClass === 'EmployeeRoleFormCmp' ? (
+										<EmployeeRole title={capitalize(role.id)} id={role.id} credits={userCredit} onToggle={onAccordionToggle} />
+									) : null}
+									{role.cmpClass === 'BrokerRoleFormCmp' ? (
+										<BrokerRole
+											title={capitalize(role.id)}
+											id={role.id}
+											cmpConfig={role.cmpConfig}
+											credits={userCredit}
+											onToggle={onAccordionToggle}
+										/>
+									) : null}
+								</div>
 						  ))
 						: 'Loading...'}
 				</Accordion>
 			</Page.ScrollableContentWithShadow>
 		</Page>
-  )
-}
+	);
+};
 
-export default SelectRoleView
+export default SelectRoleView;

@@ -1,16 +1,20 @@
 import { Accordion, Box, RadioButton, Button } from '@rocket.chat/fuselage'
+import { useTranslation } from '@rocket.chat/ui-contexts';
 import React, { useState } from 'react'
 
 type Props = {
 	title?: string;
 	id: string;
+    cmpConfig: Record<string, any>
+    credits: number
 	onToggle: (e: React.KeyboardEvent<Element> | React.MouseEvent<Element, MouseEvent>) => void;
 };
 
-const EmployerRole = ({ title, id, onToggle }: Props) => {
+const EmployerRole = ({ title, id, cmpConfig, onToggle }: Props) => {
     const [rank1, setRank1] = useState(false)
     const [rank2, setRank2] = useState(false)
     const [rank3, setRank3] = useState(false)
+    const t = useTranslation()
 
     const hanldeRadioButtonClick = (rank:string): void => {
         if (rank === 'rank1') {
@@ -32,21 +36,24 @@ const EmployerRole = ({ title, id, onToggle }: Props) => {
     // @ts-ignore
 	<Accordion.Item title={title} id={id} onToggle={onToggle}>
         <Box>
-            <p style={{fontSize: '15px', fontWeight: 'bold'}}>Escrow needed. The higher the escrow the higher the rank</p>
+            {/* @ts-ignore */}
+            <p style={{fontSize: '15px', fontWeight: 'bold'}}>{t('gso_selectRoleView_employerRole_subtitle')}</p>
             <Box display='flex' style={{marginTop: '20px'}}>
                 <RadioButton checked={rank1} onClick={() => hanldeRadioButtonClick('rank1')} onChange={() => {}} />
-                <p style={{fontSize: '14px', marginLeft: '9px'}}>Rank 1(50 Credit)</p>
+                <p style={{fontSize: '14px', marginLeft: '9px'}}>{`Rank 1(${cmpConfig.rank1} Credit)`}</p>
             </Box>
             <Box display='flex' style={{marginTop: '20px'}}>
                 <RadioButton checked={rank2} onClick={() => hanldeRadioButtonClick('rank2')} onChange={() => {}} />
-                <p style={{fontSize: '14px', marginLeft: '9px'}}>Rank 2(100 Credit)</p>
+                <p style={{fontSize: '14px', marginLeft: '9px'}}>{`Rank 2(${cmpConfig.rank2} Credit)`}</p>
             </Box>
             <Box display='flex' style={{marginTop: '20px'}}>
                 <RadioButton checked={rank3} onClick={() => hanldeRadioButtonClick('rank3')} onChange={() => {}} />
-                <p style={{fontSize: '14px', marginLeft: '9px'}}>Rank 3(200 Credit)</p>
+                <p style={{fontSize: '14px', marginLeft: '9px'}}>{`Rank 3(${cmpConfig.rank3} Credit)`}</p>
             </Box>
-            <p style={{fontSize: '15px', fontWeight: 'bold', margin: '20px 0'}}>Your fund is currently 100</p>
-            <Button primary style={{float: 'right'}}>Continue</Button>
+            {/* @ts-ignore */}
+            <p style={{fontSize: '15px', fontWeight: 'bold', margin: '20px 0'}}>{t('gso_selectRoleView_employerRole_footer')}</p>
+            {/* @ts-ignore */}
+            <Button primary style={{float: 'right'}}>{t('gso_selectRoleView_employerRole_submitBtn')}</Button>
         </Box>
     </Accordion.Item>
   )
