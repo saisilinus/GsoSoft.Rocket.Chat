@@ -34,15 +34,15 @@ const EmployerRole = ({ title, id, onToggle }: Props) => {
         <Box>
             <p style={{fontSize: '15px', fontWeight: 'bold'}}>Escrow needed. The higher the escrow the higher the rank</p>
             <Box display='flex' style={{marginTop: '20px'}}>
-                <RadioButton checked={rank1} onClick={() => hanldeRadioButtonClick('rank1')} onChange={() => {}} />
+                <RadioButton checked={rank1} onClick={() => hanldeRadioButtonClick('rank1')} />
                 <p style={{fontSize: '14px', marginLeft: '9px'}}>Rank 1(50 Credit)</p>
             </Box>
             <Box display='flex' style={{marginTop: '20px'}}>
-                <RadioButton checked={rank2} onClick={() => hanldeRadioButtonClick('rank2')} onChange={() => {}} />
+                <RadioButton checked={rank2} onClick={() => hanldeRadioButtonClick('rank2')} />
                 <p style={{fontSize: '14px', marginLeft: '9px'}}>Rank 2(100 Credit)</p>
             </Box>
             <Box display='flex' style={{marginTop: '20px'}}>
-                <RadioButton checked={rank3} onClick={() => hanldeRadioButtonClick('rank3')} onChange={() => {}} />
+                <RadioButton checked={rank3} onClick={() => hanldeRadioButtonClick('rank3')} />
                 <p style={{fontSize: '14px', marginLeft: '9px'}}>Rank 3(200 Credit)</p>
             </Box>
             <p style={{fontSize: '15px', fontWeight: 'bold', margin: '20px 0'}}>Your fund is currently 100</p>

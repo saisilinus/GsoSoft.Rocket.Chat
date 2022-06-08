@@ -9,6 +9,7 @@ import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
 import { useCapitalizeAndJoin } from '../../hooks/useCapitalization';
 import { UserPreviousPageContext } from '../../contexts/UserPreviousPageContext/GlobalState';
 import EmployerRole from './components/EmployerRole';
+import EmployeeRole from './components/EmployeeRole';
 
 const SelectRoleView = () => {
     const [fetchedRoles, setFetchedRoles] = useState<Record<string, any>[]>([]);
@@ -92,6 +93,7 @@ const SelectRoleView = () => {
 						? fetchedRoles.map((role, index) => (
                             <div key={index}>
                                 {role.cmpClass === 'EmployerRoleFormCmp' ? <EmployerRole title={capitalize(role.id)} id={role.id} onToggle={onAccordionToggle} /> : null}
+                                {role.cmpClass === 'EmployeeRoleFormCmp' ? <EmployeeRole title={capitalize(role.id)} id={role.id} onToggle={onAccordionToggle} /> : null}
                             </div>
 						  ))
 						: 'Loading...'}
