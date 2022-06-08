@@ -13,6 +13,7 @@ Meteor.methods({
 			cmpConfig: {
 				rank1: 50,
 				rank2: 100,
+				rank3: 200
 			},
 		};
 
