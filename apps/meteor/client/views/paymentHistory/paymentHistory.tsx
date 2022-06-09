@@ -25,7 +25,6 @@ const PaymentHistory = (): ReactElement => {
 	const [openModal, setModal] = useState(false);
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [initialLoad, setInitialLoad] = useState(true);
-	const [channelCreated, setChannelCreated] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [liveChatData, setLiveChatData] = useState<Record<string, any>>({});
 
@@ -85,27 +84,25 @@ const PaymentHistory = (): ReactElement => {
 	const createChannel = () => {
 		Meteor.call('createChannel', 'ryan-livechat', [''], (error, result) => {
 			if (result) {
-				setChannelCreated(true);
 				// eslint-disable-next-line @typescript-eslint/no-use-before-define
-				handleDirectChatRoute();
+				handleDirectChatRoute('true');
 			}
 			if (error) {
 				if (error.error === 'error-duplicate-channel-name') {
-					setChannelCreated(true);
 					// eslint-disable-next-line @typescript-eslint/no-use-before-define
-					handleDirectChatRoute();
+					handleDirectChatRoute('true');
 				}
 			}
 		});
 	};
 
-	const handleDirectChatRoute = (): void => {
+	const handleDirectChatRoute = (channelCreated: string): void => {
 		setLoading(true);
 		if (Object.keys(liveChatData).length) {
 			// Create a new channel if the General channel is the only one available.
 			// @ts-ignore
 			const { result } = liveChatData;
-			if (result.length === 1 && !channelCreated) {
+			if (result.length === 1 && channelCreated === 'false') {
 				createChannel();
 			} else {
 				setLoading(false);
@@ -127,7 +124,7 @@ const PaymentHistory = (): ReactElement => {
 			<ProfileHeader title='Purchase history' handleRouteBack={handleRouteBack} />
 			{/* @ts-ignore */}
 			{openModal ? (
-				<CustomerSupport closeModal={(): void => setModal(false)} directChatRoute={(): void => handleDirectChatRoute()} loading={loading} />
+				<CustomerSupport closeModal={(): void => setModal(false)} directChatRoute={(): void => handleDirectChatRoute('false')} loading={loading} />
 			) : null}
 			<Page.ScrollableContentWithShadow>
 				{isMobile ? (

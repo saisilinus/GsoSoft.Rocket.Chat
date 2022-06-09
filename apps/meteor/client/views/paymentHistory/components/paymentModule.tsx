@@ -5,15 +5,16 @@ import { useCapitalizeAndJoin } from '../../../hooks/useCapitalization';
 import { useFormatDate } from '../../../hooks/useFormatDate';
 
 type Props = {
-	gateway: string;
-	amount: number;
-	quantity: number;
-	currency: string;
-	date: Date;
+	page?: string;
+	gateway?: string;
+	amount?: number;
+	quantity?: number;
+	currency?: string;
+	date?: Date;
 	openModal: React.MouseEventHandler<HTMLElement>;
 };
 
-const PaymentModule = ({ gateway, amount, quantity, currency, openModal, date }: Props): ReactElement => {
+const PaymentModule = ({ page, gateway, amount, quantity, currency, openModal, date }: Props): ReactElement => {
 	const capitalize = useCapitalizeAndJoin();
 	const formatDate = useFormatDate();
 	return (
@@ -25,7 +26,16 @@ const PaymentModule = ({ gateway, amount, quantity, currency, openModal, date }:
 				justifyContent='space-between'
 				style={{ fontWeight: 'bold', background: '#ddd', height: '50px', marginTop: '8px' }}
 			>
-				<span style={{ marginLeft: '10px' }}>{`${capitalize(gateway)}: ${amount} ${capitalize(currency)} - ${quantity} points`}</span>
+				{page === 'escrowHistory' ? (
+					<span style={{ marginLeft: '10px' }}>
+						<span>{`Role: ${capitalize(gateway)}`} {`Amount paid: ${amount}`}</span>
+						<p>{`Status: ${quantity}`}</p>
+					</span>
+				) : (
+					<span style={{ marginLeft: '10px' }}>{`${capitalize(gateway)}: ${amount} ${
+						currency ? capitalize(currency) : ''
+					} - ${quantity} points`}</span>
+				)}
 				<Icon onClick={openModal} style={{ marginRight: '10px', cursor: 'pointer' }} name='info' fontSize='32px' />
 			</Box>
 		</Box>

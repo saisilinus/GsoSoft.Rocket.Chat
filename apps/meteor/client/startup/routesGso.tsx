@@ -12,6 +12,7 @@ const StoreViewPage = lazy(() => import('../views/store/StoreView'));
 const MessagesViewPage = lazy(() => import('../views/messages/MessagesView'));
 const SelectRoleViewPage = lazy(() => import('../views/roles/SelectRoleView'));
 const RoleResultViewPage = lazy(() => import('../views/roles/components/RoleResult'));
+const EscrowHistoryViewPage = lazy(() => import('../views/escrowHistory/escrowHistory'));
 const BlogDetailPageView = lazy(() => import('../views/blog/BlogDetail'));
 const GameDetailPageView = lazy(() => import('../views/games/SingleGameDetails'));
 const ProductDetailPageView = lazy(() => import('../views/products/SIngleProductDetails'));
@@ -65,6 +66,13 @@ FlowRouter.route('/role-result', {
 	name: 'role-result',
 	action: () => {
 		appLayout.render(<MainLayout><RoleResultViewPage /></MainLayout>);
+	},
+});
+
+FlowRouter.route('/escrow-history', {
+	name: 'escrow-history',
+	action: () => {
+		appLayout.render(<MainLayout><EscrowHistoryViewPage /></MainLayout>);
 	},
 });
 
