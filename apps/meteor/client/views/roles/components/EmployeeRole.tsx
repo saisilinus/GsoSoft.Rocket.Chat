@@ -1,8 +1,12 @@
 import { Accordion, Box, Button, TextAreaInput, Field, FieldGroup } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
-import React, { useState } from 'react';
+// @ts-ignore
+import { FlowRouter } from 'meteor/kadira:flow-router';
+import React, { useContext, useState } from 'react';
 
 import { dispatchToastMessage } from '../../../lib/toast';
+import { DispatchPaymentResultContext } from '../../../contexts/PaymentResultContext/GlobalState';
+import { useCapitalizeAndJoin } from '../../../hooks/useCapitalization';
 
 type Props = {
 	title?: string;
@@ -17,6 +21,8 @@ type Props = {
 const EmployeeRole = ({ title, id, credits, cmpConfig, roleState, setRoleState, onToggle }: Props) => {
 	const [bio, setBio] = useState('');
 	const t = useTranslation();
+	const { dispatch } = useContext(DispatchPaymentResultContext);
+    const capitalize = useCapitalizeAndJoin()
 
 	const handleSubmit = () => {
 		if (credits >= cmpConfig.escrow) {
@@ -26,6 +32,11 @@ const EmployeeRole = ({ title, id, credits, cmpConfig, roleState, setRoleState, 
 					setRoleState(roleState + 1);
 					// @ts-ignore
 					dispatchToastMessage({ type: 'success', message: t('gso_selectRoleView_successMessage') });
+					dispatch({
+						type: 'ADD_RESULT_DETAILS',
+						payload: { status: result.status, role: capitalize(result.type) },
+					});
+					FlowRouter.go('/role-result');
 				}
 
 				if (error) {

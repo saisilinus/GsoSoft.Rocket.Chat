@@ -1,7 +1,11 @@
 import { Accordion, Box, RadioButton, Button } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
-import React, { useState } from 'react';
+// @ts-ignore
+import { FlowRouter } from 'meteor/kadira:flow-router';
+import React, { useContext, useState } from 'react';
+import { DispatchPaymentResultContext } from '../../../contexts/PaymentResultContext/GlobalState';
 
+import { useCapitalizeAndJoin } from '../../../hooks/useCapitalization';
 import { dispatchToastMessage } from '../../../lib/toast';
 
 type Props = {
@@ -20,6 +24,8 @@ const EmployerRole = ({ title, id, cmpConfig, credits, roleState, setRoleState, 
 	const [rank3, setRank3] = useState(false);
 	const [rankAmount, setRankAmount] = useState(0);
 	const t = useTranslation();
+    const capitalize = useCapitalizeAndJoin()
+	const { dispatch } = useContext(DispatchPaymentResultContext);
 
 	const hanldeRadioButtonClick = (rank: string, amount: number): void => {
 		setRankAmount(amount);
@@ -46,6 +52,11 @@ const EmployerRole = ({ title, id, cmpConfig, credits, roleState, setRoleState, 
 					setRoleState(roleState + 1);
 					// @ts-ignore
 					dispatchToastMessage({ type: 'success', message: t('gso_selectRoleView_successMessage') });
+                    dispatch({
+						type: 'ADD_RESULT_DETAILS',
+						payload: { status: result.status, role: capitalize(result.type) },
+					});
+					FlowRouter.go('/role-result');
 				}
 
 				if (error) {

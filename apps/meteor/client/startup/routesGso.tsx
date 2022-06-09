@@ -11,6 +11,7 @@ const ProductsViewPage = lazy(() => import('../views/products/ProductsView'));
 const StoreViewPage = lazy(() => import('../views/store/StoreView'));
 const MessagesViewPage = lazy(() => import('../views/messages/MessagesView'));
 const SelectRoleViewPage = lazy(() => import('../views/roles/SelectRoleView'));
+const RoleResultViewPage = lazy(() => import('../views/roles/components/RoleResult'));
 const BlogDetailPageView = lazy(() => import('../views/blog/BlogDetail'));
 const GameDetailPageView = lazy(() => import('../views/games/SingleGameDetails'));
 const ProductDetailPageView = lazy(() => import('../views/products/SIngleProductDetails'));
@@ -57,6 +58,13 @@ FlowRouter.route('/select-role', {
 	name: 'select-role',
 	action: () => {
 		appLayout.render(<MainLayout><SelectRoleViewPage /></MainLayout>);
+	},
+});
+
+FlowRouter.route('/role-result', {
+	name: 'role-result',
+	action: () => {
+		appLayout.render(<MainLayout><RoleResultViewPage /></MainLayout>);
 	},
 });
 
