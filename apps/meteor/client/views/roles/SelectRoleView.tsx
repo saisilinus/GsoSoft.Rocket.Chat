@@ -18,12 +18,10 @@ const SelectRoleView = () => {
 	const [openRole, setOpenRole] = useState<Record<string, any>>({});
 	const [closeRole, setCloseRole] = useState('');
 	const [userCredit, setUserCredit] = useState(0);
-	const [roleState, setRoleState] = useState('');
+	const [roleState, setRoleState] = useState(0);
 	const t = useTranslation();
 	const capitalize = useCapitalizeAndJoin();
 	const { value } = useContext(UserPreviousPageContext);
-	const successMessage = '';
-	const errorMessage = "You don't have enough credit points to chose this role";
 
 	const user = useUser();
 
@@ -32,7 +30,7 @@ const SelectRoleView = () => {
 	const { value: data } = useEndpointData(
 		'users.info',
 		// @ts-ignore
-		useMemo(() => ({ ...(username && { username }) }), [username]),
+		useMemo(() => ({ ...(username && { username }) }), [username, roleState]),
 	);
 
 	const _setUserData = useMemo(() => {
@@ -46,7 +44,7 @@ const SelectRoleView = () => {
 		Meteor.call('getConfig', (_error, result) => {
 			if (result) {
 				setFetchedRoles(result);
-				console.log(result, 'fetchedRoles')
+				console.log(result, 'fetchedRoles');
 				setOpenRole({ open: 'true', id: result[0].id });
 				console.log('Roles were fetched');
 			}
@@ -118,11 +116,21 @@ const SelectRoleView = () => {
 											id={role.id}
 											cmpConfig={role.cmpConfig}
 											credits={userCredit}
+											roleState={roleState}
+											setRoleState={setRoleState}
 											onToggle={onAccordionToggle}
 										/>
 									) : null}
 									{role.cmpClass === 'EmployeeRoleFormCmp' ? (
-										<EmployeeRole title={capitalize(role.id)} id={role.id} credits={userCredit} cmpConfig={role.cmpConfig} onToggle={onAccordionToggle} />
+										<EmployeeRole
+											title={capitalize(role.id)}
+											id={role.id}
+											credits={userCredit}
+											cmpConfig={role.cmpConfig}
+											roleState={roleState}
+											setRoleState={setRoleState}
+											onToggle={onAccordionToggle}
+										/>
 									) : null}
 									{role.cmpClass === 'BrokerRoleFormCmp' ? (
 										<BrokerRole
@@ -130,6 +138,8 @@ const SelectRoleView = () => {
 											id={role.id}
 											cmpConfig={role.cmpConfig}
 											credits={userCredit}
+											roleState={roleState}
+											setRoleState={setRoleState}
 											onToggle={onAccordionToggle}
 										/>
 									) : null}
