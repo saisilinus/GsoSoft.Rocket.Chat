@@ -83,7 +83,7 @@ const GamesView = (): ReactElement => {
 	return (
 		<Page flexDirection='row'>
 			<Page>
-				<TopBar />
+				<TopBar location='games' />
 				<PageInlineNavbar />
 				<Page.Content>
 					<Grid style={{ overflowY: 'auto', overflowX: 'hidden' }}>

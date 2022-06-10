@@ -24,7 +24,7 @@ const LandingView = (): ReactElement => {
 	return (
 		<Page flexDirection='row'>
 			<Page>
-				<TopBar />
+				<TopBar location='home' />
 				<h3 style={{ marginLeft: '20px', marginTop: '10px', fontSize: '20px' }}>Top 10 Blog Posts</h3>
 				<Page.Content>{blogResults.length && blogResults.map((result, index) => <SingleBlogPost key={index} {...result} />)}</Page.Content>
 				{isMobile ? <BottomBar /> : null}

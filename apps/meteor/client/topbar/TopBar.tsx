@@ -1,7 +1,17 @@
 import { TopBarTitle, TopBarToolBox, TopBarActions, TopBarAction, Menu, Box, Icon } from '@rocket.chat/fuselage';
-import React, { ReactElement } from 'react';
+// @ts-ignore
+import { FlowRouter } from 'meteor/kadira:flow-router';
+import React, { ReactElement, useContext } from 'react';
+import { DispatchPreviousPageContext } from '../contexts/UserPreviousPageContext/GlobalState';
 
-const TopBar = (): ReactElement => (
+type Props = {
+	location?: string
+}
+
+const TopBar = ({location}: Props): ReactElement => {
+	const { dispatch } = useContext(DispatchPreviousPageContext);
+
+	return (
 	<TopBarToolBox>
 		<TopBarTitle>RocketChat App</TopBarTitle>
 		<TopBarActions>
@@ -9,7 +19,33 @@ const TopBar = (): ReactElement => (
 			<Menu
 				className='topBarMenu'
 				options={{
-					delete: {
+					selectRole: {
+						action: function noRefCheck(): void {
+							// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
+							dispatch({ type: 'ADD_LOCATION', payload: { location: `/${location}` } });
+							FlowRouter.go('/select-role')
+						},
+						label: (
+							<Box alignItems='center' display='flex'>
+								<Icon mie='x4' name='user' size='x16' />
+								Select a role
+							</Box>
+						),
+					},
+					escrowHistory: {
+						action: function noRefCheck(): void {
+							// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
+							dispatch({ type: 'ADD_LOCATION', payload: { location: `/${location}` } });
+							FlowRouter.go('/escrow-history')
+						},
+						label: (
+							<Box alignItems='center' display='flex'>
+								<Icon mie='x4' name='file' size='x16' />
+								Escrow history
+							</Box>
+						),
+					},
+					logout: {
 						action: function noRefCheck(): void {
 							// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
 							console.log('refCheck');
@@ -21,7 +57,7 @@ const TopBar = (): ReactElement => (
 							</Box>
 						),
 					},
-					makeAdmin: {
+					changePassword: {
 						action: function noRefCheck(): void {
 							// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
 							console.log('refCheck');
@@ -39,6 +75,6 @@ const TopBar = (): ReactElement => (
 			</Menu>
 		</TopBarActions>
 	</TopBarToolBox>
-);
+)}
 
 export default TopBar;
