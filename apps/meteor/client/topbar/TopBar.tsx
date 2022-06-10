@@ -8,73 +8,74 @@ type Props = {
 	location?: string
 }
 
-const TopBar = ({location}: Props): ReactElement => {
+const TopBar = ({ location }: Props): ReactElement => {
 	const { dispatch } = useContext(DispatchPreviousPageContext);
 
 	return (
-	<TopBarToolBox>
-		<TopBarTitle>RocketChat App</TopBarTitle>
-		<TopBarActions>
-			<TopBarAction icon='bell' />
-			<Menu
-				className='topBarMenu'
-				options={{
-					selectRole: {
-						action: function noRefCheck(): void {
-							// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
-							dispatch({ type: 'ADD_LOCATION', payload: { location: `/${location}` } });
-							FlowRouter.go('/select-role')
+		<TopBarToolBox>
+			<TopBarTitle>RocketChat App</TopBarTitle>
+			<TopBarActions>
+				<TopBarAction icon='bell' />
+				<Menu
+					className='topBarMenu'
+					options={{
+						selectRole: {
+							action: function noRefCheck(): void {
+								// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
+								dispatch({ type: 'ADD_LOCATION', payload: { location: `/${location}` } });
+								FlowRouter.go('/select-role');
+							},
+							label: (
+								<Box alignItems='center' display='flex'>
+									<Icon mie='x4' name='user' size='x16' />
+									Select a role
+								</Box>
+							),
 						},
-						label: (
-							<Box alignItems='center' display='flex'>
-								<Icon mie='x4' name='user' size='x16' />
-								Select a role
-							</Box>
-						),
-					},
-					escrowHistory: {
-						action: function noRefCheck(): void {
-							// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
-							dispatch({ type: 'ADD_LOCATION', payload: { location: `/${location}` } });
-							FlowRouter.go('/escrow-history')
+						escrowHistory: {
+							action: function noRefCheck(): void {
+								// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
+								dispatch({ type: 'ADD_LOCATION', payload: { location: `/${location}` } });
+								FlowRouter.go('/escrow-history');
+							},
+							label: (
+								<Box alignItems='center' display='flex'>
+									<Icon mie='x4' name='file' size='x16' />
+									Escrow history
+								</Box>
+							),
 						},
-						label: (
-							<Box alignItems='center' display='flex'>
-								<Icon mie='x4' name='file' size='x16' />
-								Escrow history
-							</Box>
-						),
-					},
-					logout: {
-						action: function noRefCheck(): void {
-							// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
-							console.log('refCheck');
+						logout: {
+							action: function noRefCheck(): void {
+								// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
+								console.log('refCheck');
+							},
+							label: (
+								<Box alignItems='center' color='danger' display='flex'>
+									<Icon mie='x4' name='trash' size='x16' />
+									Logout
+								</Box>
+							),
 						},
-						label: (
-							<Box alignItems='center' color='danger' display='flex'>
-								<Icon mie='x4' name='trash' size='x16' />
-								Logout
-							</Box>
-						),
-					},
-					changePassword: {
-						action: function noRefCheck(): void {
-							// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
-							console.log('refCheck');
+						changePassword: {
+							action: function noRefCheck(): void {
+								// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
+								console.log('refCheck');
+							},
+							label: (
+								<Box alignItems='center' display='flex'>
+									<Icon mie='x4' name='key' size='x16' />
+									Change Password
+								</Box>
+							),
 						},
-						label: (
-							<Box alignItems='center' display='flex'>
-								<Icon mie='x4' name='key' size='x16' />
-								Change Password
-							</Box>
-						),
-					},
-				}}
-			>
-				<Icon name='avatar' size='x30' />
-			</Menu>
-		</TopBarActions>
-	</TopBarToolBox>
-)}
+					}}
+				>
+					<Icon name='avatar' size='x30' />
+				</Menu>
+			</TopBarActions>
+		</TopBarToolBox>
+	);
+};
 
 export default TopBar;

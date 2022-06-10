@@ -28,7 +28,7 @@ const SelectRoleView = () => {
 	const { username } = user;
 
 	const { value: data } = useEndpointData(
-		'users.info',
+		`/v1/users.info`,
 		// @ts-ignore
 		useMemo(() => ({ ...(username && { username }) }), [username, roleState]),
 	);
@@ -109,42 +109,42 @@ const SelectRoleView = () => {
 				<Accordion style={{ margin: '15px 0' }}>
 					{fetchedRoles.length
 						? fetchedRoles.map((role, index) => (
-								<div key={index}>
-									{role.cmpClass === 'EmployerRoleFormCmp' ? (
-										<EmployerRole
-											title={capitalize(role.id)}
-											id={role.id}
-											cmpConfig={role.cmpConfig}
-											credits={userCredit}
-											roleState={roleState}
-											setRoleState={setRoleState}
-											onToggle={onAccordionToggle}
-										/>
-									) : null}
-									{role.cmpClass === 'EmployeeRoleFormCmp' ? (
-										<EmployeeRole
-											title={capitalize(role.id)}
-											id={role.id}
-											credits={userCredit}
-											cmpConfig={role.cmpConfig}
-											roleState={roleState}
-											setRoleState={setRoleState}
-											onToggle={onAccordionToggle}
-										/>
-									) : null}
-									{role.cmpClass === 'BrokerRoleFormCmp' ? (
-										<BrokerRole
-											title={capitalize(role.id)}
-											id={role.id}
-											cmpConfig={role.cmpConfig}
-											credits={userCredit}
-											roleState={roleState}
-											setRoleState={setRoleState}
-											onToggle={onAccordionToggle}
-										/>
-									) : null}
-								</div>
-						  ))
+							<div key={index}>
+								{role.cmpClass === 'EmployerRoleFormCmp' ? (
+									<EmployerRole
+										title={capitalize(role.id)}
+										id={role.id}
+										cmpConfig={role.cmpConfig}
+										credits={userCredit}
+										roleState={roleState}
+										setRoleState={setRoleState}
+										onToggle={onAccordionToggle}
+									/>
+								) : null}
+								{role.cmpClass === 'EmployeeRoleFormCmp' ? (
+									<EmployeeRole
+										title={capitalize(role.id)}
+										id={role.id}
+										credits={userCredit}
+										cmpConfig={role.cmpConfig}
+										roleState={roleState}
+										setRoleState={setRoleState}
+										onToggle={onAccordionToggle}
+									/>
+								) : null}
+								{role.cmpClass === 'BrokerRoleFormCmp' ? (
+									<BrokerRole
+										title={capitalize(role.id)}
+										id={role.id}
+										cmpConfig={role.cmpConfig}
+										credits={userCredit}
+										roleState={roleState}
+										setRoleState={setRoleState}
+										onToggle={onAccordionToggle}
+									/>
+								) : null}
+							</div>
+						))
 						: 'Loading...'}
 				</Accordion>
 			</Page.ScrollableContentWithShadow>
