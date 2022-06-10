@@ -83,7 +83,7 @@ const ProductsView = (): ReactElement => {
 	return (
 		<Page flexDirection='row'>
 			<Page>
-				<TopBar />
+				<TopBar location='products' />
 				<PageInlineNavbar />
 				<Page.Content>
 					<Grid style={{ overflowY: 'auto', overflowX: 'hidden' }}>

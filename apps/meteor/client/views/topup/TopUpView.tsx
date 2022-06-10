@@ -74,15 +74,13 @@ const TopUpView = (): ReactElement => {
 				} else {
 					gateways.map((gateway, index) => {
 						// The server requires us to wait atleast 2 seconds before sending in a new request.
-						if (index > 0) {
-							setTimeout(() => {
-								Meteor.call('addGateway', gateway, (_error, result) => {
-									if (result) {
-										console.log('Gateway was created');
-									}
-								});
-							}, 4000);
-						}
+						setTimeout(() => {
+							Meteor.call('addGateway', gateway, (_error, result) => {
+								if (result) {
+									console.log('Gateway was created');
+								}
+							});
+						}, 10000);
 
 						// Refetch the games once its done adding.
 						if (index === gateways.length - 1) {
@@ -146,7 +144,8 @@ const TopUpView = (): ReactElement => {
 
 	return (
 		<Page id='topup-page'>
-			<ProfileHeader title='Topup' handleRouteBack={handleRouteBack} />
+			{/* @ts-ignore */}
+			<ProfileHeader title={t('gso_topupView_profileHeader')} handleRouteBack={handleRouteBack} />
 			<Page.ScrollableContentWithShadow>
 				{/* @ts-ignore */}
 				<h3 style={{ fontSize: '19px', marginBottom: '10px' }}>{t('gso_topupView_title')}</h3>

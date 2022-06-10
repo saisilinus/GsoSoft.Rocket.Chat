@@ -2,6 +2,7 @@ import { Accordion, Box, Button, Field, InputBox } from '@rocket.chat/fuselage';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Meteor } from 'meteor/meteor';
+import { useTranslation } from '@rocket.chat/ui-contexts';
 import React, { ReactElement, useContext, useState } from 'react';
 
 import { DispatchPaymentResultContext } from '../../../contexts/PaymentResultContext/GlobalState';
@@ -17,6 +18,7 @@ const BankTransfer = ({ title, id, onToggle, capitalize }: Props): ReactElement 
 	const [bank1, setBank1] = useState(3424323434);
 	const [bank2, setBank2] = useState(6464534675);
 	const [bank3, setBank3] = useState(1454254545);
+	const t = useTranslation()
 	const { dispatch } = useContext(DispatchPaymentResultContext);
 
 	const handleGatewaySubmit = (): void => {
@@ -27,7 +29,7 @@ const BankTransfer = ({ title, id, onToggle, capitalize }: Props): ReactElement 
 			'buyCredit',
 			{
 				gateway: 'bank-transfer',
-				quantity: 12,
+				quantity: 50,
 				amount: 358,
 				currency: 'KES',
 			},
@@ -36,7 +38,7 @@ const BankTransfer = ({ title, id, onToggle, capitalize }: Props): ReactElement 
 					console.log(result, 'success');
 					dispatch({
 						type: 'ADD_RESULT_DETAILS',
-						payload: { credit: result.amount, status: result.status, gateway: capitalize(result.gateway) },
+						payload: { credit: result.quantity, status: result.status, gateway: capitalize(result.gateway) },
 					});
 					FlowRouter.go('/account/payment-result');
 				}
@@ -52,7 +54,8 @@ const BankTransfer = ({ title, id, onToggle, capitalize }: Props): ReactElement 
 		// @ts-ignore
 		<Accordion.Item title={title} id={id} onToggle={onToggle}>
 			<Box color='default' fontScale='p2'>
-				<p style={{ fontSize: '16px' }}>You need to transfer 150 RMB to the bank act below </p>
+				{/* @ts-ignore */}
+				<p style={{ fontSize: '16px' }}>{t('gso_topupView_bankTransfer')}</p>
 				<Field>
 					<Field.Label htmlFor='bank-1'>Bank 1</Field.Label>
 					<Field.Row>
@@ -67,7 +70,8 @@ const BankTransfer = ({ title, id, onToggle, capitalize }: Props): ReactElement 
 						<InputBox type='text' id='bank-3' value={bank3} onChange={(e: any): void => setBank3(e.target.value)} />
 					</Field.Row>
 					<Button primary style={{ marginTop: '12px' }} onClick={handleGatewaySubmit}>
-						I have transferred
+						{/* @ts-ignore */}
+						{t('gso_topupView_bankTransferBtn')}
 					</Button>
 				</Field>
 			</Box>
