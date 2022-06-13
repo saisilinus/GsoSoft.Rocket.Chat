@@ -29,8 +29,8 @@ const SelectRoleView = (): ReactElement => {
 	const { username } = user;
 
 	const { value: data } = useEndpointData(
-		`/v1/users.info`,
 		// @ts-ignore
+		`/v1/users.info`,
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		useMemo(() => ({ ...(username && { username }) }), [username, roleState]),
 	);
@@ -38,6 +38,7 @@ const SelectRoleView = (): ReactElement => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const _setUserData = useMemo(() => {
 		if (data) {
+			// @ts-ignore
 			const { user } = data;
 			setUserCredit(user.credit);
 		}

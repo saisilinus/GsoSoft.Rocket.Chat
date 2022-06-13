@@ -89,7 +89,8 @@ const EscrowHistory = (): ReactElement => {
 	};
 
 	useEffect(() => {
-		fetchEscrowRecords('initialFetch');
+		Meteor.call('reset')
+		// fetchEscrowRecords('initialFetch');
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (

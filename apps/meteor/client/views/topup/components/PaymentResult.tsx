@@ -25,14 +25,15 @@ const PaymentResult = (): ReactElement => {
 	const { username } = user;
 
 	const { value: data } = useEndpointData(
-		'users.info',
 		// @ts-ignore
+		'/v1/users.info',
 		useMemo(() => ({ ...(username && { username }) }), [username]),
 	);
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const _setUserData = useMemo(() => {
 		if (data) {
+			// @ts-ignore
 			const { user } = data;
 			setUserCredit(user.credit);
 		}
