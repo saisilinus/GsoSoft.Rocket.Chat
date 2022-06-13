@@ -1,4 +1,4 @@
-import { Accordion, Box } from '@rocket.chat/fuselage';
+import { Accordion, Box, Button } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
@@ -22,7 +22,7 @@ const TopUpView = (): ReactElement => {
 	const gateways = [
 		{
 			_id: 'perfect-money-voucher',
-			show: true,
+			show: false,
 			active: true,
 			sortOrder: 1,
 			icon: 'voucher',
@@ -30,7 +30,7 @@ const TopUpView = (): ReactElement => {
 		},
 		{
 			_id: 'bank-transfer',
-			show: true,
+			show: false,
 			active: true,
 			sortOrder: 2,
 			icon: 'bank',
@@ -38,7 +38,7 @@ const TopUpView = (): ReactElement => {
 		},
 		{
 			_id: 'usdt-blockchain',
-			show: true,
+			show: false,
 			active: true,
 			sortOrder: 3,
 			icon: 'usdt',
@@ -46,11 +46,11 @@ const TopUpView = (): ReactElement => {
 		},
 		{
 			_id: 'credit-card',
-			show: true,
+			show: false,
 			active: true,
 			sortOrder: 4,
 			icon: 'card',
-			cmpClass: 'CreditCard',
+			cmpClass: '',
 		},
 		{
 			_id: 'paypal',
@@ -73,19 +73,21 @@ const TopUpView = (): ReactElement => {
 					console.log('Gateways were fetched');
 				} else {
 					gateways.map((gateway, index) => {
-						// The server requires us to wait atleast 2 seconds before sending in a new request.
-						setTimeout(() => {
-							Meteor.call('addGateway', gateway, (_error, result) => {
-								if (result) {
-									console.log('Gateway was created');
-								}
-							});
-						}, 10000);
-
-						// Refetch the games once its done adding.
-						if (index === gateways.length - 1) {
+						// The server requires us to wait atleast 10 seconds before sending in a new request.
+						if (index < gateways.length - 1) {
+							console.log(gateways.length, 'length');
+							setTimeout(() => {
+								Meteor.call('addGateway', gateway, (_error, result) => {
+									if (result) {
+										console.log('Gateway was created');
+									}
+								});
+							}, 10000);
+						} else {
+							// Refetch the games once its done adding.
 							getGatewaysFn();
 						}
+
 						return null;
 					});
 				}
@@ -142,6 +144,17 @@ const TopUpView = (): ReactElement => {
 		FlowRouter.go('/account/view-profile');
 	};
 
+	const handleDelete = (id: string): void => {
+		Meteor.call('deleteGateway', id, (_error, result) => {
+			if (result) {
+				console.log(`Deleted ${id} gateway`);
+			}
+		});
+	};
+
+	console.log(sortedGateways, 'sortedGateways');
+	// Add a button to delete gateways
+	// Re-add the gateways
 	return (
 		<Page id='topup-page'>
 			{/* @ts-ignore */}
@@ -177,6 +190,7 @@ const TopUpView = (): ReactElement => {
 									<Box color='default' fontScale='p2'>
 										{capitalize(gateway._id)}
 									</Box>
+									<Button onClick={(): void => handleDelete(gateway._id)}>Delete</Button>
 								</Accordion.Item>
 						  ))
 						: 'Loading...'}

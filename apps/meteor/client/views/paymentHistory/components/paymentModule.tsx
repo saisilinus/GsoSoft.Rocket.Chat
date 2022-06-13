@@ -28,7 +28,9 @@ const PaymentModule = ({ page, gateway, amount, quantity, currency, openModal, d
 			>
 				{page === 'escrowHistory' ? (
 					<span style={{ marginLeft: '10px' }}>
-						<span>{`Role: ${capitalize(gateway)}`} {`Amount paid: ${amount}`}</span>
+						<span>
+							{`Role: ${capitalize(gateway)}`} {`Amount paid: ${amount}`}
+						</span>
 						<p>{`Status: ${quantity}`}</p>
 					</span>
 				) : (

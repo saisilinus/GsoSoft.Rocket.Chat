@@ -139,7 +139,8 @@ Meteor.methods({
 
 		const results = await Transactions.list(paginationOptions, {
 			sort: queryOptions.sort,
-			query: { ...queryOptions.query, createdBy: Meteor.userId() }}).toArray();
+			query: { ...queryOptions.query, createdBy: Meteor.userId() },
+		}).toArray();
 
 		return results;
 	},

@@ -3,11 +3,11 @@ import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Meteor } from 'meteor/meteor';
-import React, { useContext } from 'react';
+import React, { ReactElement, useContext } from 'react';
 
-import { dispatchToastMessage } from '../../../lib/toast';
 import { DispatchPaymentResultContext } from '../../../contexts/PaymentResultContext/GlobalState';
 import { useCapitalizeAndJoin } from '../../../hooks/useCapitalization';
+import { dispatchToastMessage } from '../../../lib/toast';
 
 type Props = {
 	title?: string;
@@ -19,19 +19,19 @@ type Props = {
 	onToggle: (e: React.KeyboardEvent<Element> | React.MouseEvent<Element, MouseEvent>) => void;
 };
 
-const BrokerRole = ({ title, id, cmpConfig, credits, roleState, setRoleState, onToggle }: Props) => {
+const BrokerRole = ({ title, id, cmpConfig, credits, roleState, setRoleState, onToggle }: Props): ReactElement => {
 	const t = useTranslation();
-  const { dispatch } = useContext(DispatchPaymentResultContext);
-  const capitalize = useCapitalizeAndJoin()
+	const { dispatch } = useContext(DispatchPaymentResultContext);
+	const capitalize = useCapitalizeAndJoin();
 
-	const handleSubmit = () => {
+	const handleSubmit = (): void => {
 		if (credits >= cmpConfig.escrow) {
 			Meteor.call('addEscrow', { amount: cmpConfig.escrow, type: id }, (error, result) => {
 				if (result) {
 					setRoleState(roleState + 1);
 					// @ts-ignore
 					dispatchToastMessage({ type: 'success', message: t('gso_selectRoleView_successMessage') });
-          dispatch({
+					dispatch({
 						type: 'ADD_RESULT_DETAILS',
 						payload: { status: result.status, role: capitalize(result.type) },
 					});

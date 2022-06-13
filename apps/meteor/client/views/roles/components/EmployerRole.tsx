@@ -2,9 +2,10 @@ import { Accordion, Box, RadioButton, Button } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import React, { useContext, useState } from 'react';
-import { DispatchPaymentResultContext } from '../../../contexts/PaymentResultContext/GlobalState';
+import { Meteor } from 'meteor/meteor';
+import React, { ReactElement, useContext, useState } from 'react';
 
+import { DispatchPaymentResultContext } from '../../../contexts/PaymentResultContext/GlobalState';
 import { useCapitalizeAndJoin } from '../../../hooks/useCapitalization';
 import { dispatchToastMessage } from '../../../lib/toast';
 
@@ -18,13 +19,13 @@ type Props = {
 	onToggle: (e: React.KeyboardEvent<Element> | React.MouseEvent<Element, MouseEvent>) => void;
 };
 
-const EmployerRole = ({ title, id, cmpConfig, credits, roleState, setRoleState, onToggle }: Props) => {
+const EmployerRole = ({ title, id, cmpConfig, credits, roleState, setRoleState, onToggle }: Props): ReactElement => {
 	const [rank1, setRank1] = useState(false);
 	const [rank2, setRank2] = useState(false);
 	const [rank3, setRank3] = useState(false);
 	const [rankAmount, setRankAmount] = useState(0);
 	const t = useTranslation();
-    const capitalize = useCapitalizeAndJoin()
+	const capitalize = useCapitalizeAndJoin();
 	const { dispatch } = useContext(DispatchPaymentResultContext);
 
 	const hanldeRadioButtonClick = (rank: string, amount: number): void => {
@@ -44,7 +45,7 @@ const EmployerRole = ({ title, id, cmpConfig, credits, roleState, setRoleState, 
 		}
 	};
 
-	const handleSubmit = () => {
+	const handleSubmit = (): void => {
 		if (credits >= rankAmount) {
 			Meteor.call('addEscrow', { amount: rankAmount, type: id }, (error, result) => {
 				if (result) {
@@ -52,7 +53,7 @@ const EmployerRole = ({ title, id, cmpConfig, credits, roleState, setRoleState, 
 					setRoleState(roleState + 1);
 					// @ts-ignore
 					dispatchToastMessage({ type: 'success', message: t('gso_selectRoleView_successMessage') });
-                    dispatch({
+					dispatch({
 						type: 'ADD_RESULT_DETAILS',
 						payload: { status: result.status, role: capitalize(result.type) },
 					});
@@ -78,21 +79,24 @@ const EmployerRole = ({ title, id, cmpConfig, credits, roleState, setRoleState, 
 				{/* @ts-ignore */}
 				<p style={{ fontSize: '15px', fontWeight: 'bold' }}>{t('gso_selectRoleView_employerRole_subtitle')}</p>
 				<Box display='flex' style={{ marginTop: '20px' }}>
+					{/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
 					<RadioButton checked={rank1} onClick={(): void => hanldeRadioButtonClick('rank1', 50)} onChange={(): void => {}} />
 					<p style={{ fontSize: '14px', marginLeft: '9px' }}>{`Rank 1(${cmpConfig.rank1} Credit)`}</p>
 				</Box>
 				<Box display='flex' style={{ marginTop: '20px' }}>
+					{/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
 					<RadioButton checked={rank2} onClick={(): void => hanldeRadioButtonClick('rank2', 100)} onChange={(): void => {}} />
 					<p style={{ fontSize: '14px', marginLeft: '9px' }}>{`Rank 2(${cmpConfig.rank2} Credit)`}</p>
 				</Box>
 				<Box display='flex' style={{ marginTop: '20px' }}>
+					{/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
 					<RadioButton checked={rank3} onClick={(): void => hanldeRadioButtonClick('rank3', 200)} onChange={(): void => {}} />
 					<p style={{ fontSize: '14px', marginLeft: '9px' }}>{`Rank 3(${cmpConfig.rank3} Credit)`}</p>
 				</Box>
 				{/* @ts-ignore */}
 				<p style={{ fontSize: '15px', fontWeight: 'bold', margin: '20px 0' }}>{t('gso_selectRoleView_employerRole_footer')}</p>
 				<Button primary style={{ float: 'right' }} onClick={handleSubmit}>
-				    {/* @ts-ignore */}
+					{/* @ts-ignore */}
 					{t('gso_selectRoleView_employerRole_submitBtn')}
 				</Button>
 			</Box>

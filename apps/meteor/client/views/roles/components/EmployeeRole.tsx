@@ -2,11 +2,12 @@ import { Accordion, Box, Button, TextAreaInput, Field, FieldGroup } from '@rocke
 import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import React, { useContext, useState } from 'react';
+import { Meteor } from 'meteor/meteor';
+import React, { ReactElement, useContext, useState } from 'react';
 
-import { dispatchToastMessage } from '../../../lib/toast';
 import { DispatchPaymentResultContext } from '../../../contexts/PaymentResultContext/GlobalState';
 import { useCapitalizeAndJoin } from '../../../hooks/useCapitalization';
+import { dispatchToastMessage } from '../../../lib/toast';
 
 type Props = {
 	title?: string;
@@ -18,13 +19,13 @@ type Props = {
 	onToggle: (e: React.KeyboardEvent<Element> | React.MouseEvent<Element, MouseEvent>) => void;
 };
 
-const EmployeeRole = ({ title, id, credits, cmpConfig, roleState, setRoleState, onToggle }: Props) => {
+const EmployeeRole = ({ title, id, credits, cmpConfig, roleState, setRoleState, onToggle }: Props): ReactElement => {
 	const [bio, setBio] = useState('');
 	const t = useTranslation();
 	const { dispatch } = useContext(DispatchPaymentResultContext);
-    const capitalize = useCapitalizeAndJoin()
+	const capitalize = useCapitalizeAndJoin();
 
-	const handleSubmit = () => {
+	const handleSubmit = (): void => {
 		if (credits >= cmpConfig.escrow) {
 			Meteor.call('addEscrow', { amount: cmpConfig.escrow, type: id }, (error, result) => {
 				if (result) {

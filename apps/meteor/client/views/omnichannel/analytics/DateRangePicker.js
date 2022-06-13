@@ -24,8 +24,8 @@ const getWeekRange = (daysToSubtractFromStart, daysToSubtractFromEnd) => ({
 	start: formatToDateInput(moment().subtract(daysToSubtractFromStart, 'day')),
 	end: formatToDateInput(moment().subtract(daysToSubtractFromEnd, 'day')),
 });
-
-const DateRangePicker = ({ onChange = (range) => {}, initialLoad, ...props }) => {
+// eslint-disable-next-line no-unused-vars
+const DateRangePicker = ({ onChange = (_range) => {}, initialLoad, ...props }) => {
 	const t = useTranslation();
 	const [range, setRange] = useState({ start: '', end: '' });
 

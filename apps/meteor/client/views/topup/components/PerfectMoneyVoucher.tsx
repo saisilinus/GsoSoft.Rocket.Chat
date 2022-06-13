@@ -18,7 +18,7 @@ const PerfectMoneyVoucher = ({ title, id, onToggle, capitalize }: Props): ReactE
 	const [eVoucherNumber, setEVoucherNumber] = useState('');
 	const [activationCode, setActivationCode] = useState('');
 	const { dispatch } = useContext(DispatchPaymentResultContext);
-	const t = useTranslation()
+	const t = useTranslation();
 
 	const handleGatewaySubmit = (): void => {
 		setEVoucherNumber('');

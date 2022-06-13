@@ -1,19 +1,20 @@
-import { Accordion, Box, ToastBar } from '@rocket.chat/fuselage';
+import { Accordion } from '@rocket.chat/fuselage';
 import { useTranslation, useUser } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { Meteor } from 'meteor/meteor';
+import React, { ReactElement, useContext, useEffect, useMemo, useState } from 'react';
 
 import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
-import { useCapitalizeAndJoin } from '../../hooks/useCapitalization';
 import { UserPreviousPageContext } from '../../contexts/UserPreviousPageContext/GlobalState';
-import EmployerRole from './components/EmployerRole';
-import EmployeeRole from './components/EmployeeRole';
-import BrokerRole from './components/BrokerRole';
+import { useCapitalizeAndJoin } from '../../hooks/useCapitalization';
 import { useEndpointData } from '../../hooks/useEndpointData';
+import BrokerRole from './components/BrokerRole';
+import EmployeeRole from './components/EmployeeRole';
+import EmployerRole from './components/EmployerRole';
 
-const SelectRoleView = () => {
+const SelectRoleView = (): ReactElement => {
 	const [fetchedRoles, setFetchedRoles] = useState<Record<string, any>[]>([]);
 	const [openRole, setOpenRole] = useState<Record<string, any>>({});
 	const [closeRole, setCloseRole] = useState('');
@@ -30,9 +31,11 @@ const SelectRoleView = () => {
 	const { value: data } = useEndpointData(
 		'users.info',
 		// @ts-ignore
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		useMemo(() => ({ ...(username && { username }) }), [username, roleState]),
 	);
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const _setUserData = useMemo(() => {
 		if (data) {
 			const { user } = data;

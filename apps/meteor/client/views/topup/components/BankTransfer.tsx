@@ -1,8 +1,8 @@
 import { Accordion, Box, Button, Field, InputBox } from '@rocket.chat/fuselage';
+import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Meteor } from 'meteor/meteor';
-import { useTranslation } from '@rocket.chat/ui-contexts';
 import React, { ReactElement, useContext, useState } from 'react';
 
 import { DispatchPaymentResultContext } from '../../../contexts/PaymentResultContext/GlobalState';
@@ -18,7 +18,7 @@ const BankTransfer = ({ title, id, onToggle, capitalize }: Props): ReactElement 
 	const [bank1, setBank1] = useState(3424323434);
 	const [bank2, setBank2] = useState(6464534675);
 	const [bank3, setBank3] = useState(1454254545);
-	const t = useTranslation()
+	const t = useTranslation();
 	const { dispatch } = useContext(DispatchPaymentResultContext);
 
 	const handleGatewaySubmit = (): void => {

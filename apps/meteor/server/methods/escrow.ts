@@ -13,7 +13,7 @@ Meteor.methods({
 			cmpConfig: {
 				rank1: 50,
 				rank2: 100,
-				rank3: 200
+				rank3: 200,
 			},
 		};
 
@@ -32,7 +32,7 @@ Meteor.methods({
 				escrow: 80,
 			},
 		};
-		return [ employerConfig, employeeConfig, brokerConfig ];
+		return [employerConfig, employeeConfig, brokerConfig];
 	},
 	async addEscrow(params: IEscrowCreateParams) {
 		check(

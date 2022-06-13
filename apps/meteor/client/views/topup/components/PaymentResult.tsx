@@ -15,7 +15,7 @@ const PaymentResult = (): ReactElement => {
 	const previousPageDispatch = useContext(DispatchPreviousPageContext);
 	const { status, gateway } = useContext(PaymentResultContext);
 	const { value } = useContext(UserPreviousPageContext);
-	const [userCredit, setUserCredit] = useState(0)
+	const [userCredit, setUserCredit] = useState(0);
 
 	const successMessage = `You have successfully paid using`;
 	const errorMessage = `Your transaction has failed using`;
@@ -24,12 +24,13 @@ const PaymentResult = (): ReactElement => {
 
 	const { username } = user;
 
-    const { value: data } = useEndpointData(
+	const { value: data } = useEndpointData(
 		'users.info',
 		// @ts-ignore
 		useMemo(() => ({ ...(username && { username }) }), [username]),
 	);
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const _setUserData = useMemo(() => {
 		if (data) {
 			const { user } = data;
