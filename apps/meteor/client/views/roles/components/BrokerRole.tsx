@@ -50,26 +50,28 @@ const BrokerRole = ({ title, id, cmpConfig, credits, roleState, setRoleState, on
 		}
 	};
 	return (
-		// @ts-ignore
-		<Accordion.Item title={title} id={id} onToggle={onToggle}>
-			<Box>
-				<p style={{ fontSize: '15px', fontWeight: 'bold' }}>{`Please escrow ${cmpConfig.escrow} credits to secure the role`}</p>
-				{/* @ts-ignore */}
-				<p style={{ fontSize: '14px', color: '#808080', marginTop: '10px' }}>{t('gso_selectRoleView_brokerRole_subtitle')}</p>
-
-				<p
-					style={{ fontSize: '14px', color: '#808080', marginTop: '10px' }}
-				>{`After you submit, ${cmpConfig.escrow} credits will be deducted from your fund`}</p>
-
-				{/* @ts-ignore */}
-				<p style={{ fontSize: '15px', fontWeight: 'bold', margin: '20px 0' }}>{t('gso_selectRoleView_brokerRole_footer')}</p>
-
-				<Button primary style={{ float: 'right', marginTop: '20px' }} onClick={handleSubmit}>
+		<Accordion>
+			{/* @ts-ignore */}
+			<Accordion.Item title={title} id={id} onToggle={onToggle}>
+				<Box>
+					<p style={{ fontSize: '15px', fontWeight: 'bold' }}>{`Please escrow ${cmpConfig.escrow} credits to secure the role`}</p>
 					{/* @ts-ignore */}
-					{t('gso_selectRoleView_brokerRole_submitBtn')}
-				</Button>
-			</Box>
-		</Accordion.Item>
+					<p style={{ fontSize: '14px', color: '#808080', marginTop: '10px' }}>{t('gso_selectRoleView_brokerRole_subtitle')}</p>
+
+					<p
+						style={{ fontSize: '14px', color: '#808080', marginTop: '10px' }}
+					>{`After you submit, ${cmpConfig.escrow} credits will be deducted from your fund`}</p>
+
+					{/* @ts-ignore */}
+					<p style={{ fontSize: '15px', fontWeight: 'bold', margin: '20px 0' }}>{t('gso_selectRoleView_brokerRole_footer')}</p>
+
+					<Button primary style={{ float: 'right', marginTop: '20px' }} onClick={handleSubmit}>
+						{/* @ts-ignore */}
+						{t('gso_selectRoleView_brokerRole_submitBtn')}
+					</Button>
+				</Box>
+			</Accordion.Item>
+		</Accordion>
 	);
 };
 

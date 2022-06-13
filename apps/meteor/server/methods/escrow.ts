@@ -11,6 +11,7 @@ Meteor.methods({
 		const employerConfig = {
 			id: 'employer',
 			cmpClass: 'EmployerRoleFormCmp',
+			show: false,
 			cmpConfig: {
 				rank1: 50,
 				rank2: 100,
@@ -20,6 +21,7 @@ Meteor.methods({
 
 		const employeeConfig = {
 			id: 'employee',
+			show: false,
 			cmpClass: 'EmployeeRoleFormCmp',
 			cmpConfig: {
 				escrow: 50,
@@ -28,12 +30,30 @@ Meteor.methods({
 
 		const brokerConfig = {
 			id: 'broker',
+			show: false,
 			cmpClass: 'BrokerRoleFormCmp',
 			cmpConfig: {
 				escrow: 80,
 			},
 		};
-		return [employerConfig, employeeConfig, brokerConfig];
+
+		const broker2Config = {
+			id: 'broker2',
+			show: true,
+			cmpClass: 'Broker2RoleFormCmp',
+			cmpConfig: {
+				escrow: 80,
+			},
+		};
+
+		const broker3Config = {
+			id: 'broker3',
+			show: false,
+			cmpConfig: {
+				escrow: 80,
+			},
+		};
+		return [employerConfig, employeeConfig, brokerConfig, broker2Config, broker3Config];
 	},
 	async addEscrow(params: IEscrowCreateParams) {
 		check(
