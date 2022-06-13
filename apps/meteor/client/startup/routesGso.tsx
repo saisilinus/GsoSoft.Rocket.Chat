@@ -1,5 +1,6 @@
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
+// @ts-ignore
 import React, { lazy } from 'react';
 
 import { appLayout } from '../lib/appLayout';
