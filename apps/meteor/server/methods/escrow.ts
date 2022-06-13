@@ -4,6 +4,7 @@ import { check, Match } from 'meteor/check';
 import { EscrowService } from '../services/escrow/service';
 import { IEscrowCreateParams, IEscrow, IEscrowUpdateParams } from '../../definition/IEscrow';
 import { Users } from '../../app/models/server';
+import { EscrowsModel } from '../../app/models/server/raw';
 
 Meteor.methods({
 	getConfig() {
@@ -69,6 +70,10 @@ Meteor.methods({
 		await Escrows.delete(escrowId);
 
 		return true;
+	},
+
+	async reset() {
+		await EscrowsModel.deleteMany({});
 	},
 
 	async getOneEscrow(escrowId: IEscrow['_id']) {

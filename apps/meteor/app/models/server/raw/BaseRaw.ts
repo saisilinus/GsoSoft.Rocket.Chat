@@ -84,7 +84,7 @@ export class BaseRaw<T, C extends DefaultFields<T> = undefined> implements IBase
 		this.trash = trash as unknown as Collection<RocketChatRecordDeleted<T>>;
 
 		const indexes = this.modelIndexes();
-		if (indexes?.length) {
+		if (Array.isArray(indexes)) {
 			this.col.createIndexes(indexes).catch((e) => {
 				console.warn(`Error creating indexes for ${this.name}`, e);
 			});
