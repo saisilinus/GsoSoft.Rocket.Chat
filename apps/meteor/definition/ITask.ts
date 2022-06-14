@@ -9,7 +9,7 @@ export interface ITask extends IRocketChatRecord {
 	title: string;
 	description: string;
 	startDate: Date;
-	endDate: number;
+	endDate: Date;
 	assignedBy: string;
 	assignedTo: string;
 	type: 'daily' | 'longterm' | 'achievements';
@@ -20,10 +20,7 @@ export interface ITask extends IRocketChatRecord {
 
 export type ITaskLean = Omit<ITask, '_id' | '_updatedAt'>;
 
-export type ITaskCreateParams = PartialBy<
-	Omit<ITask, '_id' | '_updatedAt' | 'startDate' | 'endDate' | 'assignedBy' | 'assignedTo'>,
-	'sortOrder'
->;
+export type ITaskCreateParams = PartialBy<Omit<ITask, '_id' | '_updatedAt' | 'startDate' | 'assignedBy' | 'assignedTo'>, 'sortOrder'>;
 
 export type ITaskUpdateParams = AtLeastOne<ITaskLean>;
 

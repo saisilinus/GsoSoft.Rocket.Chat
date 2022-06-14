@@ -17,7 +17,6 @@ export class TaskService extends ServiceClassInternal implements ITaskService {
 			...params,
 			...(params.sortOrder ? { sortOrder: params.sortOrder } : { sortOrder: 0 }),
 			startDate: new Date(),
-			endDate: -1,
 			assignedBy: '',
 			assignedTo: '',
 		};
@@ -52,7 +51,7 @@ export class TaskService extends ServiceClassInternal implements ITaskService {
 
 	list(
 		{ offset, count }: IPaginationOptions = { offset: 0, count: 50 },
-		{ sort, query }: IQueryOptions<ITask> = { sort: {} },
+		{ sort, query }: IQueryOptions<ITask> = { sort: { endDate: 1, sortOrder: -1 } },
 	): Cursor<ITask> {
 		return this.TaskModel.find(
 			{ ...query },

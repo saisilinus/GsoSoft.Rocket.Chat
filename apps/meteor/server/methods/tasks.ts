@@ -2,8 +2,14 @@ import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 
 import { TaskService } from '../services/task/service';
+import { TasksModel } from '../../app/models/server/raw';
+import { sampleTasks } from '../../../data/tasks';
 
 Meteor.methods({
+	async seed() {
+		await TasksModel.insertMany(sampleTasks);
+	},
+
 	async addTask(params) {
 		check(
 			params,
@@ -14,6 +20,7 @@ Meteor.methods({
 				status: Match.OneOf(-1, 0, 1),
 				reward: Number,
 				sortOrder: Match.Optional(Number),
+				endDate: Date,
 			}),
 		);
 
@@ -72,12 +79,13 @@ Meteor.methods({
 		check(
 			params,
 			Match.ObjectIncluding({
-				show: Match.Optional(Boolean),
-				active: Match.Optional(Boolean),
+				title: Match.Optional(String),
+				description: Match.Optional(String),
+				type: Match.Optional(Match.OneOf('daily', 'longterm', 'achievements')),
+				status: Match.Optional(Match.OneOf(-1, 0, 1)),
+				reward: Match.Optional(Number),
 				sortOrder: Match.Optional(Number),
-				icon: Match.Optional(String),
-				cmpClass: Match.Optional(String),
-				cmpConfig: Match.Optional(Object),
+				endDate: Match.Optional(Date),
 			}),
 		);
 
