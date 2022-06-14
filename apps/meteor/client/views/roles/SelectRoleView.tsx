@@ -47,7 +47,7 @@ const SelectRoleView = (): ReactElement => {
 			if (result) {
 				setFetchedRoles(result);
 				console.log(result, 'fetchedRoles');
-				setOpenRole({ open: 'true', id: result[0].id });
+				// setOpenRole({ open: 'true', id: result[0].id });
 				console.log('Roles were fetched');
 			}
 		});
@@ -109,45 +109,34 @@ const SelectRoleView = (): ReactElement => {
 				{/* @ts-ignore */}
 				<p style={{ fontSize: '16px' }}>{t('gso_selectRoleView_info')}</p>
 				<Accordion style={{ margin: '15px 0' }}>
-					<Accordion.Item title='test'></Accordion.Item>
 					{fetchedRoles.length
-						? fetchedRoles.map((role) => Components({id: role.id, cmpClass: role.cmpClass, cmpConfig: role.cmpConfig, show: role.show, roleState, setRoleState, onAccordionToggle, userCredit, capitalize})
-							// <div key={index}>
-							// 	{role.cmpClass === 'EmployerRoleFormCmp' ? (
-							// 		<EmployerRole
-							// 			title={capitalize(role.id)}
-							// 			id={role.id}
-							// 			cmpConfig={role.cmpConfig}
-							// 			credits={userCredit}
-							// 			roleState={roleState}
-							// 			setRoleState={setRoleState}
-							// 			onToggle={onAccordionToggle}
-							// 		/>
-							// 	) : null}
-							// 	{role.cmpClass === 'EmployeeRoleFormCmp' ? (
-							// 		<EmployeeRole
-							// 			title={capitalize(role.id)}
-							// 			id={role.id}
-							// 			credits={userCredit}
-							// 			cmpConfig={role.cmpConfig}
-							// 			roleState={roleState}
-							// 			setRoleState={setRoleState}
-							// 			onToggle={onAccordionToggle}
-							// 		/>
-							// 	) : null}
-							// 	{role.cmpClass === 'BrokerRoleFormCmp' ? (
-							// 		<BrokerRole
-							// 			title={capitalize(role.id)}
-							// 			id={role.id}
-							// 			cmpConfig={role.cmpConfig}
-							// 			credits={userCredit}
-							// 			roleState={roleState}
-							// 			setRoleState={setRoleState}
-							// 			onToggle={onAccordionToggle}
-							// 		/>
-							// 	) : null}
-							// </div>)
-						)
+						? fetchedRoles.map((role) => {
+								if (role.cmpClass === undefined || role.cmpClass === '') {
+									return (
+										<Accordion>
+											<Accordion.Item title={capitalize(role.id)} disabled={true} />
+										</Accordion>
+									);
+								}
+
+								if (role.show === false) {
+									return (
+										// @ts-ignore
+										<Accordion.Item title={capitalize(role.id)} id={role.id} onToggle={onAccordionToggle}>
+											{Components({
+												id: role.id,
+												cmpClass: role.cmpClass,
+												cmpConfig: role.cmpConfig,
+												show: role.show,
+												roleState,
+												setRoleState,
+												userCredit,
+												capitalize,
+											})}
+										</Accordion.Item>
+									);
+								}
+						  })
 						: 'Loading...'}
 				</Accordion>
 			</Page.ScrollableContentWithShadow>

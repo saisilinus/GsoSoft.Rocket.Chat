@@ -10,16 +10,14 @@ import { useCapitalizeAndJoin } from '../../../hooks/useCapitalization';
 import { dispatchToastMessage } from '../../../lib/toast';
 
 type Props = {
-	title?: string;
 	id: string;
 	cmpConfig: Record<string, any>;
 	credits: number;
 	roleState: number;
 	setRoleState: Function;
-	onToggle: (e: React.KeyboardEvent<Element> | React.MouseEvent<Element, MouseEvent>) => void;
 };
 
-const EmployerRole = ({ title, id, cmpConfig, credits, roleState, setRoleState, onToggle }: Props): ReactElement => {
+const EmployerRole = ({ id, cmpConfig, credits, roleState, setRoleState }: Props): ReactElement => {
 	const [rank1, setRank1] = useState(false);
 	const [rank2, setRank2] = useState(false);
 	const [rank3, setRank3] = useState(false);
@@ -73,8 +71,6 @@ const EmployerRole = ({ title, id, cmpConfig, credits, roleState, setRoleState, 
 	};
 
 	return (
-		// @ts-ignore
-		<Accordion.Item title={title} id={id} onToggle={onToggle}>
 			<Box>
 				{/* @ts-ignore */}
 				<p style={{ fontSize: '15px', fontWeight: 'bold' }}>{t('gso_selectRoleView_employerRole_subtitle')}</p>
@@ -100,7 +96,6 @@ const EmployerRole = ({ title, id, cmpConfig, credits, roleState, setRoleState, 
 					{t('gso_selectRoleView_employerRole_submitBtn')}
 				</Button>
 			</Box>
-		</Accordion.Item>
 	);
 };
 

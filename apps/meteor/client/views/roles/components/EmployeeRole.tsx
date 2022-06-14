@@ -10,16 +10,14 @@ import { useCapitalizeAndJoin } from '../../../hooks/useCapitalization';
 import { dispatchToastMessage } from '../../../lib/toast';
 
 type Props = {
-	title?: string;
 	id: string;
 	credits: number;
 	cmpConfig: Record<string, any>;
 	roleState: number;
 	setRoleState: Function;
-	onToggle: (e: React.KeyboardEvent<Element> | React.MouseEvent<Element, MouseEvent>) => void;
 };
 
-const EmployeeRole = ({ title, id, credits, cmpConfig, roleState, setRoleState, onToggle }: Props): ReactElement => {
+const EmployeeRole = ({ id, credits, cmpConfig, roleState, setRoleState }: Props): ReactElement => {
 	const [bio, setBio] = useState('');
 	const t = useTranslation();
 	const { dispatch } = useContext(DispatchPaymentResultContext);
@@ -53,8 +51,6 @@ const EmployeeRole = ({ title, id, credits, cmpConfig, roleState, setRoleState, 
 	};
 
 	return (
-		// @ts-ignore
-		<Accordion.Item title={title} id={id} onToggle={onToggle}>
 			<Box>
 				<FieldGroup>
 					<Field>
@@ -70,7 +66,6 @@ const EmployeeRole = ({ title, id, credits, cmpConfig, roleState, setRoleState, 
 					{t('gso_selectRoleView_employeeRole_submitBtn')}
 				</Button>
 			</Box>
-		</Accordion.Item>
 	);
 };
 

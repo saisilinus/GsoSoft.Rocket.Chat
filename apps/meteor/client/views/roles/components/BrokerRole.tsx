@@ -10,16 +10,14 @@ import { useCapitalizeAndJoin } from '../../../hooks/useCapitalization';
 import { dispatchToastMessage } from '../../../lib/toast';
 
 type Props = {
-	title?: string;
 	id: string;
 	cmpConfig: Record<string, any>;
 	credits: number;
 	roleState: number;
 	setRoleState: Function;
-	onToggle: (e: React.KeyboardEvent<Element> | React.MouseEvent<Element, MouseEvent>) => void;
 };
 
-const BrokerRole = ({ title, id, cmpConfig, credits, roleState, setRoleState, onToggle }: Props): ReactElement => {
+const BrokerRole = ({ id, cmpConfig, credits, roleState, setRoleState }: Props): ReactElement => {
 	const t = useTranslation();
 	const { dispatch } = useContext(DispatchPaymentResultContext);
 	const capitalize = useCapitalizeAndJoin();
@@ -50,28 +48,23 @@ const BrokerRole = ({ title, id, cmpConfig, credits, roleState, setRoleState, on
 		}
 	};
 	return (
-		<Accordion>
-			{/* @ts-ignore */}
-			<Accordion.Item title={title} id={id} onToggle={onToggle}>
-				<Box>
-					<p style={{ fontSize: '15px', fontWeight: 'bold' }}>{`Please escrow ${cmpConfig.escrow} credits to secure the role`}</p>
+			<Box>
+				<p style={{ fontSize: '15px', fontWeight: 'bold' }}>{`Please escrow ${cmpConfig.escrow} credits to secure the role`}</p>
+				{/* @ts-ignore */}
+				<p style={{ fontSize: '14px', color: '#808080', marginTop: '10px' }}>{t('gso_selectRoleView_brokerRole_subtitle')}</p>
+
+				<p
+					style={{ fontSize: '14px', color: '#808080', marginTop: '10px' }}
+				>{`After you submit, ${cmpConfig.escrow} credits will be deducted from your fund`}</p>
+
+				{/* @ts-ignore */}
+				<p style={{ fontSize: '15px', fontWeight: 'bold', margin: '20px 0' }}>{t('gso_selectRoleView_brokerRole_footer')}</p>
+
+				<Button primary style={{ float: 'right', marginTop: '20px' }} onClick={handleSubmit}>
 					{/* @ts-ignore */}
-					<p style={{ fontSize: '14px', color: '#808080', marginTop: '10px' }}>{t('gso_selectRoleView_brokerRole_subtitle')}</p>
-
-					<p
-						style={{ fontSize: '14px', color: '#808080', marginTop: '10px' }}
-					>{`After you submit, ${cmpConfig.escrow} credits will be deducted from your fund`}</p>
-
-					{/* @ts-ignore */}
-					<p style={{ fontSize: '15px', fontWeight: 'bold', margin: '20px 0' }}>{t('gso_selectRoleView_brokerRole_footer')}</p>
-
-					<Button primary style={{ float: 'right', marginTop: '20px' }} onClick={handleSubmit}>
-						{/* @ts-ignore */}
-						{t('gso_selectRoleView_brokerRole_submitBtn')}
-					</Button>
-				</Box>
-			</Accordion.Item>
-		</Accordion>
+					{t('gso_selectRoleView_brokerRole_submitBtn')}
+				</Button>
+			</Box>
 	);
 };
 
