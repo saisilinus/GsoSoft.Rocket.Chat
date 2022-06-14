@@ -47,16 +47,22 @@ Meteor.methods({
 			throw new Meteor.Error('error-invalid-user', 'Invalid user');
 		}
 
-		const query = { _id: Meteor.userId() };
-		const updateData = { role: params.type };
-		await Users.update(query, { $set: updateData, $inc: { credit: -params.amount } });
-
 		const Escrows = new EscrowService();
+
+		const duplicate = await Escrows.findByUserId(Meteor.userId());
+
+		if (duplicate) {
+			throw new Meteor.Error('duplicate-escrow', 'Users can only create one escrow');
+		}
 
 		const escrow = await Escrows.create({
 			...params,
 			userId: Meteor.userId(),
 		});
+
+		const query = { _id: Meteor.userId() };
+		const updateData = { role: params.type };
+		await Users.update(query, { $set: updateData, $inc: { credit: -params.amount } });
 
 		return escrow;
 	},

@@ -24,23 +24,23 @@ export class EscrowService extends ServiceClassInternal implements IEscrowServic
 		return this.EscrowModel.findOneById(result.insertedId);
 	}
 
-	async delete(gatewayId: string): Promise<void> {
-		await this.getEscrow(gatewayId);
-		await this.EscrowModel.removeById(gatewayId);
+	async delete(escrowId: string): Promise<void> {
+		await this.getEscrow(escrowId);
+		await this.EscrowModel.removeById(escrowId);
 	}
 
-	async getEscrow(gatewayId: string): Promise<IEscrow> {
-		const gateway = await this.EscrowModel.findOneById(gatewayId);
-		if (!gateway) {
-			throw new Error('gateway-does-not-exist');
+	async getEscrow(escrowId: string): Promise<IEscrow> {
+		const escrow = await this.EscrowModel.findOneById(escrowId);
+		if (!escrow) {
+			throw new Error('escrow-does-not-exist');
 		}
-		return gateway;
+		return escrow;
 	}
 
-	async update(gatewayId: string, params: IEscrowUpdateParams): Promise<IEscrow> {
-		await this.getEscrow(gatewayId);
+	async update(escrowId: string, params: IEscrowUpdateParams): Promise<IEscrow> {
+		await this.getEscrow(escrowId);
 		const query = {
-			_id: gatewayId,
+			_id: escrowId,
 		};
 		const updateData = {
 			...params,
@@ -61,5 +61,9 @@ export class EscrowService extends ServiceClassInternal implements IEscrowServic
 				skip: offset,
 			},
 		);
+	}
+
+	async findByUserId(userId: IEscrow['userId']): Promise<IEscrow | null> {
+		return this.EscrowModel.findOne({ userId });
 	}
 }
