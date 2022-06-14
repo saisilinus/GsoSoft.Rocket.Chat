@@ -120,6 +120,7 @@ export interface IUser extends IRocketChatRecord {
 	lastLogin?: Date;
 	bio?: string;
 	avatarOrigin?: string;
+	consecutiveLogins?: number;
 	avatarETag?: string;
 	utcOffset?: number;
 	language?: string;

@@ -92,6 +92,7 @@ import './methods/updateGame';
 import './methods/updateProduct';
 import './methods/updateTag';
 import './methods/setRandomTrustScore';
+import './methods/setUserReward';
 import './publications/messages';
 import './publications/room';
 import './publications/settings';
