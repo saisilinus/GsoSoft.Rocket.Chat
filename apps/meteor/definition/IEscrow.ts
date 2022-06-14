@@ -27,4 +27,5 @@ export interface IEscrowService {
 	update(EscrowId: IEscrow['_id'], params: IEscrowUpdateParams): Promise<IEscrow>;
 	delete(EscrowId: IEscrow['_id']): Promise<void>;
 	getEscrow(EscrowId: IEscrow['_id']): Promise<IEscrow>;
+	findByUserId(userId: IEscrow['userId']): Promise<IEscrow | null>;
 }
