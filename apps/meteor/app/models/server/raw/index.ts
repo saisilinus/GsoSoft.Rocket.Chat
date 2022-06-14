@@ -76,6 +76,7 @@ import { ProductsRaw } from './Products';
 import { TagsRaw } from './Tags';
 import { CommentsRaw } from './Comments';
 import { EscrowsRaw } from './Escrows';
+import { TasksRaw } from './Tasks';
 
 const trashCollection = trash.rawCollection();
 
@@ -103,6 +104,7 @@ const prefix = 'rocketchat_';
 
 export const GatewaysModel = new GatewaysRaw(db.collection('gateways'));
 export const EscrowsModel = new EscrowsRaw(db.collection('escrows'));
+export const TasksModel = new TasksRaw(db.collection('tasks'));
 export const TransactionsModel = new TransactionsRaw(db.collection('transactions'));
 export const BlogsModel = new BlogsRaw(db.collection('blogs'));
 export const GamesModel = new GamesRaw(db.collection('games'));
