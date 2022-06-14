@@ -75,6 +75,7 @@ import { GamesRaw } from './Games';
 import { ProductsRaw } from './Products';
 import { TagsRaw } from './Tags';
 import { CommentsRaw } from './Comments';
+import { EscrowsRaw } from './Escrows';
 
 const trashCollection = trash.rawCollection();
 
@@ -101,6 +102,7 @@ const { db } = MongoInternals.defaultRemoteCollectionDriver().mongo;
 const prefix = 'rocketchat_';
 
 export const GatewaysModel = new GatewaysRaw(db.collection('gateways'));
+export const EscrowsModel = new EscrowsRaw(db.collection('escrows'));
 export const TransactionsModel = new TransactionsRaw(db.collection('transactions'));
 export const BlogsModel = new BlogsRaw(db.collection('blogs'));
 export const GamesModel = new GamesRaw(db.collection('games'));

@@ -4,7 +4,6 @@ import { check, Match } from 'meteor/check';
 import { TransactionService } from '../services/transaction/service';
 import { ITransactionCreateParams, ITransaction, ITransactionUpdateParams } from '../../definition/ITransaction';
 import { Users } from '../../app/models/server';
-import { UpdateObject } from '../../definition/IUpdate';
 
 Meteor.methods({
 	// Mock server
@@ -27,9 +26,7 @@ Meteor.methods({
 
 		if (nonce < 8) {
 			const query = { _id: Meteor.userId() };
-			const user = await Users.findOneById(Meteor.userId());
-			const updateData = { ...new UpdateObject(), credit: user.credit ? user.credit + params.quantity : params.quantity };
-			await Users.update(query, { $set: updateData });
+			await Users.update(query, { $inc: { credit: params.quantity } });
 		}
 
 		const Transactions = new TransactionService();
@@ -140,7 +137,10 @@ Meteor.methods({
 
 		const Transactions = new TransactionService();
 
-		const results = await Transactions.list(paginationOptions, queryOptions).toArray();
+		const results = await Transactions.list(paginationOptions, {
+			sort: queryOptions.sort,
+			query: { ...queryOptions.query, createdBy: Meteor.userId() },
+		}).toArray();
 
 		return results;
 	},
