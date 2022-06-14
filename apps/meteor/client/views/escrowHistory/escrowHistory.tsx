@@ -45,7 +45,7 @@ const EscrowHistory = (): ReactElement => {
 			// Create a new channel if the General channel is the only one available.
 			// @ts-ignore
 			const { result } = liveChatData;
-			if (result.length === 5 && channelCreated === 'false') {
+			if (result.length === 1 && channelCreated === 'false') {
 				createChannel();
 			} else {
 				setLoading(false);
@@ -89,8 +89,8 @@ const EscrowHistory = (): ReactElement => {
 	};
 
 	useEffect(() => {
-		Meteor.call('reset')
-		// fetchEscrowRecords('initialFetch');
+		// Meteor.call('reset')
+		fetchEscrowRecords('initialFetch');
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (

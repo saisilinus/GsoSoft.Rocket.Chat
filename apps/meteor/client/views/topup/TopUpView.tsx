@@ -10,6 +10,7 @@ import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
 import { useCapitalizeAndJoin } from '../../hooks/useCapitalization';
 import BankTransfer from './components/BankTransfer';
+import Components from './components/Components';
 import PerfectMoneyVoucher from './components/PerfectMoneyVoucher';
 import './topup.css';
 
@@ -19,77 +20,16 @@ const TopUpView = (): ReactElement => {
 	const [closeGateway, setCloseGateway] = useState('');
 	const t = useTranslation();
 	const capitalize = useCapitalizeAndJoin();
-	const gateways = [
-		{
-			_id: 'perfect-money-voucher',
-			show: false,
-			active: true,
-			sortOrder: 1,
-			icon: 'voucher',
-			cmpClass: 'PerfectMoneyVoucher',
-		},
-		{
-			_id: 'bank-transfer',
-			show: false,
-			active: true,
-			sortOrder: 2,
-			icon: 'bank',
-			cmpClass: 'BankTransfer',
-		},
-		{
-			_id: 'usdt-blockchain',
-			show: false,
-			active: true,
-			sortOrder: 3,
-			icon: 'usdt',
-			cmpClass: 'UsdtBlockChain',
-		},
-		{
-			_id: 'credit-card',
-			show: false,
-			active: true,
-			sortOrder: 4,
-			icon: 'card',
-			cmpClass: '',
-		},
-		{
-			_id: 'paypal',
-			show: true,
-			active: true,
-			sortOrder: 5,
-			icon: 'paypal-icon',
-			cmpClass: 'PaypalClass',
-		},
-	];
-
-	const sortedGateways = useMemo(() => fetchedGateways.sort((a, b) => a.sortOrder - b.sortOrder), [fetchedGateways]);
 
 	const getGatewaysFn = (): void => {
-		Meteor.call('getGateways', {}, {}, (_error, result) => {
+		Meteor.call('getStaticGateways', {}, {}, (_error, result) => {
 			if (result) {
 				if (result.length) {
 					setFetchedGateways(result);
-					setOpenGateway({ open: 'true', id: result[0]._id });
+					// setOpenGateway({ open: 'true', id: result[0]._id });
 					console.log('Gateways were fetched');
 				} else {
-					gateways.map((gateway, index) => {
-						// The server requires us to wait atleast 10 seconds before sending in a new request.
-						if (index < gateways.length - 1) {
-							console.log(gateways.length, 'length');
-							setTimeout(() => {
-								Meteor.call('addGateway', gateway, (_error, result) => {
-									if (result) {
-										console.log('Gateway was created');
-									}
-								});
-							}, 10000);
-						} else {
-							// Refetch the games once its done adding.
-							getGatewaysFn();
-						}
-
-						return null;
-					});
+					console.log(_error, 'error')
 				}
 			}
 		});
@@ -144,17 +84,6 @@ const TopUpView = (): ReactElement => {
 		FlowRouter.go('/account/view-profile');
 	};
 
-	const handleDelete = (id: string): void => {
-		Meteor.call('deleteGateway', id, (_error, result) => {
-			if (result) {
-				console.log(`Deleted ${id} gateway`);
-			}
-		});
-	};
-
-	console.log(sortedGateways, 'sortedGateways');
-	// Add a button to delete gateways
-	// Re-add the gateways
 	return (
 		<Page id='topup-page'>
 			{/* @ts-ignore */}
@@ -165,34 +94,28 @@ const TopUpView = (): ReactElement => {
 				{/* @ts-ignore */}
 				<p style={{ fontSize: '16px' }}>{t('gso_topupView_info')}</p>
 				<Accordion style={{ margin: '15px 0' }}>
-					{sortedGateways.length ? (
-						<>
-							<PerfectMoneyVoucher
-								title={capitalize(sortedGateways[0]._id)}
-								id={sortedGateways[0]._id}
-								onToggle={(e): void => onAccordionToggle(e)}
-								capitalize={capitalize}
-							/>
-							<BankTransfer
-								title={capitalize(sortedGateways[1]._id)}
-								id={sortedGateways[1]._id}
-								onToggle={(e): void => onAccordionToggle(e)}
-								capitalize={capitalize}
-							/>
-						</>
-					) : (
-						'Loading...'
-					)}
-					{sortedGateways.length
-						? sortedGateways.slice(2).map((gateway, index) => (
-								// @ts-ignore
-								<Accordion.Item title={capitalize(gateway._id)} onToggle={(e): void => onAccordionToggle(e)} id={gateway._id} key={index}>
-									<Box color='default' fontScale='p2'>
-										{capitalize(gateway._id)}
-									</Box>
-									<Button onClick={(): void => handleDelete(gateway._id)}>Delete</Button>
-								</Accordion.Item>
-						  ))
+					{fetchedGateways.length
+						? fetchedGateways.map((gateway) => { 
+							if (gateway.cmpClass === undefined || gateway.cmpClass === '') {
+								return (
+										<Accordion.Item title={capitalize(gateway._id)} disabled={true} />
+								);
+							}
+
+							if (gateway.show === false) {
+								return (
+									// @ts-ignore
+									<Accordion.Item title={capitalize(gateway._id)} id={gateway._id} onToggle={onAccordionToggle}>
+										{Components({
+											id: gateway._id,
+											cmpClass: gateway.cmpClass,
+											capitalize,
+											onAccordionToggle
+										})}
+									</Accordion.Item>
+								);
+							}
+})
 						: 'Loading...'}
 				</Accordion>
 			</Page.ScrollableContentWithShadow>

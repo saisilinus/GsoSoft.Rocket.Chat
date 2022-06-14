@@ -10,11 +10,10 @@ import { DispatchPaymentResultContext } from '../../../contexts/PaymentResultCon
 type Props = {
 	title?: string;
 	id: string;
-	onToggle: (e: React.KeyboardEvent<Element> | React.MouseEvent<Element, MouseEvent>) => void;
 	capitalize: Function;
 };
 
-const PerfectMoneyVoucher = ({ title, id, onToggle, capitalize }: Props): ReactElement => {
+const PerfectMoneyVoucher = ({ title, id, capitalize }: Props): ReactElement => {
 	const [eVoucherNumber, setEVoucherNumber] = useState('');
 	const [activationCode, setActivationCode] = useState('');
 	const { dispatch } = useContext(DispatchPaymentResultContext);
@@ -48,8 +47,6 @@ const PerfectMoneyVoucher = ({ title, id, onToggle, capitalize }: Props): ReactE
 		);
 	};
 	return (
-		// @ts-ignore
-		<Accordion.Item title={title} id={id} onToggle={onToggle}>
 			<Box color='default' fontScale='p2'>
 				{/* @ts-ignore */}
 				<h4>{t('gso_topupView_perfectMoneyVoucher_title')}</h4>
@@ -84,7 +81,6 @@ const PerfectMoneyVoucher = ({ title, id, onToggle, capitalize }: Props): ReactE
 					</Field.Link>
 				</Field>
 			</Box>
-		</Accordion.Item>
 	);
 };
 

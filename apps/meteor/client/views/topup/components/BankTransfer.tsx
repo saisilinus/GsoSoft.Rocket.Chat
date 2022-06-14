@@ -10,11 +10,10 @@ import { DispatchPaymentResultContext } from '../../../contexts/PaymentResultCon
 type Props = {
 	title?: string;
 	id: string;
-	onToggle: (e: React.KeyboardEvent<Element> | React.MouseEvent<Element, MouseEvent>) => void;
 	capitalize: Function;
 };
 
-const BankTransfer = ({ title, id, onToggle, capitalize }: Props): ReactElement => {
+const BankTransfer = ({ title, id, capitalize }: Props): ReactElement => {
 	const [bank1, setBank1] = useState(3424323434);
 	const [bank2, setBank2] = useState(6464534675);
 	const [bank3, setBank3] = useState(1454254545);
@@ -51,8 +50,6 @@ const BankTransfer = ({ title, id, onToggle, capitalize }: Props): ReactElement 
 	};
 
 	return (
-		// @ts-ignore
-		<Accordion.Item title={title} id={id} onToggle={onToggle}>
 			<Box color='default' fontScale='p2'>
 				{/* @ts-ignore */}
 				<p style={{ fontSize: '16px' }}>{t('gso_topupView_bankTransfer')}</p>
@@ -75,7 +72,6 @@ const BankTransfer = ({ title, id, onToggle, capitalize }: Props): ReactElement 
 					</Button>
 				</Field>
 			</Box>
-		</Accordion.Item>
 	);
 };
 
