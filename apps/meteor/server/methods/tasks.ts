@@ -3,7 +3,7 @@ import { check, Match } from 'meteor/check';
 
 import { TaskService } from '../services/task/service';
 import { TasksModel } from '../../app/models/server/raw';
-import { sampleTasks } from '../../../data/tasks';
+import { sampleTasks } from '../../app/models/server/raw/StaticTasks';
 
 Meteor.methods({
 	async seed() {

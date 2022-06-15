@@ -23,7 +23,7 @@ const SelectRoleView = (): ReactElement => {
 	const { value } = useContext(UserPreviousPageContext);
 
 	const user = useUser();
-
+	// @ts-ignore
 	const { username } = user;
 
 	const { value: data } = useEndpointData(
@@ -64,11 +64,15 @@ const SelectRoleView = (): ReactElement => {
 			if (element) {
 				// If the Accordion Item is closed then open it, otherwise close it.
 				if (openRole.open === 'true') {
+					// @ts-ignore
 					element.firstElementChild.setAttribute('aria-expanded', 'true');
+					// @ts-ignore
 					element.lastElementChild.className =
 						'rcx-box rcx-box--full rcx-box--animated rcx-accordion-item__panel--expanded rcx-accordion-item__panel';
 				} else {
+					// @ts-ignore
 					element.firstElementChild.setAttribute('aria-expanded', 'false');
+					// @ts-ignore
 					element.lastElementChild.className = 'rcx-box rcx-box--full rcx-box--animated rcx-accordion-item__panel';
 				}
 			}
@@ -78,8 +82,10 @@ const SelectRoleView = (): ReactElement => {
 	const _closePreviousAccordionItem = useMemo(() => {
 		if (closeRole) {
 			const element = document.querySelector(`#${closeRole}`);
-			if (element) {
+			if (element !== null) {
+				// @ts-ignore
 				element.firstElementChild.setAttribute('aria-expanded', 'false');
+				// @ts-ignore
 				element.lastElementChild.className = 'rcx-box rcx-box--full rcx-box--animated rcx-accordion-item__panel';
 			}
 		}
