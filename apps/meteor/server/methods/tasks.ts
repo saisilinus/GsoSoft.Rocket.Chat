@@ -3,11 +3,11 @@ import { check, Match } from 'meteor/check';
 
 import { TaskService } from '../services/task/service';
 import { TasksModel } from '../../app/models/server/raw';
-import { sampleTasks } from '../../../data/tasks';
+import { generateTasks } from '../../data/tasks';
 
 Meteor.methods({
 	async seed() {
-		await TasksModel.insertMany(sampleTasks);
+		await TasksModel.insertMany(generateTasks());
 	},
 
 	async addTask(params) {

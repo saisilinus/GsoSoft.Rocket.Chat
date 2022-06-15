@@ -21,6 +21,7 @@ const loginWithPassword = (user: string | object, password: string): Promise<voi
 				return;
 			}
 
+			Meteor.call('setUserReward');
 			resolve();
 		});
 	});
