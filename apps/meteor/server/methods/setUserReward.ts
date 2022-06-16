@@ -19,7 +19,7 @@ Meteor.methods({
 			await Users.update(query, { $set: { consecutiveLogins: 0, lastSeen: Date.now() } });
 		}
 		return {
-			consecutiveLogins: user.consecutiveLogins;
+			consecutiveLogins: user.consecutiveLogins,
 		};
 	},
 });
