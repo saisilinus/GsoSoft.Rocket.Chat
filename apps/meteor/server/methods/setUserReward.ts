@@ -12,11 +12,11 @@ Meteor.methods({
 		const user = Users.findOne(query) as IUser;
 		const daysBetweenLogins = new Date().getDate() - user.lastSeen.getDate();
 		if (daysBetweenLogins === 0) {
-			await Users.update(query, { $set: { lastSeen: Date.now() } });
+			await Users.update(query, { $set: { lastSeen: new Date() } });
 		} else if (daysBetweenLogins === 1) {
-			await Users.update(query, { $inc: { consecutiveLogins: 1 }, $set: { lastSeen: Date.now() } });
+			await Users.update(query, { $inc: { consecutiveLogins: 1 }, $set: { lastSeen: new Date() } });
 		} else {
-			await Users.update(query, { $set: { consecutiveLogins: 0, lastSeen: Date.now() } });
+			await Users.update(query, { $set: { consecutiveLogins: 0, lastSeen: new Date() } });
 		}
 		return {
 			consecutiveLogins: user.consecutiveLogins,
