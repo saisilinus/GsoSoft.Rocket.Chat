@@ -27,43 +27,39 @@ const LandingView = (): ReactElement => {
 			});
 	}, []);
 
-	// TODO: Set it so that this function is called when a user collects the reward
-	const setUserReward = () => {
-		Meteor.call('setUserReward');
-	};
-
 	const closeModal = (state: boolean) => {
 		setModal(false);
-		setUserReward();
 	};
 
 	const user = useUser();
-	// @ts-ignore
-	const { username } = user;
-
-	const { value: data } = useEndpointData(
+	if (user) {
 		// @ts-ignore
-		`/v1/users.info`,
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		useMemo(() => ({ ...(username && { username }) }), [username]),
-	);
+		const { username } = user;
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const _setUserData = useMemo(() => {
-		if (data) {
+		const { value: data } = useEndpointData(
 			// @ts-ignore
-			const { user } = data;
-			let date = new Date(user.lastLogin);
-			const daysBetweenLogins = new Date().getDate() - date.getDate();
-			if (daysBetweenLogins > 1) {
-				setModal(true);
-				setBanner(true);
-			} else if (daysBetweenLogins <= 1) {
-				setModal(false);
-				setBanner(false);
+			`/v1/users.info`,
+			// eslint-disable-next-line react-hooks/exhaustive-deps
+			useMemo(() => ({ ...(username && { username }) }), [username]),
+		);
+
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const _setUserData = useMemo(() => {
+			if (data) {
+				// @ts-ignore
+				const { user } = data;
+				let date = new Date(user.lastLogin);
+				const daysBetweenLogins = new Date().getDate() - date.getDate();
+				if (daysBetweenLogins > 1) {
+					setModal(true);
+					setBanner(true);
+				} else if (daysBetweenLogins <= 1) {
+					setModal(false);
+					setBanner(false);
+				}
 			}
-		}
-	}, [data]);
+		}, [data]);
+	}
 	return (
 		<Page flexDirection='row'>
 			<Page>

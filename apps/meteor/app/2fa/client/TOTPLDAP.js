@@ -6,6 +6,8 @@ import { reportError } from '../../../client/lib/2fa/utils';
 import { overrideLoginMethod } from '../../../client/lib/2fa/overrideLoginMethod';
 
 Meteor.loginWithLDAPAndTOTP = function (...args) {
+	// Update the number of times a user has logged in.
+	Meteor.call('setUserReward');
 	// Pull username and password
 	const username = args.shift();
 	const ldapPass = args.shift();

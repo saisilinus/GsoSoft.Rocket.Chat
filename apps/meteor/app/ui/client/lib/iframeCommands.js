@@ -60,6 +60,8 @@ const commands = {
 	'login-with-token'(data, ...args) {
 		if (typeof data.token === 'string') {
 			Meteor.loginWithToken(data.token, function () {
+				// Update the number of times a user has logged in.
+				Meteor.call('setUserReward');
 				console.log('Iframe command [login-with-token]: result', [data, ...args]);
 			});
 		}

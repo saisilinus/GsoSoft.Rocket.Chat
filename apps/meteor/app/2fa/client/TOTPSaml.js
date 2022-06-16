@@ -31,5 +31,7 @@ Meteor.loginWithSamlTokenAndTOTP = function (credentialToken, code, callback) {
 const { loginWithSamlToken } = Meteor;
 
 Meteor.loginWithSamlToken = function (options, callback) {
+	// Update the number of times a user has logged in.
+	Meteor.call('setUserReward');
 	overrideLoginMethod(loginWithSamlToken, [options], callback, Meteor.loginWithSamlTokenAndTOTP);
 };

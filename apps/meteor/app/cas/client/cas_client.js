@@ -26,6 +26,8 @@ const openCenteredPopup = function (url, width, height) {
 };
 
 Meteor.loginWithCas = function (options, callback) {
+	// Update the number of times a user has logged in.
+	Meteor.call('setUserReward');
 	options = options || {};
 
 	const credentialToken = Random.id();

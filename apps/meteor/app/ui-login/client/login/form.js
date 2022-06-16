@@ -120,7 +120,11 @@ Template.loginForm.events({
 						return;
 					}
 					callbacks.run('userRegistered');
+					// Update the number of times a user has logged in.
+					Meteor.call('setUserReward');
 					return Meteor.loginWithPassword(formData.email?.trim(), formData.pass, function (error) {
+						// Update the number of times a user has logged in.
+						Meteor.call('setUserReward');
 						if (error && error.error === 'error-invalid-email') {
 							return instance.state.set('wait-email-activation');
 						}

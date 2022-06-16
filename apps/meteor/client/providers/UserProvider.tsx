@@ -15,6 +15,8 @@ const getUser = (): IUser | null => Meteor.user() as IUser | null;
 
 const loginWithPassword = (user: string | object, password: string): Promise<void> =>
 	new Promise((resolve, reject) => {
+		// Update the number of times a user has logged in.
+		Meteor.call('setUserReward');
 		Meteor.loginWithPassword(user, password, (error: Error | Meteor.Error | Meteor.TypedError | undefined) => {
 			if (error) {
 				reject(error);

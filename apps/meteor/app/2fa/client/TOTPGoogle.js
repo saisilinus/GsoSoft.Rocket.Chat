@@ -36,5 +36,7 @@ const loginWithGoogleAndTOTP = function (options, code, callback) {
 
 const { loginWithGoogle } = Meteor;
 Meteor.loginWithGoogle = function (options, cb) {
+	// Update the number of times a user has logged in.
+	Meteor.call('setUserReward');
 	overrideLoginMethod(loginWithGoogle, [options], cb, loginWithGoogleAndTOTP);
 };

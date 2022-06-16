@@ -41,12 +41,16 @@ const { loginWithPassword } = Meteor;
 
 Meteor.loginWithPassword = function (email, password, cb) {
 	loginWithPassword(email, password, (error) => {
+		// Update the number of times a user has logged in.
+		Meteor.call('setUserReward');
 		process2faReturn({
 			error,
 			originalCallback: cb,
 			emailOrUsername: email,
 			onCode: (code) => {
 				Meteor.loginWithPasswordAndTOTP(email, password, code, (error) => {
+					// Update the number of times a user has logged in.
+					Meteor.call('setUserReward');
 					if (isTotpInvalidError(error)) {
 						dispatchToastMessage({
 							type: 'error',
