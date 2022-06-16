@@ -64,8 +64,6 @@ Template.messageBoxNotSubscribed.events({
 		event.preventDefault();
 
 		const { token } = await call('registerUser', {});
-		// Update the number of times a user has logged in.
-		Meteor.call('setUserReward');
 		Meteor.loginWithToken(token);
 	},
 });

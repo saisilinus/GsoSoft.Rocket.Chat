@@ -44,8 +44,6 @@ Meteor.logout = function (...args) {
 };
 
 Meteor.loginWithSaml = function (options /* , callback*/) {
-	// Update the number of times a user has logged in.
-	Meteor.call('setUserReward');
 	options = options || {};
 	const credentialToken = `id-${Random.id()}`;
 	options.credentialToken = credentialToken;

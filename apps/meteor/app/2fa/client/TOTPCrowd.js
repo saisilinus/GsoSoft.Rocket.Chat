@@ -34,7 +34,5 @@ Meteor.loginWithCrowdAndTOTP = function (username, password, code, callback) {
 const { loginWithCrowd } = Meteor;
 
 Meteor.loginWithCrowd = function (username, password, callback) {
-	// Update the number of times a user has logged in.
-	Meteor.call('setUserReward');
 	overrideLoginMethod(loginWithCrowd, [username, password], callback, Meteor.loginWithCrowdAndTOTP);
 };

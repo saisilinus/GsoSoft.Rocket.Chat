@@ -15,10 +15,8 @@ const PortalsWrapper = lazy(() => import('./PortalsWrapper'));
 const AppRoot: FC = () => {
 	document.addEventListener('visibilitychange', (event) => {
 		if (document.visibilityState === 'visible') {
-			// Update the number of times a user has logged in.
+			// If it's a new day then a user's number of consective logins is increased.
 			Meteor.call('setUserReward');
-		} else {
-			console.log('tab is inactive');
 		}
 	});
 	return (

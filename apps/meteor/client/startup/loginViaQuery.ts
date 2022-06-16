@@ -10,8 +10,6 @@ Meteor.startup(() => {
 		}
 
 		Meteor.loginWithToken(resumeToken, () => {
-			// Update the number of times a user has logged in.
-			Meteor.call('setUserReward');
 			if (FlowRouter.getRouteName()) {
 				FlowRouter.setQueryParams({ resumeToken: null, userId: null });
 				return;

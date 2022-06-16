@@ -82,8 +82,6 @@ export class IframeLogin {
 	}
 
 	loginWithToken(tokenData, callback) {
-		// Update the number of times a user has logged in.
-		Meteor.call('setUserReward');
 		if (!this.enabled) {
 			return;
 		}

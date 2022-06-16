@@ -78,40 +78,30 @@ const loginWithOAuthTokenAndTOTP = createOAuthTotpLoginMethod();
 const loginWithFacebookAndTOTP = createOAuthTotpLoginMethod(() => Facebook);
 const { loginWithFacebook } = Meteor;
 Meteor.loginWithFacebook = function (options, cb) {
-	// Update the number of times a user has logged in.
-	Meteor.call('setUserReward');
 	overrideLoginMethod(loginWithFacebook, [options], cb, loginWithFacebookAndTOTP);
 };
 
 const loginWithGithubAndTOTP = createOAuthTotpLoginMethod(() => Github);
 const { loginWithGithub } = Meteor;
 Meteor.loginWithGithub = function (options, cb) {
-	// Update the number of times a user has logged in.
-	Meteor.call('setUserReward');
 	overrideLoginMethod(loginWithGithub, [options], cb, loginWithGithubAndTOTP);
 };
 
 const loginWithMeteorDeveloperAccountAndTOTP = createOAuthTotpLoginMethod(() => MeteorDeveloperAccounts);
 const { loginWithMeteorDeveloperAccount } = Meteor;
 Meteor.loginWithMeteorDeveloperAccount = function (options, cb) {
-	// Update the number of times a user has logged in.
-	Meteor.call('setUserReward');
 	overrideLoginMethod(loginWithMeteorDeveloperAccount, [options], cb, loginWithMeteorDeveloperAccountAndTOTP);
 };
 
 const loginWithTwitterAndTOTP = createOAuthTotpLoginMethod(() => Twitter);
 const { loginWithTwitter } = Meteor;
 Meteor.loginWithTwitter = function (options, cb) {
-	// Update the number of times a user has logged in.
-	Meteor.call('setUserReward');
 	overrideLoginMethod(loginWithTwitter, [options], cb, loginWithTwitterAndTOTP);
 };
 
 const loginWithLinkedinAndTOTP = createOAuthTotpLoginMethod(() => Linkedin);
 const { loginWithLinkedin } = Meteor;
 Meteor.loginWithLinkedin = function (options, cb) {
-	// Update the number of times a user has logged in.
-	Meteor.call('setUserReward');
 	overrideLoginMethod(loginWithLinkedin, [options], cb, loginWithLinkedinAndTOTP);
 };
 
