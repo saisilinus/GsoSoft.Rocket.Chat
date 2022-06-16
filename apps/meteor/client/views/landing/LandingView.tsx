@@ -30,7 +30,6 @@ const LandingView = (): ReactElement => {
 	// TODO: Set it so that this function is called when a user collects the reward
 	const setUserReward = () => {
 		Meteor.call('setUserReward');
-		console.log('here');
 	};
 
 	const closeModal = (state: boolean) => {
@@ -54,13 +53,14 @@ const LandingView = (): ReactElement => {
 		if (data) {
 			// @ts-ignore
 			const { user } = data;
-			console.log(user, 'user');
-			if (user.consecutiveLogins === 1) {
-				setModal(false);
-				setBanner(false);
-			} else {
+			let date = new Date(user.lastLogin);
+			const daysBetweenLogins = new Date().getDate() - date.getDate();
+			if (daysBetweenLogins > 1) {
 				setModal(true);
 				setBanner(true);
+			} else if (daysBetweenLogins <= 1) {
+				setModal(false);
+				setBanner(false);
 			}
 		}
 	}, [data]);

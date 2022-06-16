@@ -23,7 +23,7 @@ const DailyLogin = ({ banner, setBanner, closeModal }: Props): ReactElement => {
 				/>
 			) : null}
 
-			<Modal style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)' }}>
+			<Modal style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', zIndex: '5' }}>
 				<Modal.Header>
 					<Modal.Close id='close' onClick={() => closeModal(false)} />
 				</Modal.Header>
