@@ -10,11 +10,16 @@ Meteor.methods({
 		}
 		const query = { _id: Meteor.userId() };
 		const user = Users.findOne(query) as IUser;
-		const daysBetweenLogins = new Date().getDate() - user.lastLogin.getDate();
-		if (daysBetweenLogins > 1) {
-			await Users.update(query, { $set: { consecutiveLogins: 0 } });
+		const daysBetweenLogins = new Date().getDate() - user.lastSeen.getDate();
+		if (daysBetweenLogins === 0) {
+			await Users.update(query, { $set: { lastSeen: Date.now() } });
 		} else if (daysBetweenLogins === 1) {
-			await Users.update(query, { $inc: { consecutiveLogins: 1 } });
+			await Users.update(query, { $inc: { consecutiveLogins: 1 }, $set: { lastSeen: Date.now() } });
+		} else {
+			await Users.update(query, { $set: { consecutiveLogins: 0, lastSeen: Date.now() } });
 		}
+		return {
+			consecutiveLogins: user.consecutiveLogins;
+		};
 	},
 });
