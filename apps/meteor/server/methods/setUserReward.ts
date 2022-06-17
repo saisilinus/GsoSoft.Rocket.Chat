@@ -10,6 +10,7 @@ Meteor.methods({
 		}
 		const query = { _id: Meteor.userId() };
 		const user = Users.findOne(query) as IUser;
+		console.log(user);
 		const daysBetweenLogins = user.lastSeen ? new Date().getDate() - user.lastSeen.getDate() : 0;
 		if (daysBetweenLogins === 0) {
 			await Users.update(query, { $set: { lastSeen: new Date() } });

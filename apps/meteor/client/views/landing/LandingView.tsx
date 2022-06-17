@@ -48,9 +48,9 @@ const LandingView = (): ReactElement => {
 			if (data) {
 				// @ts-ignore
 				const { user } = data;
-				let date = new Date(user.lastLogin);
+				let date = new Date(user.lastLogin ?? '01/01/2021');
 				const daysBetweenLogins = new Date().getDate() - date.getDate();
-				if (daysBetweenLogins < 1) {
+				if (daysBetweenLogins > 1) {
 					setModal(true);
 					setBanner(true);
 				} else if (daysBetweenLogins <= 1) {

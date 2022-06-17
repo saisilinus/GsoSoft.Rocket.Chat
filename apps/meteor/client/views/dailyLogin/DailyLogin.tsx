@@ -17,12 +17,11 @@ const DailyLogin = ({ banner, setBanner, closeModal }: Props): ReactElement => {
 		Meteor.call('setUserReward', (error, result) => {
 			if (result) {
 				console.log(result, 'result');
-				let daysArray = [...Array(6)];
+				let daysArray = [...Array(result.consecutiveLogins)];
 				setDays(daysArray);
 			}
 		});
 	}, []);
-	console.log(days);
 	return (
 		<Box>
 			{banner ? (

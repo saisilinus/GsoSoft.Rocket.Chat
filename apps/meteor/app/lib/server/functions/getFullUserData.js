@@ -20,6 +20,7 @@ const defaultFields = {
 	extension: 1,
 	trustScore: 1,
 	credit: 1,
+	consecutiveLogins: 1,
 };
 
 const fullFields = {
@@ -35,6 +36,7 @@ const fullFields = {
 	roles: 1,
 	trustScore: 1,
 	credit: 1,
+	consecutiveLogins: 1,
 };
 
 let publicCustomFields = {};
