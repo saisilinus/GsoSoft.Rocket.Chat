@@ -7,7 +7,8 @@ import { sampleTasks } from '../../app/models/server/raw/StaticTasks';
 
 Meteor.methods({
 	async seed() {
-		await TasksModel.insertMany(sampleTasks);
+		const result = await TasksModel.insertMany(sampleTasks);
+		return result.ops;
 	},
 
 	async addTask(params) {

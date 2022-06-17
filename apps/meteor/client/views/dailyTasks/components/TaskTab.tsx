@@ -5,7 +5,7 @@ type Props = {
 	setModal: Function;
 	setGift: Function;
 	title: string;
-	content: string[];
+	content: Record<string, any>[];
 };
 
 const TaskTab = ({ setGift, setModal, title, content }: Props) => {
@@ -15,7 +15,7 @@ const TaskTab = ({ setGift, setModal, title, content }: Props) => {
 			{content.map((item, index) => (
 				<Tile key={index}>
 					<Box display='flex' justifyContent='space-between' alignItems='center'>
-						<span style={{ fontSize: '16px' }}>{item}</span>
+						<span style={{ fontSize: '15px' }}>{item.title.slice(0)}</span>
 						<div style={{ display: 'flex' }}>
 							<img
 								onClick={() => {
