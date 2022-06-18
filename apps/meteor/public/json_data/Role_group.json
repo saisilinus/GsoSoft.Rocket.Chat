@@ -1,0 +1,79 @@
+[
+  {
+	"_id": "admins",
+	"description": "Admin",
+	"name": "admin",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976547914"
+	  }
+	}
+  },
+  {
+	"_id": "moderators",
+	"description": "Group of Moderators with different ranks  ",
+	"name": "moderator",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976548065"
+	  }
+	}
+  },
+  {
+	"_id": "clients",
+	"description": "Client who need to hire people",
+	"name": "clients",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976548180"
+	  }
+	}
+  },
+  {
+	"_id": "brokers",
+	"description": "brokers ",
+	"name": "brokers",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976548377"
+	  }
+	}
+  },
+  {
+	"_id": "users",
+	"description": "Casual users",
+	"name": "users",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976548568"
+	  }
+	}
+  },
+  {
+	"_id": "employees",
+	"description": "employees to be hired by employers",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976548755"
+	  }
+	}
+  },
+  {
+	"_id": "6269740b1dc3441d6054fcc1",
+	"name": "Vendors",
+	"description": "service vendors ",
+	"protected": false,
+	"mandatory2fa": false,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1651078155114"
+	  }
+	}
+  }
+]
