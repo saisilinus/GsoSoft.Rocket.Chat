@@ -1,10 +1,11 @@
 import { useUser } from '@rocket.chat/ui-contexts';
 import { Meteor } from 'meteor/meteor';
-import React, { ReactElement, useEffect, useMemo, useState } from 'react';
+import React, { ReactElement, useContext, useEffect, useMemo, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 
 import BottomBar from '../../components/BottomBar';
 import Page from '../../components/Page';
+import { DailyTasksContext } from '../../contexts/DailyTasksContext/GlobalState';
 import { useEndpointData } from '../../hooks/useEndpointData';
 import TopBar from '../../topbar/TopBar';
 import SingleBlogPost from '../blog/SingleBlogPost';
@@ -14,6 +15,8 @@ const LandingView = (): ReactElement => {
 	const [blogResults, setBlogResults] = useState([]);
 	const [modal, setModal] = useState(false);
 	const [banner, setBanner] = useState(false);
+	const { currentLocation } = useContext(DailyTasksContext);
+	console.log(currentLocation);
 
 	useEffect(() => {
 		if (!blogResults.length)
@@ -50,10 +53,11 @@ const LandingView = (): ReactElement => {
 				const { user } = data;
 				let date = new Date(user.lastLogin ?? '01/01/2021');
 				const daysBetweenLogins = new Date().getDate() - date.getDate();
-				if (daysBetweenLogins > 1) {
+				console.log(user.lastLogin);
+				if (daysBetweenLogins >= 1) {
 					setModal(true);
 					setBanner(true);
-				} else if (daysBetweenLogins <= 1) {
+				} else if (daysBetweenLogins < 1) {
 					setModal(false);
 					setBanner(false);
 				}
