@@ -24,21 +24,16 @@ const DailyTasks = () => {
 
 	// Clear the data in the reducer every five mins to force the page to refetch from
 	// the backend.
-	let timer;
-	const refetchBackendResults = () => {
-		window.clearTimeout(timer);
-		timer = window.setTimeout(() => {
-			console.log('here');
-			dispatch({ type: 'CLEAR_TASKS' });
-		}, 30000);
+	const callEvery5Minutes = () => {
+		dispatch({ type: 'CLEAR_TASKS' });
 	};
-	// function refetchBackendResults() {
-	// 	console.log('here');
-	// 	dispatch({ type: 'CLEAR_TASKS' });
-	// }
 
-	// const refetchInterval = setInterval(refetchBackendResults, 30000);
-	// clearInterval(refetchInterval);
+	useEffect(() => {
+		var interval = window.setInterval(function () {
+			callEvery5Minutes();
+		}, 300000);
+		return () => clearInterval(interval);
+	}, []);
 
 	useEffect(() => {
 		dispatch({ type: 'ADD_LOCATION', payload: { currentLocation: 'tasksPage' } });
@@ -69,7 +64,6 @@ const DailyTasks = () => {
 			});
 		}
 	}, [expiringTasks, upcomingTasks, completedTasks]);
-	console.log(expiringTasks);
 
 	const sortTasks = useMemo(() => {
 		if (tasks.length) {
