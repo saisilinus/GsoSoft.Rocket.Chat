@@ -17,6 +17,7 @@ export const {
 		href: 'view-profile',
 		i18nLabel: 'View Profile',
 		icon: 'user',
+		permissionGranted: () => settings.get('Accounts_AllowUserProfileChange'),
 	},
 	{
 		href: 'profile',
