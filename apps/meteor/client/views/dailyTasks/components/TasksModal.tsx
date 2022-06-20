@@ -1,4 +1,4 @@
-import { Box, Modal } from '@rocket.chat/fuselage';
+import { Box, Modal, Icon } from '@rocket.chat/fuselage';
 import React, { ReactElement } from 'react';
 
 type Props = {
@@ -16,7 +16,7 @@ const TasksModal = ({ closeModal, gift }: Props): ReactElement => (
 				{gift ? (
 					<Box display='flex' alignItems='center'>
 						<div style={{ cursor: 'pointer' }}>
-							<img src='images/icons/icons8-gift-100.png' alt='gift-image' />
+							<Icon name='arrow-down-box' size='x100' />
 						</div>
 						<div style={{ display: 'flex', flexDirection: 'column', marginLeft: '20px' }}>
 							<span>Here's your gift for today. Click it to receive it</span>

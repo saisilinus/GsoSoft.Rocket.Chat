@@ -1,4 +1,4 @@
-import { Box, Tile } from '@rocket.chat/fuselage';
+import { Box, Tile, Icon } from '@rocket.chat/fuselage';
 import React, { ReactElement } from 'react';
 
 type Props = {
@@ -16,23 +16,23 @@ const TaskTab = ({ setGift, setModal, title, content }: Props): ReactElement => 
 				<Box display='flex' justifyContent='space-between' alignItems='center'>
 					<span style={{ fontSize: '15px' }}>{item.title.slice(0)}</span>
 					<div style={{ display: 'flex' }}>
-						<img
+						<Icon
 							onClick={(): void => {
 								setModal(true);
 								setGift(true);
 							}}
-							style={{ width: '35px', height: '35px', marginRight: '8px', cursor: 'pointer' }}
-							src='images/icons/icons8-gift-100.png'
-							alt='gift-image'
+							style={{ cursor: 'pointer' }}
+							name='arrow-down-box'
+							size='x35'
 						/>
-						<img
+						<Icon
 							onClick={(): void => {
 								setModal(true);
 								setGift(false);
 							}}
-							style={{ width: '35px', height: '35px', cursor: 'pointer' }}
-							src='images/icons/icons8-question-mark-64.png'
-							alt='question-mark-image'
+							style={{ cursor: 'pointer' }}
+							name='info'
+							size='x35'
 						/>
 					</div>
 				</Box>

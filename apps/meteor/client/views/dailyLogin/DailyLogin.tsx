@@ -41,7 +41,7 @@ const DailyLogin = ({ banner, setBanner, closeModal }: Props): ReactElement => {
 				<Modal.Content>
 					<Box display='flex' alignItems='center'>
 						<div style={{ cursor: 'pointer' }}>
-							<img src='images/icons/icons8-gift-100.png' alt='gift-image' />
+							<Icon name='arrow-down-box' size='x100' />
 						</div>
 						<div style={{ display: 'flex', flexDirection: 'column', marginLeft: '20px' }}>
 							<span style={{ fontSize: '16px', fontWeight: 'bold' }}>Day {days.length}</span>
@@ -55,7 +55,7 @@ const DailyLogin = ({ banner, setBanner, closeModal }: Props): ReactElement => {
 							? days.map((element, index) => (
 									<div key={index} style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column' }}>
 										<p style={{ fontWeight: 'bold' }}>Day {index + 1}</p>
-										<img style={{ width: '50px' }} src='images/icons/icons8-gift-100.png' alt='gift-image' />
+										<Icon name='arrow-down-box' style={{ cursor: 'pointer' }} size='x50' />
 									</div>
 							  ))
 							: null}

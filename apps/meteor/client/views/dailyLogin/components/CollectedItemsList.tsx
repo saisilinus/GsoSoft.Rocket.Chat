@@ -1,3 +1,4 @@
+import { Icon } from '@rocket.chat/fuselage';
 import React, { ReactElement } from 'react';
 
 type Props = {
@@ -9,12 +10,12 @@ const CollectedItemsList = ({ index, days }: Props): ReactElement => (
 	<>
 		<div key={index} style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column' }}>
 			<p style={{ fontWeight: 'bold' }}>Day {index + 1}</p>
-			<img style={{ width: '50px' }} src='images/icons/icons8-check-all-50.png' alt='gift-image' />
+			<Icon name='circle-check' style={{ cursor: 'pointer' }} size='x50' />
 		</div>
 		{index === days - 2 ? (
 			<div key={index} className='current' style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column' }}>
 				<p style={{ fontWeight: 'bold' }}>Day {index + 2}</p>
-				<img style={{ width: '50px' }} src='images/icons/icons8-gift-100.png' alt='gift-image' />
+				<Icon name='arrow-down-box' style={{ cursor: 'pointer' }} size='x50' />
 			</div>
 		) : null}
 	</>
