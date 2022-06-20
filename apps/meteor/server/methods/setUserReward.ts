@@ -13,13 +13,13 @@ Meteor.methods({
 		const daysBetweenLogins = user.lastSeen ? new Date().getDate() - user.lastSeen.getDate() : 0;
 		if (daysBetweenLogins === 0) {
 			await Users.update(query, { $set: { lastSeen: new Date() } });
+			return { showModal: false, consecutiveLogins: user.consecutiveLogins };
 		} else if (daysBetweenLogins === 1) {
 			await Users.update(query, { $inc: { consecutiveLogins: 1 }, $set: { lastSeen: new Date() } });
+			return { showModal: true, consecutiveLogins: user.consecutiveLogins };
 		} else {
 			await Users.update(query, { $set: { consecutiveLogins: 1, lastSeen: new Date() } });
+			return { showModal: 'reset', consecutiveLogins: user.consecutiveLogins };
 		}
-		return {
-			consecutiveLogins: user.consecutiveLogins,
-		};
 	},
 });

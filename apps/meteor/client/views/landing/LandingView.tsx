@@ -32,37 +32,20 @@ const LandingView = (): ReactElement => {
 
 	const closeModal = (): void => {
 		setModal(false);
+		localStorage.setItem('showModal', 'false');
 	};
 
-	const user = useUser();
-	if (user) {
-		// @ts-ignore
-		const { username } = user;
-		// eslint-disable-next-line react-hooks/rules-of-hooks
-		const { value: data } = useEndpointData(
-			// @ts-ignore
-			`/v1/users.info`,
-			// eslint-disable-next-line
-			useMemo(() => ({ ...(username && { username }) }), [username]),
-		);
+	useEffect(() => {
+		const showModal = localStorage.getItem('showModal');
+		if (showModal === 'true' || showModal === 'reset') {
+			setModal(true);
+			setBanner(true);
+		} else if (showModal === 'false' || showModal === undefined) {
+			setModal(false);
+			setBanner(false);
+		}
+	}, []);
 
-		// eslint-disable-next-line
-		const _setUserData = useMemo(() => {
-			if (data) {
-				// @ts-ignore
-				const { user } = data;
-				const date = new Date(user.lastLogin ?? '01/01/2021');
-				const daysBetweenLogins = new Date().getDate() - date.getDate();
-				if (daysBetweenLogins >= 1) {
-					setModal(true);
-					setBanner(true);
-				} else if (daysBetweenLogins < 1) {
-					setModal(false);
-					setBanner(false);
-				}
-			}
-		}, [data]);
-	}
 	return (
 		<Page flexDirection='row'>
 			<Page>

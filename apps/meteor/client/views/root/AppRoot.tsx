@@ -16,7 +16,10 @@ const PortalsWrapper = lazy(() => import('./PortalsWrapper'));
 const AppRoot: FC = () => {
 	if (document.visibilityState === 'visible') {
 		// If it's a new day then a user's number of consective logins is increased.
-		Meteor.call('setUserReward');
+		Meteor.call('setUserReward', (error, result) => {
+			localStorage.setItem('showModal', result.showModal);
+			if (error) console.log(error, 'error');
+		});
 	}
 	return (
 		<Suspense fallback={<PageLoading />}>
