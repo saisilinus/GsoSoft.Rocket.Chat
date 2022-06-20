@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import React, { FC, Fragment, Suspense, useContext, useState, useMemo } from 'react';
-import { useSubscription } from 'use-subscription';
+import { useSyncExternalStore } from 'use-sync-external-store/shim';
 
 import { DailyTasksContext, DispatchDailyTasksContext } from '../../contexts/DailyTasksContext/GlobalState';
 import { appLayout } from '../../lib/appLayout';
@@ -15,8 +15,6 @@ import { useTooltipHandling } from './useTooltipHandling';
 const AppLayout: FC = () => {
 	useTooltipHandling();
 
-	const layout = useSubscription(appLayout);
-	const portals = useSubscription(blazePortals);
 	const { currentLocation } = useContext(DailyTasksContext);
 	const { dispatch } = useContext(DispatchDailyTasksContext);
 	const [tasks, setTasks] = useState<Record<string, any>[]>([]);
@@ -66,7 +64,8 @@ const AppLayout: FC = () => {
 			}
 		}
 	});
-
+	const layout = useSyncExternalStore(appLayout.subscribe, appLayout.getSnapshot);
+	const portals = useSyncExternalStore(blazePortals.subscribe, blazePortals.getSnapshot);
 	return (
 		<>
 			<Suspense fallback={<PageLoading />}>{layout}</Suspense>

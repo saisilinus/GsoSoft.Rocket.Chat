@@ -1,0 +1,63 @@
+{
+  "userId": "114324f2342s",
+  "rolePath": [
+	{
+	  "_id": "roleGroupB_role1",
+	  "description": "Admin",
+	  "name": "roleGroupB_role1",
+	  "isStartingRank": true
+	},
+	{
+	  "_id": "roleGroupB_role2",
+	  "description": "roleGroupB_role2"
+	},
+	{
+	  "_id": "roleGroupB_role3",
+	  "description": "roleGroupB_role2",
+	  "isCurrentRank": true
+	},
+	{
+	  "_id": "roleGroupB_role4",
+	  "description": "roleGroupB_role4"
+	},
+	{
+	  "_id": "roleGroupB_role5",
+	  "description": "roleGroupB_role5",
+	  "isFinalRank": true
+	}
+  ],
+  "roleGroup": {
+	"id": "RoleGroupB",
+	"canToSwitch": [
+	  {
+		"_id": "clients",
+		"description": "Client who need to hire people",
+		"name": "clients",
+		"protected": true
+	  },
+	  {
+		"_id": "brokers",
+		"description": "brokers ",
+		"name": "brokers",
+		"protected": true
+	  },
+	  {
+		"_id": "users",
+		"description": "Casual users",
+		"name": "users",
+		"protected": true
+	  },
+	  {
+		"_id": "employees",
+		"description": "employees to be hired by employers",
+		"name": "brokers"
+	  },
+	  {
+		"_id": "6269740b1dc3441d6054fcc1",
+		"name": "Vendors",
+		"description": "service vendors ",
+		"protected": false
+
+		]
+	  }
+	}
