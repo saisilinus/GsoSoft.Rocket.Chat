@@ -124,7 +124,11 @@ const PaymentHistory = (): ReactElement => {
 			<ProfileHeader title='Purchase history' handleRouteBack={handleRouteBack} />
 			{/* @ts-ignore */}
 			{openModal ? (
-				<CustomerSupport closeModal={(): void => setModal(false)} directChatRoute={(): void => handleDirectChatRoute('false')} loading={loading} />
+				<CustomerSupport
+					closeModal={(): void => setModal(false)}
+					directChatRoute={(): void => handleDirectChatRoute('false')}
+					loading={loading}
+				/>
 			) : null}
 			<Page.ScrollableContentWithShadow>
 				{isMobile ? (

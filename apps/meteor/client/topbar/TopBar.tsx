@@ -2,11 +2,12 @@ import { TopBarTitle, TopBarToolBox, TopBarActions, TopBarAction, Menu, Box, Ico
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import React, { ReactElement, useContext } from 'react';
+
 import { DispatchPreviousPageContext } from '../contexts/UserPreviousPageContext/GlobalState';
 
 type Props = {
-	location?: string
-}
+	location?: string;
+};
 
 const TopBar = ({ location }: Props): ReactElement => {
 	const { dispatch } = useContext(DispatchPreviousPageContext);
@@ -19,6 +20,19 @@ const TopBar = ({ location }: Props): ReactElement => {
 				<Menu
 					className='topBarMenu'
 					options={{
+						tasks: {
+							action: function noRefCheck(): void {
+								// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
+								dispatch({ type: 'ADD_LOCATION', payload: { location: `/${location}` } });
+								FlowRouter.go('/daily-tasks');
+							},
+							label: (
+								<Box alignItems='center' display='flex'>
+									<Icon mie='x4' name='file' size='x16' />
+									Tasks
+								</Box>
+							),
+						},
 						selectRole: {
 							action: function noRefCheck(): void {
 								// This so as to allow the linting to pass - @typescript-eslint/no-empty-function

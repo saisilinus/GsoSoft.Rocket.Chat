@@ -2,14 +2,14 @@ import { Box, Button } from '@rocket.chat/fuselage';
 import { useTranslation, useUser } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import React, { useContext, useMemo, useState } from 'react';
+import React, { ReactElement, useContext, useMemo, useState } from 'react';
 
 import Page from '../../../components/Page';
 import { PaymentResultContext } from '../../../contexts/PaymentResultContext/GlobalState';
 import { UserPreviousPageContext } from '../../../contexts/UserPreviousPageContext/GlobalState';
 import { useEndpointData } from '../../../hooks/useEndpointData';
 
-const RoleResult = () => {
+const RoleResult = (): ReactElement => {
 	const { role } = useContext(PaymentResultContext);
 	const { value } = useContext(UserPreviousPageContext);
 	const [userCredit, setUserCredit] = useState(0);
@@ -22,13 +22,15 @@ const RoleResult = () => {
 	const { username } = user;
 
 	const { value: data } = useEndpointData(
-		`/v1/users.info`,
 		// @ts-ignore
+		`/v1/users.info`,
 		useMemo(() => ({ ...(username && { username }) }), [username]),
 	);
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const _setUserData = useMemo(() => {
 		if (data) {
+			// @ts-ignore
 			const { user } = data;
 			setUserCredit(user.credit);
 		}

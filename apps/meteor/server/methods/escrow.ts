@@ -4,21 +4,24 @@ import { check, Match } from 'meteor/check';
 import { EscrowService } from '../services/escrow/service';
 import { IEscrowCreateParams, IEscrow, IEscrowUpdateParams } from '../../definition/IEscrow';
 import { Users } from '../../app/models/server';
+import { EscrowsModel } from '../../app/models/server/raw';
 
 Meteor.methods({
 	getConfig() {
 		const employerConfig = {
 			id: 'employer',
 			cmpClass: 'EmployerRoleFormCmp',
+			show: false,
 			cmpConfig: {
 				rank1: 50,
 				rank2: 100,
-				rank3: 200
+				rank3: 200,
 			},
 		};
 
 		const employeeConfig = {
 			id: 'employee',
+			show: false,
 			cmpClass: 'EmployeeRoleFormCmp',
 			cmpConfig: {
 				escrow: 50,
@@ -27,12 +30,30 @@ Meteor.methods({
 
 		const brokerConfig = {
 			id: 'broker',
+			show: false,
 			cmpClass: 'BrokerRoleFormCmp',
 			cmpConfig: {
 				escrow: 80,
 			},
 		};
-		return [ employerConfig, employeeConfig, brokerConfig ];
+
+		const broker2Config = {
+			id: 'broker2',
+			show: true,
+			cmpClass: 'Broker2RoleFormCmp',
+			cmpConfig: {
+				escrow: 80,
+			},
+		};
+
+		const broker3Config = {
+			id: 'broker3',
+			show: false,
+			cmpConfig: {
+				escrow: 80,
+			},
+		};
+		return [employerConfig, employeeConfig, brokerConfig, broker2Config, broker3Config];
 	},
 	async addEscrow(params: IEscrowCreateParams) {
 		check(
@@ -47,16 +68,22 @@ Meteor.methods({
 			throw new Meteor.Error('error-invalid-user', 'Invalid user');
 		}
 
-		const query = { _id: Meteor.userId() };
-		const updateData = { role: params.type };
-		await Users.update(query, { $set: updateData, $inc: { credit: -params.amount } });
-
 		const Escrows = new EscrowService();
+
+		const duplicate = await Escrows.findByUserId(Meteor.userId());
+
+		if (duplicate) {
+			throw new Meteor.Error('duplicate-escrow', 'Users can only create one escrow');
+		}
 
 		const escrow = await Escrows.create({
 			...params,
 			userId: Meteor.userId(),
 		});
+
+		const query = { _id: Meteor.userId() };
+		const updateData = { role: params.type };
+		await Users.update(query, { $set: updateData, $inc: { credit: -params.amount } });
 
 		return escrow;
 	},
@@ -69,6 +96,10 @@ Meteor.methods({
 		await Escrows.delete(escrowId);
 
 		return true;
+	},
+
+	async reset() {
+		await EscrowsModel.deleteMany({});
 	},
 
 	async getOneEscrow(escrowId: IEscrow['_id']) {

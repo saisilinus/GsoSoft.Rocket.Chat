@@ -8,6 +8,7 @@ import MainLayout from '../views/root/MainLayout';
 
 const BlogViewPage = lazy(() => import('../views/blog/BlogView'));
 const GamesViewPage = lazy(() => import('../views/games/GamesView'));
+const ProductsViewPage = lazy(() => import('../views/products/ProductsView'));
 const StoreViewPage = lazy(() => import('../views/store/StoreView'));
 const MessagesViewPage = lazy(() => import('../views/messages/MessagesView'));
 const SelectRoleViewPage = lazy(() => import('../views/roles/SelectRoleView'));
@@ -16,6 +17,7 @@ const EscrowHistoryViewPage = lazy(() => import('../views/escrowHistory/escrowHi
 const BlogDetailPageView = lazy(() => import('../views/blog/BlogDetail'));
 const GameDetailPageView = lazy(() => import('../views/games/SingleGameDetails'));
 const ProductDetailPageView = lazy(() => import('../views/products/SIngleProductDetails'));
+const DailyTasksPageView = lazy(() => import('../views/dailyTasks/DailyTasks'));
 
 // New Routes for GSO app
 
@@ -46,7 +48,7 @@ FlowRouter.route('/products', {
 	action: () => {
 		appLayout.render(
 			<MainLayout>
-				<GamesViewPage />
+				<ProductsViewPage />
 			</MainLayout>,
 		);
 	},
@@ -102,6 +104,17 @@ FlowRouter.route('/escrow-history', {
 		appLayout.render(
 			<MainLayout>
 				<EscrowHistoryViewPage />
+			</MainLayout>,
+		);
+	},
+});
+
+FlowRouter.route('/daily-tasks', {
+	name: 'daily-tasks',
+	action: () => {
+		appLayout.render(
+			<MainLayout>
+				<DailyTasksPageView />
 			</MainLayout>,
 		);
 	},

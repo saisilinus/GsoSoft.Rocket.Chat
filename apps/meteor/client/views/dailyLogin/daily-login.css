@@ -1,0 +1,8 @@
+.current {
+	border: 2px solid rgb(17, 85, 204);
+	padding: 5px;
+}
+
+#close {
+	margin-left: auto !important;
+}

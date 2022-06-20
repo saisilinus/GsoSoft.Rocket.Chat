@@ -24,6 +24,7 @@ if (Meteor.isServer) {
 
 		return Transactions.list(paginationOptions, {
 			sort: queryOptions.sort,
-			query: { ...queryOptions.query, createdBy: Meteor.userId() }});
+			query: { ...queryOptions.query, createdBy: Meteor.userId() },
+		});
 	});
 }

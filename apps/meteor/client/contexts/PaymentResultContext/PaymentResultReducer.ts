@@ -2,7 +2,7 @@ export interface IStateInterface {
 	credit: number;
 	gateway: string;
 	status: string;
-	role: string
+	role: string;
 }
 
 export interface IActionInterface {
@@ -19,7 +19,7 @@ const InitialState: IStateInterface = {
 	credit: 0,
 	gateway: '',
 	status: '',
-	role: ''
+	role: '',
 };
 
 const PaymentResultReducer = (state, action): IStateInterface => {
@@ -30,7 +30,7 @@ const PaymentResultReducer = (state, action): IStateInterface => {
 				credit: action.payload.credit,
 				gateway: action.payload.gateway,
 				status: action.payload.status,
-				role: action.payload.role
+				role: action.payload.role,
 			};
 		case 'REMOVE_RESULT_DETAILS':
 			return {

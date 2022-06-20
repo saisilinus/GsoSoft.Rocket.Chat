@@ -1,19 +1,18 @@
-import { Accordion, Box, ToastBar } from '@rocket.chat/fuselage';
+import { Accordion } from '@rocket.chat/fuselage';
 import { useTranslation, useUser } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { Meteor } from 'meteor/meteor';
+import React, { ReactElement, useContext, useEffect, useMemo, useState } from 'react';
 
 import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
-import { useCapitalizeAndJoin } from '../../hooks/useCapitalization';
 import { UserPreviousPageContext } from '../../contexts/UserPreviousPageContext/GlobalState';
-import EmployerRole from './components/EmployerRole';
-import EmployeeRole from './components/EmployeeRole';
-import BrokerRole from './components/BrokerRole';
+import { useCapitalizeAndJoin } from '../../hooks/useCapitalization';
 import { useEndpointData } from '../../hooks/useEndpointData';
+import Components from './components/Components';
 
-const SelectRoleView = () => {
+const SelectRoleView = (): ReactElement => {
 	const [fetchedRoles, setFetchedRoles] = useState<Record<string, any>[]>([]);
 	const [openRole, setOpenRole] = useState<Record<string, any>>({});
 	const [closeRole, setCloseRole] = useState('');
@@ -24,17 +23,20 @@ const SelectRoleView = () => {
 	const { value } = useContext(UserPreviousPageContext);
 
 	const user = useUser();
-
+	// @ts-ignore
 	const { username } = user;
 
 	const { value: data } = useEndpointData(
-		`/v1/users.info`,
 		// @ts-ignore
+		`/v1/users.info`,
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		useMemo(() => ({ ...(username && { username }) }), [username, roleState]),
 	);
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const _setUserData = useMemo(() => {
 		if (data) {
+			// @ts-ignore
 			const { user } = data;
 			setUserCredit(user.credit);
 		}
@@ -45,7 +47,7 @@ const SelectRoleView = () => {
 			if (result) {
 				setFetchedRoles(result);
 				console.log(result, 'fetchedRoles');
-				setOpenRole({ open: 'true', id: result[0].id });
+				// setOpenRole({ open: 'true', id: result[0].id });
 				console.log('Roles were fetched');
 			}
 		});
@@ -62,11 +64,15 @@ const SelectRoleView = () => {
 			if (element) {
 				// If the Accordion Item is closed then open it, otherwise close it.
 				if (openRole.open === 'true') {
+					// @ts-ignore
 					element.firstElementChild.setAttribute('aria-expanded', 'true');
+					// @ts-ignore
 					element.lastElementChild.className =
 						'rcx-box rcx-box--full rcx-box--animated rcx-accordion-item__panel--expanded rcx-accordion-item__panel';
 				} else {
+					// @ts-ignore
 					element.firstElementChild.setAttribute('aria-expanded', 'false');
+					// @ts-ignore
 					element.lastElementChild.className = 'rcx-box rcx-box--full rcx-box--animated rcx-accordion-item__panel';
 				}
 			}
@@ -76,8 +82,10 @@ const SelectRoleView = () => {
 	const _closePreviousAccordionItem = useMemo(() => {
 		if (closeRole) {
 			const element = document.querySelector(`#${closeRole}`);
-			if (element) {
+			if (element !== null) {
+				// @ts-ignore
 				element.firstElementChild.setAttribute('aria-expanded', 'false');
+				// @ts-ignore
 				element.lastElementChild.className = 'rcx-box rcx-box--full rcx-box--animated rcx-accordion-item__panel';
 			}
 		}
@@ -108,43 +116,35 @@ const SelectRoleView = () => {
 				<p style={{ fontSize: '16px' }}>{t('gso_selectRoleView_info')}</p>
 				<Accordion style={{ margin: '15px 0' }}>
 					{fetchedRoles.length
-						? fetchedRoles.map((role, index) => (
-							<div key={index}>
-								{role.cmpClass === 'EmployerRoleFormCmp' ? (
-									<EmployerRole
-										title={capitalize(role.id)}
-										id={role.id}
-										cmpConfig={role.cmpConfig}
-										credits={userCredit}
-										roleState={roleState}
-										setRoleState={setRoleState}
-										onToggle={onAccordionToggle}
-									/>
-								) : null}
-								{role.cmpClass === 'EmployeeRoleFormCmp' ? (
-									<EmployeeRole
-										title={capitalize(role.id)}
-										id={role.id}
-										credits={userCredit}
-										cmpConfig={role.cmpConfig}
-										roleState={roleState}
-										setRoleState={setRoleState}
-										onToggle={onAccordionToggle}
-									/>
-								) : null}
-								{role.cmpClass === 'BrokerRoleFormCmp' ? (
-									<BrokerRole
-										title={capitalize(role.id)}
-										id={role.id}
-										cmpConfig={role.cmpConfig}
-										credits={userCredit}
-										roleState={roleState}
-										setRoleState={setRoleState}
-										onToggle={onAccordionToggle}
-									/>
-								) : null}
-							</div>
-						))
+						? fetchedRoles.map((role) => {
+								if (role.cmpClass === undefined || role.cmpClass === '') {
+									return (
+										<Accordion>
+											<Accordion.Item title={capitalize(role.id)} disabled={true} />
+										</Accordion>
+									);
+								}
+
+								if (role.show === false) {
+									return (
+										// @ts-ignore
+										<Accordion.Item title={capitalize(role.id)} id={role.id} onToggle={onAccordionToggle}>
+											{/* eslint-disable-next-line new-cap */}
+											{Components({
+												id: role.id,
+												cmpClass: role.cmpClass,
+												cmpConfig: role.cmpConfig,
+												show: role.show,
+												roleState,
+												setRoleState,
+												userCredit,
+												capitalize,
+											})}
+										</Accordion.Item>
+									);
+								}
+								return null;
+						  })
 						: 'Loading...'}
 				</Accordion>
 			</Page.ScrollableContentWithShadow>

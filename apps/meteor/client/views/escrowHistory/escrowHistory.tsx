@@ -1,16 +1,17 @@
-import { Box, Button } from '@rocket.chat/fuselage'
+import { Box, Button } from '@rocket.chat/fuselage';
 /* @ts-ignore */
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import React, { useEffect, useMemo, useState } from 'react'
+import { Meteor } from 'meteor/meteor';
+import React, { ReactElement, useEffect, useMemo, useState } from 'react';
 
-import Page from '../../components/Page'
-import { useQuery } from '../directory/hooks';
-import ProfileHeader from '../../components/ProfileHeader/ProfileHeader'
+import Page from '../../components/Page';
+import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
 import { useEndpointData } from '../../hooks/useEndpointData';
-import CustomerSupport from '../paymentHistory/components/customerSupport'
-import PaymentModule from '../paymentHistory/components/paymentModule'
+import { useQuery } from '../directory/hooks';
+import CustomerSupport from '../paymentHistory/components/customerSupport';
+import PaymentModule from '../paymentHistory/components/paymentModule';
 
-const escrowHistory = () => {
+const EscrowHistory = (): ReactElement => {
 	const [escrowResults, setEscrowResults] = useState<Record<string, any>[]>([]);
 	const [openModal, setModal] = useState(false);
 	const [liveChatData, setLiveChatData] = useState<Record<string, any>>({});
@@ -38,13 +39,13 @@ const escrowHistory = () => {
 		});
 	};
 
-	const handleDirectChatRoute = (channelCreated:string): void => {
+	const handleDirectChatRoute = (channelCreated: string): void => {
 		setLoading(true);
 		if (Object.keys(liveChatData).length) {
 			// Create a new channel if the General channel is the only one available.
 			// @ts-ignore
 			const { result } = liveChatData;
-			if (result.length === 5 && channelCreated === 'false') {
+			if (result.length === 1 && channelCreated === 'false') {
 				createChannel();
 			} else {
 				setLoading(false);
@@ -54,15 +55,15 @@ const escrowHistory = () => {
 		}
 	};
 
-    const fetchEscrowRecords = (type: string) => {
-        const queryOptions = {
+	const fetchEscrowRecords = (type: string): void => {
+		const queryOptions = {
 			sort: {},
 			query: {
 				userId: Meteor.userId(),
 			},
 		};
 
-        Meteor.call('getEscrows', { offset: 1, count: 10 }, queryOptions, (error, result) => {
+		Meteor.call('getEscrows', { offset: 1, count: 10 }, queryOptions, (error, result) => {
 			if (result) {
 				console.log('Fetched Escrow records');
 				if (type === 'initialFetch') {
@@ -77,26 +78,30 @@ const escrowHistory = () => {
 				console.log(error, 'error');
 			}
 		});
-    }
+	};
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const getLiveChatData = useMemo(() => setLiveChatData(data), [data]);
 
-    // TODO: Get the route from react context.
-    const handleRouteBack = (): void => {
+	// TODO: Get the route from react context.
+	const handleRouteBack = (): void => {
 		FlowRouter.go('/account/view-profile');
 	};
 
-    useEffect(() => {
+	useEffect(() => {
 		fetchEscrowRecords('initialFetch');
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-  return (
-    <Page>
+	return (
+		<Page>
 			<ProfileHeader title='Purchase history' handleRouteBack={handleRouteBack} />
 			{/* @ts-ignore */}
 			{openModal ? (
-				<CustomerSupport closeModal={(): void => setModal(false)} directChatRoute={(): void => handleDirectChatRoute('false')} loading={loading} />
+				<CustomerSupport
+					closeModal={(): void => setModal(false)}
+					directChatRoute={(): void => handleDirectChatRoute('false')}
+					loading={loading}
+				/>
 			) : null}
 			<Page.ScrollableContentWithShadow>
 				{escrowResults.length
@@ -119,7 +124,7 @@ const escrowHistory = () => {
 				</Box>
 			</Page.ScrollableContentWithShadow>
 		</Page>
-  )
-}
+	);
+};
 
-export default escrowHistory
+export default EscrowHistory;

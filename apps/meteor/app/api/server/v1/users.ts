@@ -732,6 +732,7 @@ API.v1.addRoute(
 					avatarETag: 1,
 					credit: 1,
 					trustScore: 1,
+					consecutiveLogins: 1,
 				},
 			};
 

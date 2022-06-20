@@ -1,4 +1,4 @@
-import { Accordion, Box } from '@rocket.chat/fuselage';
+import { Accordion } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
@@ -9,8 +9,7 @@ import { IGateway } from '../../../definition/IGateway';
 import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
 import { useCapitalizeAndJoin } from '../../hooks/useCapitalization';
-import BankTransfer from './components/BankTransfer';
-import PerfectMoneyVoucher from './components/PerfectMoneyVoucher';
+import Components from './components/Components';
 import './topup.css';
 
 const TopUpView = (): ReactElement => {
@@ -19,75 +18,16 @@ const TopUpView = (): ReactElement => {
 	const [closeGateway, setCloseGateway] = useState('');
 	const t = useTranslation();
 	const capitalize = useCapitalizeAndJoin();
-	const gateways = [
-		{
-			_id: 'perfect-money-voucher',
-			show: true,
-			active: true,
-			sortOrder: 1,
-			icon: 'voucher',
-			cmpClass: 'PerfectMoneyVoucher',
-		},
-		{
-			_id: 'bank-transfer',
-			show: true,
-			active: true,
-			sortOrder: 2,
-			icon: 'bank',
-			cmpClass: 'BankTransfer',
-		},
-		{
-			_id: 'usdt-blockchain',
-			show: true,
-			active: true,
-			sortOrder: 3,
-			icon: 'usdt',
-			cmpClass: 'UsdtBlockChain',
-		},
-		{
-			_id: 'credit-card',
-			show: true,
-			active: true,
-			sortOrder: 4,
-			icon: 'card',
-			cmpClass: 'CreditCard',
-		},
-		{
-			_id: 'paypal',
-			show: true,
-			active: true,
-			sortOrder: 5,
-			icon: 'paypal-icon',
-			cmpClass: 'PaypalClass',
-		},
-	];
-
-	const sortedGateways = useMemo(() => fetchedGateways.sort((a, b) => a.sortOrder - b.sortOrder), [fetchedGateways]);
 
 	const getGatewaysFn = (): void => {
-		Meteor.call('getGateways', {}, {}, (_error, result) => {
+		Meteor.call('getStaticGateways', {}, {}, (_error, result) => {
 			if (result) {
 				if (result.length) {
 					setFetchedGateways(result);
-					setOpenGateway({ open: 'true', id: result[0]._id });
+					// setOpenGateway({ open: 'true', id: result[0]._id });
 					console.log('Gateways were fetched');
 				} else {
-					gateways.map((gateway, index) => {
-						// The server requires us to wait atleast 2 seconds before sending in a new request.
-						setTimeout(() => {
-							Meteor.call('addGateway', gateway, (_error, result) => {
-								if (result) {
-									console.log('Gateway was created');
-								}
-							});
-						}, 10000);
-
-						// Refetch the games once its done adding.
-						if (index === gateways.length - 1) {
-							getGatewaysFn();
-						}
-						return null;
-					});
+					console.log(_error, 'error');
 				}
 			}
 		});
@@ -152,33 +92,28 @@ const TopUpView = (): ReactElement => {
 				{/* @ts-ignore */}
 				<p style={{ fontSize: '16px' }}>{t('gso_topupView_info')}</p>
 				<Accordion style={{ margin: '15px 0' }}>
-					{sortedGateways.length ? (
-						<>
-							<PerfectMoneyVoucher
-								title={capitalize(sortedGateways[0]._id)}
-								id={sortedGateways[0]._id}
-								onToggle={(e): void => onAccordionToggle(e)}
-								capitalize={capitalize}
-							/>
-							<BankTransfer
-								title={capitalize(sortedGateways[1]._id)}
-								id={sortedGateways[1]._id}
-								onToggle={(e): void => onAccordionToggle(e)}
-								capitalize={capitalize}
-							/>
-						</>
-					) : (
-						'Loading...'
-					)}
-					{sortedGateways.length
-						? sortedGateways.slice(2).map((gateway, index) => (
-								// @ts-ignore
-								<Accordion.Item title={capitalize(gateway._id)} onToggle={(e): void => onAccordionToggle(e)} id={gateway._id} key={index}>
-									<Box color='default' fontScale='p2'>
-										{capitalize(gateway._id)}
-									</Box>
-								</Accordion.Item>
-						  ))
+					{fetchedGateways.length
+						? fetchedGateways.map((gateway) => {
+								if (gateway.cmpClass === undefined || gateway.cmpClass === '') {
+									return <Accordion.Item title={capitalize(gateway._id)} disabled={true} />;
+								}
+
+								if (gateway.show === false) {
+									return (
+										// @ts-ignore
+										<Accordion.Item title={capitalize(gateway._id)} id={gateway._id} onToggle={onAccordionToggle}>
+											{/* eslint-disable-next-line new-cap */}
+											{Components({
+												id: gateway._id,
+												cmpClass: gateway.cmpClass,
+												capitalize,
+												onAccordionToggle,
+											})}
+										</Accordion.Item>
+									);
+								}
+								return null;
+						  })
 						: 'Loading...'}
 				</Accordion>
 			</Page.ScrollableContentWithShadow>
