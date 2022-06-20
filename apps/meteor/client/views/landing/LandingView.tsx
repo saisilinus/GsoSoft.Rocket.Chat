@@ -28,9 +28,9 @@ const LandingView = (): ReactElement => {
 					console.log(error, 'error');
 				}
 			});
-	}, []);
+	}, [blogResults.length]);
 
-	const closeModal = (state: boolean) => {
+	const closeModal = (): void => {
 		setModal(false);
 	};
 
@@ -38,20 +38,20 @@ const LandingView = (): ReactElement => {
 	if (user) {
 		// @ts-ignore
 		const { username } = user;
-
+		// eslint-disable-next-line react-hooks/rules-of-hooks
 		const { value: data } = useEndpointData(
 			// @ts-ignore
 			`/v1/users.info`,
-			// eslint-disable-next-line react-hooks/exhaustive-deps
+			// eslint-disable-next-line
 			useMemo(() => ({ ...(username && { username }) }), [username]),
 		);
 
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		// eslint-disable-next-line
 		const _setUserData = useMemo(() => {
 			if (data) {
 				// @ts-ignore
 				const { user } = data;
-				let date = new Date(user.lastLogin ?? '01/01/2021');
+				const date = new Date(user.lastLogin ?? '01/01/2021');
 				const daysBetweenLogins = new Date().getDate() - date.getDate();
 				if (daysBetweenLogins >= 1) {
 					setModal(true);

@@ -1,4 +1,4 @@
-import { Accordion, Box, Button } from '@rocket.chat/fuselage';
+import { Accordion } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
@@ -9,9 +9,7 @@ import { IGateway } from '../../../definition/IGateway';
 import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
 import { useCapitalizeAndJoin } from '../../hooks/useCapitalization';
-import BankTransfer from './components/BankTransfer';
 import Components from './components/Components';
-import PerfectMoneyVoucher from './components/PerfectMoneyVoucher';
 import './topup.css';
 
 const TopUpView = (): ReactElement => {
@@ -29,7 +27,7 @@ const TopUpView = (): ReactElement => {
 					// setOpenGateway({ open: 'true', id: result[0]._id });
 					console.log('Gateways were fetched');
 				} else {
-					console.log(_error, 'error')
+					console.log(_error, 'error');
 				}
 			}
 		});
@@ -95,27 +93,27 @@ const TopUpView = (): ReactElement => {
 				<p style={{ fontSize: '16px' }}>{t('gso_topupView_info')}</p>
 				<Accordion style={{ margin: '15px 0' }}>
 					{fetchedGateways.length
-						? fetchedGateways.map((gateway) => { 
-							if (gateway.cmpClass === undefined || gateway.cmpClass === '') {
-								return (
-										<Accordion.Item title={capitalize(gateway._id)} disabled={true} />
-								);
-							}
+						? fetchedGateways.map((gateway) => {
+								if (gateway.cmpClass === undefined || gateway.cmpClass === '') {
+									return <Accordion.Item title={capitalize(gateway._id)} disabled={true} />;
+								}
 
-							if (gateway.show === false) {
-								return (
-									// @ts-ignore
-									<Accordion.Item title={capitalize(gateway._id)} id={gateway._id} onToggle={onAccordionToggle}>
-										{Components({
-											id: gateway._id,
-											cmpClass: gateway.cmpClass,
-											capitalize,
-											onAccordionToggle
-										})}
-									</Accordion.Item>
-								);
-							}
-})
+								if (gateway.show === false) {
+									return (
+										// @ts-ignore
+										<Accordion.Item title={capitalize(gateway._id)} id={gateway._id} onToggle={onAccordionToggle}>
+											{/* eslint-disable-next-line new-cap */}
+											{Components({
+												id: gateway._id,
+												cmpClass: gateway.cmpClass,
+												capitalize,
+												onAccordionToggle,
+											})}
+										</Accordion.Item>
+									);
+								}
+								return null;
+						  })
 						: 'Loading...'}
 				</Accordion>
 			</Page.ScrollableContentWithShadow>

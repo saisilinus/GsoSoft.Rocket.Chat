@@ -2,11 +2,11 @@ import { Meteor } from 'meteor/meteor';
 import React, { FC, Fragment, Suspense, useContext, useState, useMemo } from 'react';
 import { useSubscription } from 'use-subscription';
 
+import { DailyTasksContext, DispatchDailyTasksContext } from '../../contexts/DailyTasksContext/GlobalState';
 import { appLayout } from '../../lib/appLayout';
 import { blazePortals } from '../../lib/portals/blazePortals';
 import PageLoading from './PageLoading';
 import { useTooltipHandling } from './useTooltipHandling';
-import { DailyTasksContext, DispatchDailyTasksContext } from '../../contexts/DailyTasksContext/GlobalState';
 
 /**
  * Layout of front end
@@ -21,11 +21,12 @@ const AppLayout: FC = () => {
 	const { dispatch } = useContext(DispatchDailyTasksContext);
 	const [tasks, setTasks] = useState<Record<string, any>[]>([]);
 
+	/* eslint-disable-next-line */
 	const sortTasks = useMemo(() => {
 		if (tasks.length) {
-			let newUpComingTasks: any = [];
-			let newExpiringTasks: any = [];
-			let newCompletedTasks: any = [];
+			const newUpComingTasks: any = [];
+			const newExpiringTasks: any = [];
+			const newCompletedTasks: any = [];
 
 			tasks.map((task, index) => {
 				if (index === tasks.length - 1) {
@@ -42,11 +43,14 @@ const AppLayout: FC = () => {
 				} else if (task.status === 1) {
 					newCompletedTasks.push(task);
 				}
+				return null;
 			});
 		}
+		return null;
+		/* eslint-disable-next-line react-hooks/exhaustive-deps */
 	}, [tasks]);
 
-	document.addEventListener('visibilitychange', (event) => {
+	document.addEventListener('visibilitychange', () => {
 		if (document.visibilityState === 'visible') {
 			if (currentLocation === 'tasksPage') {
 				// Refetch tasks when a user switches tabs.

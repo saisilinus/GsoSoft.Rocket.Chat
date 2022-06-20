@@ -1,8 +1,8 @@
-import { Modal, Banner, Box, Icon, Flex } from '@rocket.chat/fuselage';
+import { Modal, Banner, Box, Icon } from '@rocket.chat/fuselage';
 import { Meteor } from 'meteor/meteor';
 import React, { ReactElement, useEffect, useState } from 'react';
-import CollectedItemsList from './components/CollectedItemsList';
 
+import CollectedItemsList from './components/CollectedItemsList';
 import './daily-login.css';
 
 type Props = {
@@ -16,7 +16,7 @@ const DailyLogin = ({ banner, setBanner, closeModal }: Props): ReactElement => {
 	useEffect(() => {
 		Meteor.call('setUserReward', (error, result) => {
 			if (result) {
-				let daysArray = [...Array(result.consecutiveLogins)];
+				const daysArray = [...Array(result.consecutiveLogins)];
 				setDays(daysArray);
 			}
 		});
@@ -30,13 +30,13 @@ const DailyLogin = ({ banner, setBanner, closeModal }: Props): ReactElement => {
 					icon={<Icon name='user' size={24} />}
 					title='Good morning ryann254!'
 					variant='success'
-					onClose={() => setBanner(false)}
+					onClose={(): void => setBanner(false)}
 				/>
 			) : null}
 
 			<Modal style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', zIndex: '5' }}>
 				<Modal.Header>
-					<Modal.Close id='close' onClick={() => closeModal(false)} />
+					<Modal.Close id='close' onClick={(): void => closeModal(false)} />
 				</Modal.Header>
 				<Modal.Content>
 					<Box display='flex' alignItems='center'>

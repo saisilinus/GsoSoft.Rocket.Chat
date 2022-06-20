@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { Meteor } from 'meteor/meteor';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { Meteor } from 'meteor/meteor';
+import React, { ReactElement, useContext, useEffect, useMemo, useState } from 'react';
 
 import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
+import { DailyTasksContext, DispatchDailyTasksContext } from '../../contexts/DailyTasksContext/GlobalState';
 import { UserPreviousPageContext } from '../../contexts/UserPreviousPageContext/GlobalState';
 import TaskTab from './components/TaskTab';
 import TasksModal from './components/TasksModal';
-import { DailyTasksContext, DispatchDailyTasksContext } from '../../contexts/DailyTasksContext/GlobalState';
 
-const DailyTasks = () => {
+const DailyTasks = (): ReactElement => {
 	const { value } = useContext(UserPreviousPageContext);
 	const { dispatch } = useContext(DispatchDailyTasksContext);
 	const { expiringTasks, upcomingTasks, completedTasks } = useContext(DailyTasksContext);
@@ -18,25 +18,27 @@ const DailyTasks = () => {
 	const [gift, setGift] = useState(false);
 	const [tasks, setTasks] = useState<Record<string, any>[]>([]);
 
-	const handleRouteBack = () => {
+	const handleRouteBack = (): void => {
 		FlowRouter.go(`${value.location}`);
 	};
 
 	// Clear the data in the reducer every five mins to force the page to refetch from
 	// the backend.
-	const callEvery5Minutes = () => {
+	const callEvery5Minutes = (): void => {
 		dispatch({ type: 'CLEAR_TASKS' });
 	};
 
 	useEffect(() => {
-		var interval = window.setInterval(function () {
+		const interval = window.setInterval(() => {
 			callEvery5Minutes();
 		}, 300000);
-		return () => clearInterval(interval);
+		return (): void => clearInterval(interval);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
 		dispatch({ type: 'ADD_LOCATION', payload: { currentLocation: 'tasksPage' } });
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
@@ -64,12 +66,12 @@ const DailyTasks = () => {
 			});
 		}
 	}, [expiringTasks, upcomingTasks, completedTasks]);
-
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const sortTasks = useMemo(() => {
 		if (tasks.length) {
-			let newUpComingTasks: any = [];
-			let newExpiringTasks: any = [];
-			let newCompletedTasks: any = [];
+			const newUpComingTasks: any = [];
+			const newExpiringTasks: any = [];
+			const newCompletedTasks: any = [];
 
 			tasks.map((task, index) => {
 				if (index === tasks.length - 1) {
@@ -86,14 +88,16 @@ const DailyTasks = () => {
 				} else if (task.status === 1) {
 					newCompletedTasks.push(task);
 				}
+				return null;
 			});
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [tasks]);
 
 	return (
 		<Page>
 			<ProfileHeader title='Pending tasks' handleRouteBack={handleRouteBack} />
-			{modal ? <TasksModal gift={gift} closeModal={() => setModal(false)} /> : null}
+			{modal ? <TasksModal gift={gift} closeModal={(): void => setModal(false)} /> : null}
 			<Page.ScrollableContentWithShadow>
 				<TaskTab title='EXPIRING' content={expiringTasks} setModal={setModal} setGift={setGift} />
 				<TaskTab title='UPCOMING' content={upcomingTasks} setModal={setModal} setGift={setGift} />

@@ -1,4 +1,4 @@
-import { Accordion, Box, Button, TextAreaInput, Field, FieldGroup } from '@rocket.chat/fuselage';
+import { Box, Button, TextAreaInput, Field, FieldGroup } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
@@ -51,21 +51,21 @@ const EmployeeRole = ({ id, credits, cmpConfig, roleState, setRoleState }: Props
 	};
 
 	return (
-			<Box>
-				<FieldGroup>
-					<Field>
-						{/* @ts-ignore */}
-						<Field.Label>{t('gso_selectRoleView_employeeRole_fieldLabel')}</Field.Label>
-						<Field.Row>
-							<TextAreaInput value={bio} onChange={(e: any): void => setBio(e.target.value)} />
-						</Field.Row>
-					</Field>
-				</FieldGroup>
-				<Button primary style={{ float: 'right', marginTop: '20px' }} onClick={handleSubmit}>
+		<Box>
+			<FieldGroup>
+				<Field>
 					{/* @ts-ignore */}
-					{t('gso_selectRoleView_employeeRole_submitBtn')}
-				</Button>
-			</Box>
+					<Field.Label>{t('gso_selectRoleView_employeeRole_fieldLabel')}</Field.Label>
+					<Field.Row>
+						<TextAreaInput value={bio} onChange={(e: any): void => setBio(e.target.value)} />
+					</Field.Row>
+				</Field>
+			</FieldGroup>
+			<Button primary style={{ float: 'right', marginTop: '20px' }} onClick={handleSubmit}>
+				{/* @ts-ignore */}
+				{t('gso_selectRoleView_employeeRole_submitBtn')}
+			</Button>
+		</Box>
 	);
 };
 

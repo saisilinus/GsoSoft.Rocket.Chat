@@ -1,7 +1,7 @@
 import React, { ReactElement, useReducer } from 'react';
 
-import { DispatchDailyTasksContext, DailyTasksContext } from '../contexts/DailyTasksContext/GlobalState';
 import { DailyTasksReducer, InitialState } from '../contexts/DailyTasksContext/DailyTasksReducer';
+import { DispatchDailyTasksContext, DailyTasksContext } from '../contexts/DailyTasksContext/GlobalState';
 
 const DailyTasksProvider = ({ children }): ReactElement => {
 	const [global, dispatch] = useReducer(DailyTasksReducer, InitialState);

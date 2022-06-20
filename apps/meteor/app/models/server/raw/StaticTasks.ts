@@ -1,6 +1,6 @@
 import { ITask } from '../../../../definition/ITask';
 
-const getRandomFutureDate = () => {
+const getRandomFutureDate = (): Date => {
 	const today = new Date();
 	const nonce = Math.floor(Math.random() * 10);
 	return new Date(today.setDate(today.getDate() + nonce));

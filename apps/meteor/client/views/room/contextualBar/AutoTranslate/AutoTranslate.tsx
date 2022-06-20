@@ -15,13 +15,13 @@ type AutoTranslateProps = {
 };
 
 const AutoTranslate = ({
-						   language,
-						   languages,
-						   handleSwitch,
-						   translateEnable,
-						   handleChangeLanguage,
-						   handleClose,
-					   }: AutoTranslateProps): ReactElement => {
+	language,
+	languages,
+	handleSwitch,
+	translateEnable,
+	handleChangeLanguage,
+	handleClose,
+}: AutoTranslateProps): ReactElement => {
 	const t = useTranslation();
 
 	return (

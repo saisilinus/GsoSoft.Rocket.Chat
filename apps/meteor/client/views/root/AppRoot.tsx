@@ -1,11 +1,11 @@
-import React, { FC, lazy, Suspense } from 'react';
 import { Meteor } from 'meteor/meteor';
+import React, { FC, lazy, Suspense } from 'react';
 import { QueryClientProvider } from 'react-query';
 
 import { OmnichannelRoomIconProvider } from '../../components/RoomIcon/OmnichannelRoomIcon/provider/OmnichannelRoomIconProvider';
 import { queryClient } from '../../lib/queryClient';
-import PageLoading from './PageLoading';
 import DailyTasksProvider from '../../providers/DailyTasksProvider';
+import PageLoading from './PageLoading';
 
 const ConnectionStatusBar = lazy(() => import('../../components/connectionStatus/ConnectionStatusBar'));
 const MeteorProvider = lazy(() => import('../../providers/MeteorProvider'));

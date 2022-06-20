@@ -1,4 +1,4 @@
-import { Accordion, Box, Button } from '@rocket.chat/fuselage';
+import { Box, Button } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
@@ -48,23 +48,23 @@ const BrokerRole = ({ id, cmpConfig, credits, roleState, setRoleState }: Props):
 		}
 	};
 	return (
-			<Box>
-				<p style={{ fontSize: '15px', fontWeight: 'bold' }}>{`Please escrow ${cmpConfig.escrow} credits to secure the role`}</p>
+		<Box>
+			<p style={{ fontSize: '15px', fontWeight: 'bold' }}>{`Please escrow ${cmpConfig.escrow} credits to secure the role`}</p>
+			{/* @ts-ignore */}
+			<p style={{ fontSize: '14px', color: '#808080', marginTop: '10px' }}>{t('gso_selectRoleView_brokerRole_subtitle')}</p>
+
+			<p
+				style={{ fontSize: '14px', color: '#808080', marginTop: '10px' }}
+			>{`After you submit, ${cmpConfig.escrow} credits will be deducted from your fund`}</p>
+
+			{/* @ts-ignore */}
+			<p style={{ fontSize: '15px', fontWeight: 'bold', margin: '20px 0' }}>{t('gso_selectRoleView_brokerRole_footer')}</p>
+
+			<Button primary style={{ float: 'right', marginTop: '20px' }} onClick={handleSubmit}>
 				{/* @ts-ignore */}
-				<p style={{ fontSize: '14px', color: '#808080', marginTop: '10px' }}>{t('gso_selectRoleView_brokerRole_subtitle')}</p>
-
-				<p
-					style={{ fontSize: '14px', color: '#808080', marginTop: '10px' }}
-				>{`After you submit, ${cmpConfig.escrow} credits will be deducted from your fund`}</p>
-
-				{/* @ts-ignore */}
-				<p style={{ fontSize: '15px', fontWeight: 'bold', margin: '20px 0' }}>{t('gso_selectRoleView_brokerRole_footer')}</p>
-
-				<Button primary style={{ float: 'right', marginTop: '20px' }} onClick={handleSubmit}>
-					{/* @ts-ignore */}
-					{t('gso_selectRoleView_brokerRole_submitBtn')}
-				</Button>
-			</Box>
+				{t('gso_selectRoleView_brokerRole_submitBtn')}
+			</Button>
+		</Box>
 	);
 };
 

@@ -1,4 +1,4 @@
-import { Accordion, Box, RadioButton, Button } from '@rocket.chat/fuselage';
+import { Box, RadioButton, Button } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
@@ -71,31 +71,31 @@ const EmployerRole = ({ id, cmpConfig, credits, roleState, setRoleState }: Props
 	};
 
 	return (
-			<Box>
-				{/* @ts-ignore */}
-				<p style={{ fontSize: '15px', fontWeight: 'bold' }}>{t('gso_selectRoleView_employerRole_subtitle')}</p>
-				<Box display='flex' style={{ marginTop: '20px' }}>
-					{/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
-					<RadioButton checked={rank1} onClick={(): void => hanldeRadioButtonClick('rank1', 50)} onChange={(): void => {}} />
-					<p style={{ fontSize: '14px', marginLeft: '9px' }}>{`Rank 1(${cmpConfig.rank1} Credit)`}</p>
-				</Box>
-				<Box display='flex' style={{ marginTop: '20px' }}>
-					{/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
-					<RadioButton checked={rank2} onClick={(): void => hanldeRadioButtonClick('rank2', 100)} onChange={(): void => {}} />
-					<p style={{ fontSize: '14px', marginLeft: '9px' }}>{`Rank 2(${cmpConfig.rank2} Credit)`}</p>
-				</Box>
-				<Box display='flex' style={{ marginTop: '20px' }}>
-					{/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
-					<RadioButton checked={rank3} onClick={(): void => hanldeRadioButtonClick('rank3', 200)} onChange={(): void => {}} />
-					<p style={{ fontSize: '14px', marginLeft: '9px' }}>{`Rank 3(${cmpConfig.rank3} Credit)`}</p>
-				</Box>
-				{/* @ts-ignore */}
-				<p style={{ fontSize: '15px', fontWeight: 'bold', margin: '20px 0' }}>{t('gso_selectRoleView_employerRole_footer')}</p>
-				<Button primary style={{ float: 'right' }} onClick={handleSubmit}>
-					{/* @ts-ignore */}
-					{t('gso_selectRoleView_employerRole_submitBtn')}
-				</Button>
+		<Box>
+			{/* @ts-ignore */}
+			<p style={{ fontSize: '15px', fontWeight: 'bold' }}>{t('gso_selectRoleView_employerRole_subtitle')}</p>
+			<Box display='flex' style={{ marginTop: '20px' }}>
+				{/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
+				<RadioButton checked={rank1} onClick={(): void => hanldeRadioButtonClick('rank1', 50)} onChange={(): void => {}} />
+				<p style={{ fontSize: '14px', marginLeft: '9px' }}>{`Rank 1(${cmpConfig.rank1} Credit)`}</p>
 			</Box>
+			<Box display='flex' style={{ marginTop: '20px' }}>
+				{/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
+				<RadioButton checked={rank2} onClick={(): void => hanldeRadioButtonClick('rank2', 100)} onChange={(): void => {}} />
+				<p style={{ fontSize: '14px', marginLeft: '9px' }}>{`Rank 2(${cmpConfig.rank2} Credit)`}</p>
+			</Box>
+			<Box display='flex' style={{ marginTop: '20px' }}>
+				{/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
+				<RadioButton checked={rank3} onClick={(): void => hanldeRadioButtonClick('rank3', 200)} onChange={(): void => {}} />
+				<p style={{ fontSize: '14px', marginLeft: '9px' }}>{`Rank 3(${cmpConfig.rank3} Credit)`}</p>
+			</Box>
+			{/* @ts-ignore */}
+			<p style={{ fontSize: '15px', fontWeight: 'bold', margin: '20px 0' }}>{t('gso_selectRoleView_employerRole_footer')}</p>
+			<Button primary style={{ float: 'right' }} onClick={handleSubmit}>
+				{/* @ts-ignore */}
+				{t('gso_selectRoleView_employerRole_submitBtn')}
+			</Button>
+		</Box>
 	);
 };
 

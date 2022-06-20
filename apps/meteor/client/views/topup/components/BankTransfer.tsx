@@ -1,4 +1,4 @@
-import { Accordion, Box, Button, Field, InputBox } from '@rocket.chat/fuselage';
+import { Box, Button, Field, InputBox } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
@@ -13,7 +13,7 @@ type Props = {
 	capitalize: Function;
 };
 
-const BankTransfer = ({ title, id, capitalize }: Props): ReactElement => {
+const BankTransfer = ({ capitalize }: Props): ReactElement => {
 	const [bank1, setBank1] = useState(3424323434);
 	const [bank2, setBank2] = useState(6464534675);
 	const [bank3, setBank3] = useState(1454254545);
@@ -50,28 +50,28 @@ const BankTransfer = ({ title, id, capitalize }: Props): ReactElement => {
 	};
 
 	return (
-			<Box color='default' fontScale='p2'>
-				{/* @ts-ignore */}
-				<p style={{ fontSize: '16px' }}>{t('gso_topupView_bankTransfer')}</p>
-				<Field>
-					<Field.Label htmlFor='bank-1'>Bank 1</Field.Label>
-					<Field.Row>
-						<InputBox type='text' id='bank-1' value={bank1} onChange={(e: any): void => setBank1(e.target.value)} />
-					</Field.Row>
-					<Field.Label htmlFor='bank-2'>Bank 2</Field.Label>
-					<Field.Row>
-						<InputBox type='text' id='bank-2' value={bank2} onChange={(e: any): void => setBank2(e.target.value)} />
-					</Field.Row>
-					<Field.Label htmlFor='bank-3'>Bank 3</Field.Label>
-					<Field.Row>
-						<InputBox type='text' id='bank-3' value={bank3} onChange={(e: any): void => setBank3(e.target.value)} />
-					</Field.Row>
-					<Button primary style={{ marginTop: '12px' }} onClick={handleGatewaySubmit}>
-						{/* @ts-ignore */}
-						{t('gso_topupView_bankTransferBtn')}
-					</Button>
-				</Field>
-			</Box>
+		<Box color='default' fontScale='p2'>
+			{/* @ts-ignore */}
+			<p style={{ fontSize: '16px' }}>{t('gso_topupView_bankTransfer')}</p>
+			<Field>
+				<Field.Label htmlFor='bank-1'>Bank 1</Field.Label>
+				<Field.Row>
+					<InputBox type='text' id='bank-1' value={bank1} onChange={(e: any): void => setBank1(e.target.value)} />
+				</Field.Row>
+				<Field.Label htmlFor='bank-2'>Bank 2</Field.Label>
+				<Field.Row>
+					<InputBox type='text' id='bank-2' value={bank2} onChange={(e: any): void => setBank2(e.target.value)} />
+				</Field.Row>
+				<Field.Label htmlFor='bank-3'>Bank 3</Field.Label>
+				<Field.Row>
+					<InputBox type='text' id='bank-3' value={bank3} onChange={(e: any): void => setBank3(e.target.value)} />
+				</Field.Row>
+				<Button primary style={{ marginTop: '12px' }} onClick={handleGatewaySubmit}>
+					{/* @ts-ignore */}
+					{t('gso_topupView_bankTransferBtn')}
+				</Button>
+			</Field>
+		</Box>
 	);
 };
 

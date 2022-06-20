@@ -50,7 +50,7 @@ Meteor.methods({
 			cmpClass: 'PaypalClassFormCmp',
 		};
 
-		return [PerfectMoneyVoucher, BankTransfer, UsdtBlockChain, CreditCard, PaypalClass]
+		return [PerfectMoneyVoucher, BankTransfer, UsdtBlockChain, CreditCard, PaypalClass];
 	},
 	async addGateway(params) {
 		check(

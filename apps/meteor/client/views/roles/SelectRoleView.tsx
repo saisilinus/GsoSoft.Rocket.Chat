@@ -129,6 +129,7 @@ const SelectRoleView = (): ReactElement => {
 									return (
 										// @ts-ignore
 										<Accordion.Item title={capitalize(role.id)} id={role.id} onToggle={onAccordionToggle}>
+											{/* eslint-disable-next-line new-cap */}
 											{Components({
 												id: role.id,
 												cmpClass: role.cmpClass,
@@ -142,6 +143,7 @@ const SelectRoleView = (): ReactElement => {
 										</Accordion.Item>
 									);
 								}
+								return null;
 						  })
 						: 'Loading...'}
 				</Accordion>
