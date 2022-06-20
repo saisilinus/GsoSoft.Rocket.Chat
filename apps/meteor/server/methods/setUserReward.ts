@@ -14,6 +14,7 @@ Meteor.methods({
 		if (daysBetweenLogins === 0) {
 			await Users.update(query, { $set: { lastSeen: new Date() } });
 			return { showModal: false, consecutiveLogins: user.consecutiveLogins };
+			// eslint-disable-next-line no-else-return
 		} else if (daysBetweenLogins === 1) {
 			await Users.update(query, { $inc: { consecutiveLogins: 1 }, $set: { lastSeen: new Date() } });
 			return { showModal: true, consecutiveLogins: user.consecutiveLogins };

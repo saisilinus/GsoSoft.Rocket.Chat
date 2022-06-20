@@ -1,12 +1,10 @@
-import { useUser } from '@rocket.chat/ui-contexts';
 import { Meteor } from 'meteor/meteor';
-import React, { ReactElement, useContext, useEffect, useMemo, useState } from 'react';
+import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 
 import BottomBar from '../../components/BottomBar';
 import Page from '../../components/Page';
 import { DailyTasksContext } from '../../contexts/DailyTasksContext/GlobalState';
-import { useEndpointData } from '../../hooks/useEndpointData';
 import TopBar from '../../topbar/TopBar';
 import SingleBlogPost from '../blog/SingleBlogPost';
 import DailyLogin from '../dailyLogin/DailyLogin';
