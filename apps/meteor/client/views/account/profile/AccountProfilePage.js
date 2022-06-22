@@ -9,8 +9,6 @@ import {
 	useMethod,
 	useTranslation,
 } from '@rocket.chat/ui-contexts';
-// @ts-ignore
-import { FlowRouter } from 'meteor/kadira:flow-router';
 import { SHA256 } from 'meteor/sha';
 import React, { useMemo, useState, useCallback } from 'react';
 
@@ -44,6 +42,7 @@ const AccountProfilePage = () => {
 	const user = useUser();
 
 	const { values, handlers, hasUnsavedChanges, commit, reset } = useForm(getInitialValues(user ?? {}));
+	const [canSave, setCanSave] = useState(true);
 	const setModal = useSetModal();
 	const logout = useLogout();
 	const [loggingOut, setLoggingOut] = useState(false);
@@ -105,7 +104,6 @@ const AccountProfilePage = () => {
 
 	const updateAvatar = useUpdateAvatar(avatar, user?._id);
 
-	// eslint-disable-next-line no-unused-vars
 	const onSave = useCallback(async () => {
 		const save = async (typedPassword) => {
 			try {
@@ -223,36 +221,33 @@ const AccountProfilePage = () => {
 		return setModal(() => <ActionConfirmModal onConfirm={handleConfirm} onCancel={closeModal} isPassword={localPassword} />);
 	}, [closeModal, dispatchToastMessage, localPassword, setModal, handleConfirmOwnerChange, deleteOwnAccount, logout, t]);
 
-	const handleRouteBack = () => {
-		FlowRouter.go('/account/view-profile');
-	};
-
 	return (
 		<Page>
-			<Box style={{ height: '60px', width: '100%', marginTop: '10px' }} display='flex' alignItems='center' justifyContent='space-between'>
-				<Box display='flex'>
-					<Icon name='chevron-right' style={{ marginLeft: '10px', cursor: 'pointer' }} onClick={handleRouteBack} fontSize='32px' />
-					<h4 style={{ fontWeight: 'bold', fontSize: '24px', marginLeft: '8px' }}>{t('Profile')}</h4>
-				</Box>
-				<ButtonGroup style={{ marginRight: '20px' }}>
-					<Button primary danger disabled={!hasUnsavedChanges} onClick={reset}>
+			<Page.Header title={t('Profile')}>
+				<ButtonGroup>
+					<Button danger disabled={!hasUnsavedChanges} onClick={reset}>
 						{t('Reset')}
 					</Button>
-					<Button primary>
-						{/* @ts-ignore */}
-						{t('Gso_viewProfilePage_btnEdit')}
+					<Button data-qa='AccountProfilePageSaveButton' primary disabled={!hasUnsavedChanges || !canSave || loggingOut} onClick={onSave}>
+						{t('Save_changes')}
 					</Button>
 				</ButtonGroup>
-			</Box>
+			</Page.Header>
 			<Page.ScrollableContentWithShadow>
 				<Box maxWidth='600px' w='full' alignSelf='center'>
-					<AccountProfileForm values={values} handlers={handlers} user={user ?? { emails: [] }} settings={settings} />
+					<AccountProfileForm
+						values={values}
+						handlers={handlers}
+						user={user ?? { emails: [] }}
+						settings={settings}
+						onSaveStateChange={setCanSave}
+					/>
 					<ButtonGroup stretch mb='x12'>
 						<Button onClick={handleLogoutOtherLocations} flexGrow={0} disabled={loggingOut}>
 							{t('Logout_Others')}
 						</Button>
 						{allowDeleteOwnAccount && (
-							<Button danger onClick={handleDeleteOwnAccount}>
+							<Button secondaryDanger onClick={handleDeleteOwnAccount}>
 								<Icon name='trash' size='x20' mie='x4' />
 								{t('Delete_my_account')}
 							</Button>
