@@ -640,10 +640,10 @@
   {
 	"type": "administrative_area_level_1",
 	"parentId": "1",
-	"short_name": "B\u00ecnh D\u01b0\u01a1ng",
-	"long_name": "B\u00ecnh D\u01b0\u01a1ng",
+	"short_name": "city 2",
+	"long_name": "Long live city 2",
 	"seoDescription": "SEO content for B\u00ecnh D\u01b0\u01a1ng goes here, some more content  t\u1ea1i B\u00ecnh D\u01b0\u01a1ng.",
-	"displayName": "B\u00ecnh D\u01b0\u01a1ng",
+	"displayName": "city-2-name-on-UI",
 	"feeRate": null,
 	"otherNames": null,
 	"id": "31",

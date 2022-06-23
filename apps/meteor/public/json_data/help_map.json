@@ -1,0 +1,16 @@
+[
+  {
+	"route": "create-blog-post",
+	"component": {
+	  "name": "CarouselHelpCmp",
+	  "input": {
+		"slides": [
+		  "http://url1",
+		  "http://url2",
+		  "http://url3"
+		]
+	  }
+	}
+  }
+
+]
