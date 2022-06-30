@@ -28,7 +28,7 @@ function UserAvatarEditor({ currentUsername, username, setAvatarObj, suggestions
 
 	// Refetch user data so that we can get createdAt field.
 	const { value: data } = useEndpointData(
-		'users.info',
+		'/v1/users.info',
 		useMemo(() => ({ ...(username && { username }) }), [username]),
 	);
 
@@ -36,6 +36,8 @@ function UserAvatarEditor({ currentUsername, username, setAvatarObj, suggestions
 		const { user } = data || { user: {} };
 		return user || {};
 	}, [data]);
+
+	console.log(userWithCreatedAt, 'user');
 
 	const setUploadedPreview = useCallback(
 		async (file, avatarObj) => {
