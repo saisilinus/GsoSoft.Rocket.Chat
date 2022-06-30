@@ -59,13 +59,20 @@ import type {
 	IUsersModel,
 	IVoipRoomModel,
 	IWebdavAccountsModel,
+	IEscrowsModel,
 } from '@rocket.chat/model-typings';
 
 import { proxify } from './proxify';
 
 const prefix = 'rocketchat_';
-export function getCollectionName(name: string): string {
-	return `${prefix}${name}`;
+
+/**
+ * Help getting mongo db collection name more accurately
+ * @param name
+ * @param isGso : part of GSO system
+ */
+export function getCollectionName(name: string, isGso = false): string {
+	return isGso ? `gso${name}` : `${prefix}${name}`;
 }
 
 export { registerModel } from './proxify';
@@ -130,3 +137,5 @@ export const UserDataFiles = proxify<IUserDataFilesModel>('IUserDataFilesModel')
 export const UsersSessions = proxify<IUsersSessionsModel>('IUsersSessionsModel');
 export const VoipRoom = proxify<IVoipRoomModel>('IVoipRoomModel');
 export const WebdavAccounts = proxify<IWebdavAccountsModel>('IWebdavAccountsModel');
+// gso expansion , each model here is like a mongodb Collection
+export const Escrows = proxify<IEscrowsModel>('IEscrowsModel');

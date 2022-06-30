@@ -108,3 +108,6 @@ export * from './IOmnichannelVoipServiceResult';
 export * from './IInquiry';
 
 export * from './IAutoTranslate';
+
+// GSO
+export * from './gso';

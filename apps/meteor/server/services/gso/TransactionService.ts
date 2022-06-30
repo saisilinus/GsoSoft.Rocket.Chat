@@ -1,13 +1,8 @@
 import { Cursor } from 'mongodb';
 
 import { ServiceClassInternal } from '../../sdk/types/ServiceClass';
-import {
-	ITransactionService,
-	ITransactionCreateParams,
-	ITransaction,
-	ITransactionUpdateParams,
-	IGatewayData,
-} from '../../../definition/ITransaction';
+import { ServiceClassInternal } from '../../sdk/types/ServiceClass';
+import { IFundTransactionsModel } from '../../sdk/types/IRoomService';
 import { TransactionsRaw } from '../../../app/models/server/raw/Transactions';
 import { IPaginationOptions, IQueryOptions } from '../../../definition/ITeam';
 import { CreateObject } from '../../../definition/ICreate';
@@ -30,7 +25,7 @@ const createLongRandomNumber = (): string => {
 	return foo;
 };
 
-export class TransactionService extends ServiceClassInternal implements ITransactionService {
+export class TransactionService extends ServiceClassInternal implements IFundTransactionsModel {
 	protected name = 'transaction';
 
 	private TransactionModel: TransactionsRaw = TransactionsModel;

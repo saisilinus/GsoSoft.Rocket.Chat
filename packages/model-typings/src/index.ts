@@ -59,3 +59,7 @@ export * from './models/IUsersModel';
 export * from './models/IUsersSessionsModel';
 export * from './models/IVoipRoomModel';
 export * from './models/IWebdavAccountsModel';
+
+// GSO
+export * from './models/IPaymentGatewaysModel';
+export * from './models/IEscrowsModel';

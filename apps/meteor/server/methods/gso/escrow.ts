@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
+import { IEscrow } from '@rocket.chat/core-typings';
 
 import { EscrowService } from '../services/escrow/service';
-import { IEscrowCreateParams, IEscrow, IEscrowUpdateParams } from '../../definition/IEscrow';
 import { Users } from '../../app/models/server';
 import { EscrowsModel } from '../../app/models/server/raw';
 
@@ -55,7 +55,7 @@ Meteor.methods({
 		};
 		return [employerConfig, employeeConfig, brokerConfig, broker2Config, broker3Config];
 	},
-	async addEscrow(params: IEscrowCreateParams) {
+	async addEscrow(params: IEscrow) {
 		check(
 			params,
 			Match.ObjectIncluding({
@@ -112,7 +112,7 @@ Meteor.methods({
 		return escrow;
 	},
 
-	async updateEscrow(escrowId: IEscrow['_id'], params: IEscrowUpdateParams) {
+	async updateEscrow(escrowId: IEscrow['_id'], params: IEscrow) {
 		check(escrowId, String);
 		check(
 			params,
