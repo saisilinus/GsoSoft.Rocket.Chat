@@ -19,8 +19,8 @@ import { getUserEmailAddress } from '../../../lib/getUserEmailAddress';
 import ConfirmOwnerChangeWarningModal from '../../components/ConfirmOwnerChangeWarningModal';
 import Page from '../../components/Page';
 import { useForm } from '../../hooks/useForm';
-import ActionConfirmModal from './ActionConfirmModal';
 import ViewProfileForm from './ViewProfileForm';
+import ActionConfirmModal from './profile/ActionConfirmModal';
 
 const getInitialValues = (user): any => ({
 	realname: user.name ?? '',
@@ -62,6 +62,7 @@ const ViewProfilePage = (): ReactElement => {
 	const handleLogoutOtherLocations = useCallback(async () => {
 		setLoggingOut(true);
 		try {
+			// @ts-ignore
 			await logoutOtherClients();
 			dispatchToastMessage({
 				type: 'success',

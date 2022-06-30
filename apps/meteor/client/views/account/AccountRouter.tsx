@@ -10,7 +10,7 @@ type AccountRouterProps = {
 
 const AccountRouter = ({ children }: AccountRouterProps): ReactElement => {
 	const [routeName] = useCurrentRoute();
-	const defaultRoute = useRoute('profile');
+	const defaultRoute = useRoute('view-profile');
 
 	useEffect(() => {
 		if (routeName !== 'account-index') {
