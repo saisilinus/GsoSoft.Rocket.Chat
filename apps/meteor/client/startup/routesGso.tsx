@@ -11,6 +11,7 @@ const GamesViewPage = lazy(() => import('../views/games/GamesView'));
 const ProductsViewPage = lazy(() => import('../views/products/ProductsView'));
 const StoreViewPage = lazy(() => import('../views/store/StoreView'));
 const MessagesViewPage = lazy(() => import('../views/messages/MessagesView'));
+const EmployerPreferencesView = lazy(() => import('../views/employerPreferences/EmployerPreferencesView'));
 const SelectRoleViewPage = lazy(() => import('../views/roles/SelectRoleView'));
 const RoleResultViewPage = lazy(() => import('../views/roles/components/RoleResult'));
 const EscrowHistoryViewPage = lazy(() => import('../views/escrowHistory/escrowHistory'));
@@ -71,6 +72,17 @@ FlowRouter.route('/messages', {
 		appLayout.render(
 			<MainLayout>
 				<MessagesViewPage />
+			</MainLayout>,
+		);
+	},
+});
+
+FlowRouter.route('/employer-preferences', {
+	name: 'employer-preferences',
+	action: () => {
+		appLayout.render(
+			<MainLayout>
+				<EmployerPreferencesView />
 			</MainLayout>,
 		);
 	},

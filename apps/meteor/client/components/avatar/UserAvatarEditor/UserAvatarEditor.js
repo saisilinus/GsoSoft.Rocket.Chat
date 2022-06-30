@@ -37,8 +37,6 @@ function UserAvatarEditor({ currentUsername, username, setAvatarObj, suggestions
 		return user || {};
 	}, [data]);
 
-	console.log(userWithCreatedAt, 'user');
-
 	const setUploadedPreview = useCallback(
 		async (file, avatarObj) => {
 			if (file.type.startsWith('image/')) {

@@ -1,44 +1,42 @@
-import { Accordion } from '@rocket.chat/fuselage';
+import { Accordion, Box, CheckBox, Icon, Tooltip } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import { Meteor } from 'meteor/meteor';
-import React, { ReactElement, useEffect, useMemo, useState } from 'react';
+import React, { createRef, ReactElement, useMemo, useState } from 'react';
 
-import { IGateway } from '../../../definition/IGateway';
 import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
-import { useCapitalizeAndJoin } from '../../hooks/useCapitalization';
-import Components from './components/Components';
-import './topup.css';
 
-const TopUpView = (): ReactElement => {
-	const [fetchedGateways, setFetchedGateways] = useState<IGateway[]>([]);
+const preferences: Record<string, any> = [
+	{
+		id: 'frontend',
+		title: 'Frontend Developer',
+		desc: 'The following are all activities/skills related to frontend development',
+		items: ['Html', 'Css', 'Javascript', 'Webpack', 'Typescript'],
+	},
+	{
+		id: 'backend',
+		title: 'Backend Developer',
+		desc: 'The following are all activities/skills related to backend development',
+		items: ['Nodejs', 'Django', 'PHP', 'Scripting', 'Jest'],
+	},
+	{
+		id: 'ai',
+		title: 'AI Development',
+		desc: 'The following are all activities/skills related to AI development',
+		items: ['Python', 'Data engineering', 'Exploratory data analysis', 'Modelling', 'AWS Services'],
+	},
+];
+
+const EmployerPreferencesView = (): ReactElement => {
 	const [openGateway, setOpenGateway] = useState<Record<string, any>>({});
 	const [closeGateway, setCloseGateway] = useState('');
+	// const [checkedItems, setCheckedItems] = useState<string[]>([]);
+	const info = createRef();
 	const t = useTranslation();
-	const capitalize = useCapitalizeAndJoin();
 
-	const getGatewaysFn = (): void => {
-		Meteor.call('getStaticGateways', {}, {}, (_error, result) => {
-			if (result) {
-				if (result.length) {
-					setFetchedGateways(result);
-					// setOpenGateway({ open: 'true', id: result[0]._id });
-					console.log('Gateways were fetched');
-				} else {
-					console.log(_error, 'error');
-				}
-			}
-		});
-	};
-
-	useEffect(() => {
-		getGatewaysFn();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const _openGatewayFn = useMemo((): void => {
+	const openGatewayFn = useMemo((): void => {
 		if (openGateway) {
 			const element = document.querySelector(`#${openGateway.id}`);
 			if (element) {
@@ -59,7 +57,7 @@ const TopUpView = (): ReactElement => {
 		}
 	}, [openGateway]);
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const _closePreviousAccordionItem = useMemo(() => {
+	const closePreviousAccordionItem = useMemo(() => {
 		if (closeGateway) {
 			const element = document.querySelector(`#${closeGateway}`);
 			if (element) {
@@ -70,7 +68,6 @@ const TopUpView = (): ReactElement => {
 			}
 		}
 	}, [closeGateway]);
-
 	const onAccordionToggle = (e): void => {
 		// Close the previously opened gateway
 		if (openGateway.id) {
@@ -84,47 +81,48 @@ const TopUpView = (): ReactElement => {
 		setOpenGateway({ open, id: accordionItem.id });
 	};
 
+	// const handleCheckBox = (item) => {};
+
 	const handleRouteBack = (): void => {
 		FlowRouter.go('/account/view-profile');
 	};
+
+	// const showToolTip = () => {
+	// 	info.current.style.visibility = 'visible';
+	// 	info.current.style.opacity = 1;
+	// };
 
 	return (
 		<Page id='topup-page'>
 			{/* @ts-ignore */}
 			<ProfileHeader title={t('gso_topupView_profileHeader')} handleRouteBack={handleRouteBack} />
 			<Page.ScrollableContentWithShadow>
-				{/* @ts-ignore */}
-				<h3 style={{ fontSize: '19px', marginBottom: '10px' }}>{t('gso_topupView_title')}</h3>
-				{/* @ts-ignore */}
-				<p style={{ fontSize: '16px' }}>{t('gso_topupView_info')}</p>
 				<Accordion style={{ margin: '15px 0' }}>
-					{fetchedGateways.length
-						? fetchedGateways.map((gateway) => {
-								if (gateway.cmpClass === undefined || gateway.cmpClass === '') {
-									return <Accordion.Item title={capitalize(gateway._id)} disabled={true} />;
-								}
-
-								if (gateway.show === false) {
-									return (
-										// @ts-ignore
-										<Accordion.Item title={capitalize(gateway._id)} id={gateway._id} onToggle={onAccordionToggle}>
-											{/* eslint-disable-next-line new-cap */}
-											{Components({
-												id: gateway._id,
-												cmpClass: gateway.cmpClass,
-												capitalize,
-												onAccordionToggle,
-											})}
-										</Accordion.Item>
-									);
-								}
-								return null;
-						  })
-						: 'Loading...'}
+					{preferences.map((pref, index) => (
+						/* @ts-ignore */
+						<Accordion.Item key={index} title={pref.title} id={pref.id} onToggle={onAccordionToggle}>
+							<Box>
+								<p style={{ marginBottom: '15px' }}>{pref.desc}</p>
+								{pref.items.map((item, index) => (
+									<Box display='flex' key={index} justifyContent='space-between' style={{ marginBottom: '9px' }}>
+										<Box display='flex'>
+											<CheckBox key={index} />
+											<p style={{ marginLeft: '8px' }}>{item}</p>
+										</Box>
+										{/* @ts-ignore */}
+										<Tooltip invisible={true} ref={info} placement='top-middle'>
+											Description
+										</Tooltip>
+										<Icon name='info' size='x32' />
+									</Box>
+								))}
+							</Box>
+						</Accordion.Item>
+					))}
 				</Accordion>
 			</Page.ScrollableContentWithShadow>
 		</Page>
 	);
 };
 
-export default TopUpView;
+export default EmployerPreferencesView;
