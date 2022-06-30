@@ -24,4 +24,10 @@ if (Meteor.isServer) {
 
 		return Tags.list(paginationOptions, queryOptions);
 	});
+
+	Meteor.publish('tags.getListByCategory', function (limit) {
+		check(limit, Match.Optional(Number));
+
+		return Tags.listByCategory(limit);
+	});
 }

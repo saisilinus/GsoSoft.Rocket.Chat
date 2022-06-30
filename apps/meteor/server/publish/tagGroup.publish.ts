@@ -1,10 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 
-import { TagService } from '../services/tag/service';
+import { TagGroupService } from '../services/tagGroup/service';
 
-Meteor.methods({
-	async getTags(paginationOptions, queryOptions) {
+if (Meteor.isServer) {
+	const TagGroups = new TagGroupService();
+
+	Meteor.publish('tagGroups.getList', function (paginationOptions, queryOptions) {
 		check(
 			paginationOptions,
 			Match.ObjectIncluding({
@@ -20,10 +22,6 @@ Meteor.methods({
 			}),
 		);
 
-		const Tags = new TagService();
-
-		const results = await Tags.list(paginationOptions, queryOptions).toArray();
-
-		return results;
-	},
-});
+		return TagGroups.list(paginationOptions, queryOptions);
+	});
+}

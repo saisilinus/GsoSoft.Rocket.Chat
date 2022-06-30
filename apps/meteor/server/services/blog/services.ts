@@ -20,7 +20,9 @@ export class BlogService extends ServiceClassInternal implements IBlogService {
 			...(params.tags ? { tags: params.tags } : { tags: [] }),
 		};
 		const result = await this.BlogModel.insertOne(createData);
-		return this.BlogModel.findOneById(result.insertedId);
+		const blog = await this.BlogModel.findOneById(result.insertedId);
+		if (!blog) throw new Error('blog-does-not-exist');
+		return blog;
 	}
 
 	async delete(blogId: string): Promise<void> {
@@ -46,7 +48,9 @@ export class BlogService extends ServiceClassInternal implements IBlogService {
 			...params,
 		};
 		const result = await this.BlogModel.updateOne(query, { $set: updateData });
-		return this.BlogModel.findOneById(result.upsertedId._id.toHexString());
+		const blog = await this.BlogModel.findOneById(result.upsertedId._id.toHexString());
+		if (!blog) throw new Error('blog-does-not-exist');
+		return blog;
 	}
 
 	list(limit = 10): AggregationCursor<IBlog> {
