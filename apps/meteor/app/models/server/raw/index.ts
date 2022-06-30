@@ -77,6 +77,7 @@ import { TagsRaw } from './Tags';
 import { CommentsRaw } from './Comments';
 import { EscrowsRaw } from './Escrows';
 import { TasksRaw } from './Tasks';
+import { TagGroupsRaw } from './TagGroups';
 
 const trashCollection = trash.rawCollection();
 
@@ -111,6 +112,7 @@ export const GamesModel = new GamesRaw(db.collection('games'));
 export const ProductsModel = new ProductsRaw(db.collection('products'));
 export const CommentsModel = new CommentsRaw(db.collection('comments'));
 export const TagsModel = new TagsRaw(db.collection('tags'));
+export const TagGroupsModel = new TagGroupsRaw(db.collection('tagGroups'));
 
 export const Avatars = new AvatarsRaw(db.collection(`${prefix}avatars`), trashCollection);
 export const Analytics = new AnalyticsRaw(

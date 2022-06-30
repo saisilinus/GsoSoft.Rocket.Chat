@@ -28,8 +28,8 @@ export interface ITeamMember extends IRocketChatRecord {
 
 // TODO move this definition to a more broader file
 export interface IPaginationOptions {
-	offset: number;
-	count: number;
+	offset?: number;
+	count?: number;
 }
 
 // TODO move this definition to a more broader file

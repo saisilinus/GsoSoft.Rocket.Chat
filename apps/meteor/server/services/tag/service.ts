@@ -1,4 +1,4 @@
-import { Cursor } from 'mongodb';
+import { AggregationCursor, Cursor } from 'mongodb';
 
 import { ServiceClassInternal } from '../../sdk/types/ServiceClass';
 import { ITagService, ITagCreateParams, ITag, ITagUpdateBody, ITagUpdateParams } from '../../../definition/ITag';
@@ -20,7 +20,9 @@ export class TagService extends ServiceClassInternal implements ITagService {
 			...params,
 		};
 		const result = await this.TagModel.insertOne(createData);
-		return this.TagModel.findOneById(result.insertedId);
+		const tag = await this.TagModel.findOneById(result.insertedId);
+		if (!tag) throw new Error('tag-does-not-exist');
+		return tag;
 	}
 
 	async delete(tagId: string): Promise<void> {
@@ -29,10 +31,8 @@ export class TagService extends ServiceClassInternal implements ITagService {
 	}
 
 	async getTag(tagId: string): Promise<ITag> {
-		const tag = this.TagModel.findOneById(tagId);
-		if (!tag) {
-			throw new Error('tag-does-not-exist');
-		}
+		const tag = await this.TagModel.findOneById(tagId);
+		if (!tag) throw new Error('tag-does-not-exist');
 		return tag;
 	}
 
@@ -46,7 +46,9 @@ export class TagService extends ServiceClassInternal implements ITagService {
 			...params,
 		};
 		const result = await this.TagModel.updateOne(query, { $set: updateData });
-		return this.TagModel.findOneById(result.upsertedId._id.toHexString());
+		const tag = await this.TagModel.findOneById(result.upsertedId._id.toHexString());
+		if (!tag) throw new Error('tag-does-not-exist');
+		return tag;
 	}
 
 	list(
@@ -61,5 +63,9 @@ export class TagService extends ServiceClassInternal implements ITagService {
 				skip: offset,
 			},
 		);
+	}
+
+	listByCategory(limit?: number | undefined): AggregationCursor<ITag> {
+		return this.TagModel.getTagsByCategory(limit);
 	}
 }
