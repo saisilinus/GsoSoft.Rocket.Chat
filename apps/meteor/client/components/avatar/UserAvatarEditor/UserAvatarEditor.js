@@ -1,4 +1,4 @@
-import { Box, Button, Icon, Margins, Avatar } from '@rocket.chat/fuselage';
+import { Box, Button, TextInput, Icon, Margins, Avatar, IconButton } from '@rocket.chat/fuselage';
 import { useToastMessageDispatch, useSetting, useTranslation } from '@rocket.chat/ui-contexts';
 import React, { useState, useCallback, useMemo } from 'react';
 
@@ -14,9 +14,9 @@ function UserAvatarEditor({ currentUsername, username, setAvatarObj, suggestions
 	const timeAgo = useTimeAgo();
 	const formatDate = useFormatDate();
 	const rotateImages = useSetting('FileUpload_RotateImages');
-	const [avatarFromUrl] = useState('');
+	const [avatarFromUrl, setAvatarFromUrl] = useState('');
 	const [newAvatarSource, setNewAvatarSource] = useState();
-	const [urlEmpty] = useState(true);
+	const [urlEmpty, setUrlEmpty] = useState(true);
 	const dispatchToastMessage = useToastMessageDispatch();
 	const toDataURL = (file, callback) => {
 		const reader = new FileReader();
@@ -65,6 +65,11 @@ function UserAvatarEditor({ currentUsername, username, setAvatarObj, suggestions
 
 	const url = newAvatarSource;
 
+	const handleAvatarFromUrlChange = (event) => {
+		event.currentTarget.value !== '' ? setUrlEmpty(false) : setUrlEmpty(true);
+		setAvatarFromUrl(event.currentTarget.value);
+	};
+
 	return (
 		<Box display='flex' flexDirection='column' fontScale='p2m'>
 			{t('Profile_picture')}
@@ -99,6 +104,8 @@ function UserAvatarEditor({ currentUsername, username, setAvatarObj, suggestions
 							<Button square mie='none' onClick={clickUrl} disabled={disabled || urlEmpty} title={t('Add URL')}>
 								<Icon name='permalink' size='x20' />
 							</Button>
+							<IconButton icon='upload' square secondary onClick={clickUpload} disabled={disabled} title={t('Upload')} />
+							<IconButton icon='permalink' square secondary onClick={clickUrl} disabled={disabled || urlEmpty} title={t('Add URL')} />
 							{suggestions && (
 								<UserAvatarSuggestions
 									suggestions={suggestions}
@@ -125,6 +132,8 @@ function UserAvatarEditor({ currentUsername, username, setAvatarObj, suggestions
 								userWithCreatedAt.lastLogin ? timeAgo(userWithCreatedAt.lastLogin) : 'Waiting...'
 							}`}
 						</Box>
+						<Box>{t('Use_url_for_avatar')}</Box>
+						<TextInput flexGrow={0} placeholder={t('Use_url_for_avatar')} value={avatarFromUrl} onChange={handleAvatarFromUrlChange} />
 					</Margins>
 				</Box>
 			</Box>

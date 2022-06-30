@@ -1,0 +1,464 @@
+{
+  "zones": [
+	{
+	  "name": "basic",
+	  "label": "Basic Information",
+	  "component": [
+		{
+		  "name": "fullName",
+		  "label": "Enter Full Name",
+		  "description": "This is description show when questions mark icon is clicked",
+		  "sortOrder": "0",
+		  "uiSettings": {
+			"componentType": "TextBox",
+			"dataType": "string",
+			"maxLength": "30"
+		  }
+		},
+		{
+		  "name": "rate",
+		  "label": "Rate charged per hour",
+		  "description": "This is description of rate. show when questions mark icon is clicked",
+		  "sortOrder": "1",
+		  "uiSettings": {
+			"dataType": "object",
+			"componentType": "RateBox",
+			"maxLength": "100",
+			"type": "textbox"
+		  }
+		},
+		{
+		  "name": "contacts",
+		  "label": "Rate charged per hour",
+		  "description": "This is description of contacts. show when questions mark icon is clicked",
+		  "sortOrder": "2",
+		  "uiSettings": {
+			"dataType": "array",
+			"componentType": "ContactForm",
+			"maxLength": "100"
+		  },
+		  "searchable": true,
+		  "required": true
+		},
+		{
+		  "name": "location",
+		  "label": "Your location",
+		  "description": "This is description of location. show when questions mark icon is clicked",
+		  "sortOrder": "3",
+		  "uiSettings": {
+			"dataType": "array",
+			"componentType": "LocationForm",
+			"maxLength": "100"
+		  },
+		  "meta": {
+			"searchable": true,
+			"required": true
+		  },
+		  "settings": {
+			"min": "140",
+			"max": "180"
+		  }
+		},
+		{
+		  "name": "description",
+		  "label": "Description about the employee",
+		  "description": "This is description of employee. show when questions mark icon is clicked",
+		  "sortOrder": "4",
+		  "uiSettings": {
+			"dataType": "string",
+			"componentType": "TextArea",
+			"maxLength": "1000"
+		  },
+		  "searchable": true,
+		  "required": true
+		},
+		{
+		  "name": "tags",
+		  "label": "tags about the employee",
+		  "description": "This is tags of employee. show when questions mark icon is clicked",
+		  "sortOrder": "5",
+		  "uiSettings": {
+			"dataType": "array",
+			"componentType": "Tag",
+			"maxLength": "3"
+		  },
+		  "searchable": true,
+		  "required": false
+		}
+	  ]
+	},
+	{
+	  "name": "additionalInformation",
+	  "label": "Additional Information",
+	  "component": [
+		{
+		  "name": "password",
+		  "label": "Pass",
+		  "description": "This is description of password. show when questions mark icon is clicked",
+		  "sortOrder": "1",
+		  "uiSettings": {
+			"dataType": "string",
+			"componentType": "TextBox",
+			"maxLength": "30"
+		  },
+		  "searchable": false,
+		  "required": false
+		},
+		{
+		  "name": "dob",
+		  "label": "Date Of birth",
+		  "description": "This is description of password. show when questions mark icon is clicked",
+		  "sortOrder": "2",
+		  "uiSettings": {
+			"dataType": "date",
+			"componentType": "DobBox",
+			"minValue": "1979-12-31T17:00:00.000Z",
+			"maxValue": "2004-11-30T17:00:00.000Z",
+			"requireDate": false
+		  },
+		  "searchable": true,
+		  "required": true
+		},
+		{
+		  "attrGroupId": "2",
+		  "componentType": "NumberBox",
+		  "sortOrder": "3",
+		  "meta": {
+			"searchable": true,
+			"required": true
+		  },
+		  "settings": {
+			"min": "140",
+			"max": "180"
+		  },
+		  "id": "46",
+		  "nameTxt": "Cao (cm)",
+		  "description": "Nh\u1eadp s\u1ed1 t\u1eeb 140 \u0111\u1ebfn 180"
+		},
+		{
+		  "attrGroupId": "2",
+		  "componentType": "NumberBox",
+		  "sortOrder": "4",
+		  "meta": {
+			"searchable": true,
+			"required": true
+		  },
+		  "settings": {
+			"min": "40",
+			"max": "80"
+		  },
+		  "id": "48",
+		  "nameTxt": "N\u1eb7ng (kg)",
+		  "description": "Nh\u1eadp s\u1ed1 t\u1eeb 40 \u0111\u1ebfn 80"
+		},
+		{
+		  "attrGroupId": "2",
+		  "componentType": "NumberBox",
+		  "sortOrder": "5",
+		  "meta": {
+			"searchable": true,
+			"required": true
+		  },
+		  "settings": {
+			"min": "60",
+			"max": "120"
+		  },
+		  "id": "49",
+		  "nameTxt": "V\u00f2ng 1 (cm)",
+		  "description": "Nh\u1eadp s\u1ed1 t\u1eeb 60 \u0111\u1ebfn 120"
+		},
+		{
+		  "attrGroupId": "2",
+		  "componentType": "NumberBox",
+		  "sortOrder": "6",
+		  "meta": {
+			"searchable": true,
+			"required": true
+		  },
+		  "settings": {
+			"min": "50",
+			"max": "90"
+		  },
+		  "id": "50",
+		  "nameTxt": "V\u00f2ng 2 (cm)",
+		  "description": "Nh\u1eadp s\u1ed1 t\u1eeb 50 \u0111\u1ebfn 90"
+		},
+		{
+		  "attrGroupId": "2",
+		  "componentType": "NumberBox",
+		  "sortOrder": "7",
+		  "meta": {
+			"searchable": true,
+			"required": true
+		  },
+		  "settings": {
+			"min": "60",
+			"max": "120"
+		  },
+		  "id": "51",
+		  "nameTxt": "V\u00f2ng 3 (cm)",
+		  "description": "Nh\u1eadp s\u1ed1 t\u1eeb 60 \u0111\u1ebfn 120"
+		},
+		{
+		  "attrGroupId": "1",
+		  "componentType": "RadioBox",
+		  "sortOrder": "8",
+		  "meta": {
+			"searchable": true,
+			"required": true
+		  },
+		  "settings": {
+			"values": [
+			  {
+				"sortOrder": 1,
+				"bitValue": 1,
+				"txtValue": "Mi\u1ec1n B\u1eafc"
+			  },
+			  {
+				"sortOrder": 2,
+				"bitValue": 2,
+				"txtValue": "Mi\u1ec1n Trung"
+			  },
+			  {
+				"sortOrder": 3,
+				"bitValue": 4,
+				"txtValue": "Mi\u1ec1n Nam"
+			  },
+			  {
+				"sortOrder": 4,
+				"bitValue": 8,
+				"txtValue": "Mi\u1ec1n T\u00e2y"
+			  }
+			],
+			"bitPosition": 4
+		  },
+		  "id": "68",
+		  "nameTxt": "Xu\u1ea5t x\u1ee9",
+		  "description": "Ch\u1ecdn 1 trong 4"
+		},
+		{
+		  "attrGroupId": "2",
+		  "componentType": "RadioBox",
+		  "sortOrder": "9",
+		  "meta": {
+			"searchable": true,
+			"required": true
+		  },
+		  "settings": {
+			"values": [
+			  {
+				"sortOrder": 1,
+				"bitValue": 1,
+				"txtValue": "R\u1eadm r\u1ea1p"
+			  },
+			  {
+				"sortOrder": 2,
+				"bitValue": 2,
+				"txtValue": "G\u1ecdn g\u00e0ng"
+			  },
+			  {
+				"sortOrder": 3,
+				"bitValue": 4,
+				"txtValue": "L\u01b0a th\u01b0a"
+			  },
+			  {
+				"sortOrder": 4,
+				"bitValue": 8,
+				"txtValue": "C\u1ea1o s\u1ea1ch"
+			  }
+			],
+			"bitPosition": 4
+		  },
+		  "id": "69",
+		  "nameTxt": "L\u00f4ng b\u00edm",
+		  "description": "Ch\u1ecdn 1 trong 4"
+		},
+		{
+		  "attrGroupId": "2",
+		  "componentType": "RadioBox",
+		  "sortOrder": "10",
+		  "meta": {
+			"searchable": true,
+			"required": true
+		  },
+		  "settings": {
+			"values": [
+			  {
+				"sortOrder": 1,
+				"bitValue": 1,
+				"txtValue": "Xinh x\u1eafn"
+			  },
+			  {
+				"sortOrder": 2,
+				"bitValue": 2,
+				"txtValue": "C\u00f3 n\u00e9t"
+			  },
+			  {
+				"sortOrder": 3,
+				"bitValue": 4,
+				"txtValue": "B\u00ecnh th\u01b0\u1eddng"
+			  },
+			  {
+				"sortOrder": 4,
+				"bitValue": 8,
+				"txtValue": "H\u01a1i x\u1ea5u"
+			  }
+			],
+			"bitPosition": 4
+		  },
+		  "id": "67",
+		  "nameTxt": "M\u1eb7t",
+		  "description": "Ch\u1ecdn 1 trong 4"
+		},
+		{
+		  "attrGroupId": "3",
+		  "componentType": "ChoicesBox",
+		  "sortOrder": "11",
+		  "meta": {
+			"searchable": true,
+			"required": true
+		  },
+		  "settings": {
+			"values": [
+			  {
+				"sortOrder": 1,
+				"bitValue": 1,
+				"txtValue": "H\u00f4n m\u00f4i"
+			  },
+			  {
+				"sortOrder": 2,
+				"bitValue": 2,
+				"txtValue": "H\u00f4n v\u00fa"
+			  },
+			  {
+				"sortOrder": "4",
+				"bitValue": 4,
+				"txtValue": "V\u00e9t m\u00e1ng"
+			  },
+			  {
+				"sortOrder": "5",
+				"bitValue": 8,
+				"txtValue": "HJ, BJ"
+			  },
+			  {
+				"sortOrder": "6",
+				"bitValue": 16,
+				"txtValue": "D\u1ecdn WC"
+			  },
+			  {
+				"sortOrder": "7",
+				"bitValue": 32,
+				"txtValue": "Cum in alo"
+			  },
+			  {
+				"sortOrder": "8",
+				"bitValue": 64,
+				"txtValue": "Ch\u01a1i l\u1ed7 nh\u1ecb"
+			  },
+			  {
+				"sortOrder": "3",
+				"bitValue": 256,
+				"txtValue": "B\u00f3p v\u00fa"
+			  },
+			  {
+				"sortOrder": "11",
+				"bitValue": 512,
+				"txtValue": "Ch\u01a1i some"
+			  },
+			  {
+				"sortOrder": "12",
+				"bitValue": 1024,
+				"txtValue": "Qua \u0111\u00eam"
+			  }
+			],
+			"type": "multiple",
+			"bitPosition": 12
+		  },
+		  "id": "64",
+		  "nameTxt": "Service",
+		  "description": "Service n\u00e0o g\u00e1i ph\u1ee5c v\u1ee5 \u0111\u01b0\u1ee3c 100% checker th\u00ec m\u1edbi tick. N\u1ebfu kh\u00f4ng s\u1ebd b\u1ecb ph\u1ea1t khi checker \"b\u00e1o x\u1ea5u\"."
+		},
+		{
+		  "attrGroupId": "3",
+		  "componentType": "TextBox",
+		  "sortOrder": "13",
+		  "meta": {
+			"searchable": false,
+			"required": false
+		  },
+		  "settings": {
+			"maxLength": "100",
+			"type": "textbox"
+		  },
+		  "id": "73",
+		  "nameTxt": "Ph\u1ee5 ph\u00ed",
+		  "description": "V\u00ed d\u1ee5: M\u1eb7c \u0111\u1ed3 cosplay th\u00eam 100k, Cafe tr\u01b0\u1edbc th\u00eam...,l\u1ed7 nh\u1ecb th\u00eam..., shot 2 th\u00eam..., qua \u0111\u00eam..., \u0111\u1ebfn ch\u1ed7 kh\u00e1ch th\u00eam..., ng\u01b0\u1eddi n\u01b0\u1edbc ngo\u00e0i th\u00eam..., ch\u01a1i some...v.v..."
+		},
+		{
+		  "attrGroupId": "1",
+		  "componentType": "TextBox",
+		  "sortOrder": "14",
+		  "meta": {
+			"searchable": false,
+			"required": true
+		  },
+		  "settings": {
+			"maxLength": "200",
+			"type": "textbox"
+		  },
+		  "id": "47",
+		  "nameTxt": "Nh\u1eadn d\u1ea1ng",
+		  "description": "V\u00ed d\u1ee5: h\u00ecnh x\u0103m \u1edf c\u1ed5 tay tr\u00e1i"
+		},
+		{
+		  "attrGroupId": "3",
+		  "componentType": "TextBox",
+		  "sortOrder": "15",
+		  "meta": {
+			"searchable": false,
+			"required": false
+		  },
+		  "settings": {
+			"type": "textbox",
+			"maxLength": "50"
+		  },
+		  "id": "56",
+		  "nameTxt": "Th\u1eddi l\u01b0\u1ee3ng",
+		  "description": "V\u00ed d\u1ee5: t\u1ed1i thi\u1ec3u 40 ph\u00fat"
+		},
+		{
+		  "attrGroupId": "3",
+		  "componentType": "TextBox",
+		  "sortOrder": "16",
+		  "meta": {
+			"searchable": false,
+			"required": false
+		  },
+		  "settings": {
+			"type": "textbox",
+			"maxLength": "50"
+		  },
+		  "id": "57",
+		  "nameTxt": "Ho\u1ea1t \u0111\u1ed9ng",
+		  "description": "V\u00ed d\u1ee5: t\u1eeb 8h \u0111\u1ebfn 22h"
+		},
+		{
+		  "attrGroupId": "3",
+		  "componentType": "TextBox",
+		  "sortOrder": "17",
+		  "meta": {
+			"searchable": false,
+			"required": false
+		  },
+		  "settings": {
+			"type": "textbox",
+			"maxLength": "100"
+		  },
+		  "id": "58",
+		  "nameTxt": "T\u1eeb ch\u1ed1i",
+		  "description": "V\u00ed d\u1ee5: Say x\u1ec9n, \u0111\u1eadp \u0111\u00e1, b\u1ea1o d\u00e2m..."
+		}
+	  ]
+	}
+  ]
+}

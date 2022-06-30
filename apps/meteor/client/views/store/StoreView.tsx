@@ -7,7 +7,7 @@ import TopBar from '../../topbar/TopBar';
 const StoreView = (): ReactElement => (
 	<Page flexDirection='row'>
 		<Page>
-			<TopBar />
+			<TopBar location='store' />
 			<Page.Content>StoreView</Page.Content>
 			<BottomBar />
 		</Page>

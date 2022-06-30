@@ -47,7 +47,7 @@ const NotFoundPage = (): ReactElement => {
 
 						<ButtonGroup align='center' margin='x64'>
 							<Button type='button' primary onClick={handleGoToPreviousPageClick}>
-								{t('Return_to_previous_page')}
+								{t('Return_to_previous_page')}view
 							</Button>
 							<Button type='button' primary onClick={handleGoHomeClick}>
 								{t('Return_to_home')}

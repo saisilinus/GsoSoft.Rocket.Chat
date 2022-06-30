@@ -76,6 +76,10 @@ import { ProductsRaw } from './Products';
 import { TagsRaw } from './Tags';
 import { CommentsRaw } from './Comments';
 import { EscrowsRaw } from './Escrows';
+<<<<<<< HEAD
+=======
+import { TasksRaw } from './Tasks';
+>>>>>>> 2d606a127a2fdf4b7b9a87842f14afc74c44af79
 
 const trashCollection = trash.rawCollection();
 
@@ -109,6 +113,8 @@ export const GamesModel = new GamesRaw(db.collection('games'));
 export const ProductsModel = new ProductsRaw(db.collection('products'));
 export const CommentsModel = new CommentsRaw(db.collection('comments'));
 export const TagsModel = new TagsRaw(db.collection('tags'));
+export const EscrowsModel = new EscrowsRaw(db.collection('escrows'));
+export const TasksModel = new TasksRaw(db.collection('tasks'));
 
 export const Avatars = new AvatarsRaw(db.collection(`${prefix}avatars`), trashCollection);
 export const Analytics = new AnalyticsRaw(
