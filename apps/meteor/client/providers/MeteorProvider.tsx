@@ -6,11 +6,10 @@ import AvatarUrlProvider from './AvatarUrlProvider';
 import { CallProvider } from './CallProvider';
 import ConnectionStatusProvider from './ConnectionStatusProvider';
 import CustomSoundProvider from './CustomSoundProvider';
-import DailyTasksProvider from './DailyTasksProvider';
+import { DeviceProvider } from './DeviceProvider';
 import LayoutProvider from './LayoutProvider';
 import ModalProvider from './ModalProvider';
 import OmnichannelProvider from './OmnichannelProvider';
-import PaymentResultProvider from './PaymentResultProvider';
 import RouterProvider from './RouterProvider';
 import ServerProvider from './ServerProvider';
 import SessionProvider from './SessionProvider';
@@ -18,8 +17,10 @@ import SettingsProvider from './SettingsProvider';
 import ToastMessagesProvider from './ToastMessagesProvider';
 import TooltipProvider from './TooltipProvider';
 import TranslationProvider from './TranslationProvider';
-import UserPreviousPageProvider from './UserPreviousPageProvider';
 import UserProvider from './UserProvider';
+import DailyTasksProvider from './DailyTasksProvider';
+import PaymentResultProvider from './PaymentResultProvider';
+import UserPreviousPageProvider from './UserPreviousPageProvider';
 
 const MeteorProvider: FC = ({ children }) => (
 	<ConnectionStatusProvider>
@@ -34,21 +35,23 @@ const MeteorProvider: FC = ({ children }) => (
 										<AvatarUrlProvider>
 											<CustomSoundProvider>
 												<UserProvider>
-													<AuthorizationProvider>
-														<ModalProvider>
-															<CallProvider>
-																<OmnichannelProvider>
-																	<UserPreviousPageProvider>
-																		<PaymentResultProvider>
-																			<DailyTasksProvider>
-																				<AttachmentProvider>{children}</AttachmentProvider>
-																			</DailyTasksProvider>
-																		</PaymentResultProvider>
-																	</UserPreviousPageProvider>
-																</OmnichannelProvider>
-															</CallProvider>
-														</ModalProvider>
-													</AuthorizationProvider>
+													<ModalProvider>
+														<AuthorizationProvider>
+															<DeviceProvider>
+																<CallProvider>
+																	<OmnichannelProvider>
+																		<UserPreviousPageProvider>
+																			<PaymentResultProvider>
+																				<DailyTasksProvider>
+																					<AttachmentProvider>{children}</AttachmentProvider>
+																				</DailyTasksProvider>
+																			</PaymentResultProvider>
+																		</UserPreviousPageProvider>
+																	</OmnichannelProvider>
+																</CallProvider>
+															</DeviceProvider>
+														</AuthorizationProvider>
+													</ModalProvider>
 												</UserProvider>
 											</CustomSoundProvider>
 										</AvatarUrlProvider>
