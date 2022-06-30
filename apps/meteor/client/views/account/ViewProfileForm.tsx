@@ -51,12 +51,14 @@ function ViewProfileForm({ values, handlers, user, ...props }: Props): ReactElem
 
 	// Refetch user data so that we can get createdAt field.
 	const { value: data } = useEndpointData(
-		'users.info',
+		/* @ts-ignore */
+		`/v1/users.info`,
 		/* @ts-ignore */
 		useMemo(() => ({ ...(username && { username }) }), [username]),
 	);
 
 	const userWithCredit = useMemo(() => {
+		/* @ts-ignore */
 		const { user } = data || { user: { credit: 0, trustScore: 0 } };
 		return user;
 	}, [data]);

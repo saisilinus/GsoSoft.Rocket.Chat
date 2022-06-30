@@ -1,0 +1,230 @@
+[
+  {
+	"_id": "admin",
+	"scope": "Users",
+	"description": "Admin",
+	"mandatory2fa": false,
+	"name": "admin",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976547914"
+	  }
+	}
+  },
+  {
+	"_id": "moderator",
+	"scope": "Subscriptions",
+	"description": "Moderator",
+	"mandatory2fa": false,
+	"name": "moderator",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976548065"
+	  }
+	}
+  },
+  {
+	"_id": "leader",
+	"scope": "Subscriptions",
+	"description": "Leader",
+	"mandatory2fa": false,
+	"name": "leader",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976548180"
+	  }
+	}
+  },
+  {
+	"_id": "owner",
+	"scope": "Subscriptions",
+	"description": "Owner",
+	"mandatory2fa": false,
+	"name": "owner",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976548377"
+	  }
+	}
+  },
+  {
+	"_id": "user",
+	"scope": "Users",
+	"description": "",
+	"mandatory2fa": false,
+	"name": "user",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976548568"
+	  }
+	}
+  },
+  {
+	"_id": "bot",
+	"scope": "Users",
+	"description": "",
+	"mandatory2fa": false,
+	"name": "bot",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976548755"
+	  }
+	}
+  },
+  {
+	"_id": "app",
+	"scope": "Users",
+	"description": "",
+	"mandatory2fa": false,
+	"name": "app",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976548890"
+	  }
+	}
+  },
+  {
+	"_id": "guest",
+	"scope": "Users",
+	"description": "",
+	"mandatory2fa": false,
+	"name": "guest",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976549001"
+	  }
+	}
+  },
+  {
+	"_id": "anonymous",
+	"scope": "Users",
+	"description": "",
+	"mandatory2fa": false,
+	"name": "anonymous",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976549107"
+	  }
+	}
+  },
+  {
+	"_id": "livechat-agent",
+	"scope": "Users",
+	"description": "Livechat Agent",
+	"mandatory2fa": false,
+	"name": "livechat-agent",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976549221"
+	  }
+	}
+  },
+  {
+	"_id": "livechat-manager",
+	"scope": "Users",
+	"description": "Livechat Manager",
+	"mandatory2fa": false,
+	"name": "livechat-manager",
+	"protected": true,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1650976549331"
+	  }
+	}
+  },
+  {
+	"_id": "626973ac1dc3441d6054fcbf",
+	"name": "VIP1",
+	"scope": "Subscriptions",
+	"description": "VIP entry level",
+	"protected": false,
+	"mandatory2fa": false,
+	"promotion": {
+	  "target": "VIP2",
+	  "requirement": {
+		"escrow": 500,
+		"exp": 2000,
+		"dailyLoginCount": 30,
+		"whatever": true
+	  },
+	  "handlerClass": "VipUserPromotionHandler"
+	},
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1651078060682"
+	  }
+	}
+  },
+  {
+	"_id": "626973cf1dc3441d6054fcc0",
+	"name": "Broker",
+	"scope": "Users",
+	"description": "middle man",
+	"protected": false,
+	"mandatory2fa": false,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1651078095303"
+	  }
+	}
+  },
+  {
+	"_id": "6269740b1dc3441d6054fcc1",
+	"name": "Vendor",
+	"scope": "Users",
+	"description": "service vendor",
+	"protected": false,
+	"mandatory2fa": false,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1651078155114"
+	  }
+	}
+  },
+  {
+	"_id": "626974621dc3441d6054fcc2",
+	"name": "VIP 2",
+	"scope": "Users",
+	"description": "VIP lvl 2",
+	"protected": false,
+	"mandatory2fa": false,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1651078242184"
+	  }
+	}
+  },
+  {
+	"_id": "pre-user",
+	"name": "preUser",
+	"scope": "Users",
+	"description.langKey": "gso.pre-user.description",
+	"description": "used 4 newly registered users, with limited permissions ",
+	"promotion": {
+	  "target": "user",
+	  "requirement": {
+		"exp": 2000,
+		"dailyLoginCount": 30,
+		"whatever": true
+	  },
+	  "handlerClass": "PreUserPromotionHandler"
+	},
+	"protected": false,
+	"mandatory2fa": false,
+	"_updatedAt": {
+	  "$date": {
+		"$numberLong": "1651078242184"
+	  }
+	}
+  }
+]

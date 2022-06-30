@@ -31,7 +31,7 @@ const HeaderWithData = (): ReactElement => {
 							<CreateRoom title={t('Create_new')} data-qa='sidebar-create' />
 						</>
 					)}
-					<Sidebar.TopBar.Action icon='circle-cross' onClick={() => sidebar.toggle()} />
+					<Sidebar.TopBar.Action icon='circle-cross' onClick={(): void => sidebar.toggle()} />
 					{!user && <Login title={t('Login')} />}
 				</Sidebar.TopBar.Actions>
 			</Sidebar.TopBar.Section>

@@ -11,14 +11,17 @@ Meteor.methods({
 		const employerConfig = {
 			id: 'employer',
 			cmpClass: 'EmployerRoleFormCmp',
+			show: false,
 			cmpConfig: {
 				rank1: 50,
 				rank2: 100,
+				rank3: 200,
 			},
 		};
 
 		const employeeConfig = {
 			id: 'employee',
+			show: false,
 			cmpClass: 'EmployeeRoleFormCmp',
 			cmpConfig: {
 				escrow: 50,
@@ -27,12 +30,30 @@ Meteor.methods({
 
 		const brokerConfig = {
 			id: 'broker',
+			show: false,
 			cmpClass: 'BrokerRoleFormCmp',
 			cmpConfig: {
 				escrow: 80,
 			},
 		};
-		return { employerConfig, employeeConfig, brokerConfig };
+
+		const broker2Config = {
+			id: 'broker2',
+			show: true,
+			cmpClass: 'Broker2RoleFormCmp',
+			cmpConfig: {
+				escrow: 80,
+			},
+		};
+
+		const broker3Config = {
+			id: 'broker3',
+			show: false,
+			cmpConfig: {
+				escrow: 80,
+			},
+		};
+		return [employerConfig, employeeConfig, brokerConfig, broker2Config, broker3Config];
 	},
 	async addEscrow(params: IEscrowCreateParams) {
 		check(
@@ -49,7 +70,7 @@ Meteor.methods({
 
 		const Escrows = new EscrowService();
 
-		const duplicate = await Escrows.findByUserId(Meteor.userId());
+		const duplicate = await Escrows.findByUserId(Meteor.userId() as string);
 
 		if (duplicate) {
 			throw new Meteor.Error('duplicate-escrow', 'Users can only create one escrow');
@@ -57,7 +78,7 @@ Meteor.methods({
 
 		const escrow = await Escrows.create({
 			...params,
-			userId: Meteor.userId(),
+			userId: Meteor.userId() as string,
 		});
 
 		const query = { _id: Meteor.userId() };
@@ -111,7 +132,7 @@ Meteor.methods({
 
 		const Escrows = new EscrowService();
 
-		const escrow = await Escrows.update(escrowId, { ...params, userId: Meteor.userId() });
+		const escrow = await Escrows.update(escrowId, { ...params, userId: Meteor.userId() as string });
 
 		return escrow;
 	},
@@ -136,7 +157,7 @@ Meteor.methods({
 
 		const results = await Escrows.list(paginationOptions, {
 			sort: queryOptions.sort,
-			query: { ...queryOptions.query, userId: Meteor.userId() },
+			query: { ...queryOptions.query, userId: Meteor.userId() as string },
 		}).toArray();
 
 		return results;
