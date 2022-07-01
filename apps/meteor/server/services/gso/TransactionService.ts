@@ -9,6 +9,8 @@ import { CreateObject } from '../../../definition/ICreate';
 import { UpdateObject } from '../../../definition/IUpdate';
 import { InsertionModel } from '../../../app/models/server/raw/BaseRaw';
 import { TransactionsModel } from '../../../app/models/server/raw';
+import { ITransactionService } from '../../sdk/types/ITransactionService';
+import { IFundTransaction } from '@rocket.chat/core-typings';
 
 const createHash = (length: number): string => {
 	let result = '';
@@ -25,41 +27,55 @@ const createLongRandomNumber = (): string => {
 	return foo;
 };
 
-export class TransactionService extends ServiceClassInternal implements IFundTransactionsModel {
+export class TransactionService extends ServiceClassInternal implements ITransactionService {
+	findByOwner(ownerId: any, options: any): Promise<IFundTransaction[]> {
+		throw new Error('Method not implemented.');
+	}
+
+	async getById(transactionId: string): Promise<IFundTransaction> {
+		const transaction = await this.TransactionModel.findOneById(transactionId);
+		if (!transaction) {
+			throw new Error('transaction-does-not-exist');
+		}
+		return transaction;
+
+	}
+
+	archive(transactionId: string): Promise<boolean> {
+		throw new Error('Method not implemented.');
+	}
+
+	markAudited(transactionId: string): Promise<boolean> {
+		throw new Error('Method not implemented.');
+	}
+
 	protected name = 'transaction';
 
 	private TransactionModel: TransactionsRaw = TransactionsModel;
 
-	async create(params: ITransactionCreateParams): Promise<ITransaction> {
-		const gatewayData: IGatewayData = {
-			gateway: params.gateway,
-			quantity: params.quantity,
-			amount: params.amount,
-			currency: params.currency,
-		};
-		const createData: InsertionModel<ITransaction> = {
-			...new CreateObject(),
-			...params,
-			gatewayData,
-			hash: createHash(6),
-			transactionCode: createLongRandomNumber(),
-		};
-		const result = await this.TransactionModel.insertOne(createData);
-		return this.TransactionModel.findOneById(result.insertedId);
-	}
+	// async create(params: ITransactionCreateParams): Promise<ITransaction> {
+	// 	const gatewayData: IGatewayData = {
+	// 		gateway: params.gateway,
+	// 		quantity: params.quantity,
+	// 		amount: params.amount,
+	// 		currency: params.currency,
+	// 	};
+	// 	const createData: InsertionModel<ITransaction> = {
+	// 		...new CreateObject(),
+	// 		...params,
+	// 		gatewayData,
+	// 		hash: createHash(6),
+	// 		transactionCode: createLongRandomNumber(),
+	// 	};
+	// 	const result = await this.TransactionModel.insertOne(createData);
+	// 	return this.TransactionModel.findOneById(result.insertedId);
+	// }
 
 	async delete(transactionId: string): Promise<void> {
 		await this.getTransaction(transactionId);
 		await this.TransactionModel.removeById(transactionId);
 	}
 
-	async getTransaction(transactionId: string): Promise<ITransaction> {
-		const transaction = await this.TransactionModel.findOneById(transactionId);
-		if (!transaction) {
-			throw new Error('transaction-does-not-exist');
-		}
-		return transaction;
-	}
 
 	async update(transactionId: string, params: ITransactionUpdateParams): Promise<ITransaction> {
 		await this.getTransaction(transactionId);

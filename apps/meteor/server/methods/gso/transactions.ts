@@ -11,7 +11,7 @@ Meteor.methods({
 		console.log(id);
 	},
 
-	'fund.withdraw'(params: IWithdraw) {
+	'transaction.getUserTransactions'(params: IWithdraw) {
 		const nonce = Math.floor(Math.random() * 10);
 		// 1. validating data
 		check(

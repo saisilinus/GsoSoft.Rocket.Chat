@@ -3,7 +3,7 @@ import type { IEscrow } from '@rocket.chat/core-typings';
 
 import type { IBaseModel } from './IBaseModel';
 
-export interface IEscrowsModel extends IBaseModel<IEscrow> {
+export interface ITasksModel extends IBaseModel<IEscrow> {
 	delete(EscrowId: IEscrow['_id']): Promise<void>;
 
 	getEscrow(EscrowId: IEscrow['_id']): Promise<IEscrow>;

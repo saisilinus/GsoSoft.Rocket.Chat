@@ -2,21 +2,22 @@ import type { Cursor, AggregationCursor } from 'mongodb';
 import type { IRoom, IOmnichannelGenericRoom, IFundTransaction } from '@rocket.chat/core-typings';
 
 import type { IBaseModel } from './IBaseModel';
+import { IBanner } from '@rocket.chat/core-typings';
+import { InsertOneWriteOpResult } from 'mongodb';
 
+/**
+ * Data layer object for IFundTransaction
+ */
 export interface IFundTransactionsModel extends IBaseModel<IRoom> {
-	create(params: ITransactionCreateParams): Promise<IFundTransaction>;
-
-	list(paginationOptions?: IPaginationOptions, queryOptions?: IQueryOptions<ITransaction>): Cursor<ITransaction>;
-
-	update(transactionId: ITransaction['_id'], params: ITransactionUpdateParams): Promise<ITransaction>;
+	create(doc: IFundTransaction): Promise<InsertOneWriteOpResult<IBanner>>;
 
 	/**
 	 *
 	 * @param transactionId
 	 */
-	markAsAudited(transactionId: ITransaction['_id']): Promise<void>;
+	markAsAudited(transactionId: IFundTransaction['_id']): Promise<void>;
 
-	getTransaction(transactionId: ITransaction['_id']): Promise<ITransaction>;
+	getTransaction(transactionId: IFundTransaction['_id']): Promise<IFundTransaction>;
 
 	findByOwner(name: any, options: any): any;
 
