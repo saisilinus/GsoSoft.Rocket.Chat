@@ -2,10 +2,11 @@ import { Accordion, Box, CheckBox, Icon, Tooltip } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import React, { createRef, ReactElement, useMemo, useState } from 'react';
+import React, { ReactElement, useMemo, useState } from 'react';
 
 import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
+import './tooltip.css';
 
 const preferences: Record<string, any> = [
 	{
@@ -32,7 +33,6 @@ const EmployerPreferencesView = (): ReactElement => {
 	const [openGateway, setOpenGateway] = useState<Record<string, any>>({});
 	const [closeGateway, setCloseGateway] = useState('');
 	// const [checkedItems, setCheckedItems] = useState<string[]>([]);
-	const info = createRef();
 	const t = useTranslation();
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -87,10 +87,18 @@ const EmployerPreferencesView = (): ReactElement => {
 		FlowRouter.go('/account/view-profile');
 	};
 
-	// const showToolTip = () => {
-	// 	info.current.style.visibility = 'visible';
-	// 	info.current.style.opacity = 1;
-	// };
+	const showToolTip = (item: string): void => {
+		const element = document.querySelector(`#${item}`);
+		if (element) {
+			if (element.classList.contains('invisible')) {
+				element.classList.remove('invisible');
+				element.classList.add('visible');
+			} else {
+				element.classList.remove('visible');
+				element.classList.add('invisible');
+			}
+		}
+	};
 
 	return (
 		<Page id='topup-page'>
@@ -109,11 +117,14 @@ const EmployerPreferencesView = (): ReactElement => {
 											<CheckBox key={index} />
 											<p style={{ marginLeft: '8px' }}>{item}</p>
 										</Box>
-										{/* @ts-ignore */}
-										<Tooltip invisible={true} ref={info} placement='top-middle'>
-											Description
-										</Tooltip>
-										<Icon name='info' size='x32' />
+										<Box style={{ position: 'relative' }}>
+											{/* The regex is meant to remove any spacing in the word so that we can later select this element using query selector */}
+											<Tooltip id={item.replace(/\s+/g, '-')} className='invisible' placement='left'>
+												Description
+											</Tooltip>
+											{/* Same thing here */}
+											<Icon onClick={(): void => showToolTip(item.replace(/\s+/g, '-'))} name='info' size='x32' />
+										</Box>
 									</Box>
 								))}
 							</Box>
