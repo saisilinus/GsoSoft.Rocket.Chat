@@ -1,4 +1,4 @@
-import { Accordion, Box, CheckBox, Icon, Tooltip } from '@rocket.chat/fuselage';
+import { Accordion, Box, Button, CheckBox, Icon, Tooltip } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
@@ -133,10 +133,12 @@ const EmployerPreferencesView = (): ReactElement => {
 										</Box>
 									</Box>
 								))}
+								<Button secondary>More Tags</Button>
 							</Box>
 						</Accordion.Item>
 					))}
 				</Accordion>
+				<Button primary>Save</Button>
 			</Page.ScrollableContentWithShadow>
 		</Page>
 	);
