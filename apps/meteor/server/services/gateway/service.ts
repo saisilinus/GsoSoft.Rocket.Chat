@@ -2,11 +2,14 @@ import { Cursor } from 'mongodb';
 
 import { ServiceClassInternal } from '../../sdk/types/ServiceClass';
 import { IGatewayService, IGatewayCreateParams, IGateway, IGatewayUpdateParams } from '../../../definition/IGateway';
-import { GatewaysRaw } from '../../../app/models/server/raw/Gateways';
+
+import type { IPaymentGateway } from '@rocket.chat/core-typings';
+import { Users } from '@rocket.chat/models';
+
+
 import { IPaginationOptions, IQueryOptions } from '../../../definition/ITeam';
 import { CreateObject } from '../../../definition/ICreate';
 import { UpdateObject } from '../../../definition/IUpdate';
-import { InsertionModel } from '../../../app/models/server/raw/BaseRaw';
 import { GatewaysModel } from '../../../app/models/server/raw';
 
 export class GatewayService extends ServiceClassInternal implements IGatewayService {

@@ -106,16 +106,16 @@ const EscrowHistory = (): ReactElement => {
 			<Page.ScrollableContentWithShadow>
 				{escrowResults.length
 					? escrowResults.map((result, index) => (
-							<PaymentModule
-								page='escrowHistory'
-								gateway={result.type}
-								amount={result.amount}
-								quantity={result.status}
-								date={result.startedDate}
-								key={index}
-								openModal={(): void => setModal(true)}
-							/>
-					  ))
+						<PaymentModule
+							page='escrowHistory'
+							gateway={result.type}
+							amount={result.amount}
+							quantity={result.status}
+							date={result.startedDate}
+							key={index}
+							openModal={(): void => setModal(true)}
+						/>
+					))
 					: 'Loading...'}
 				<Box width='full' display='flex' justifyContent='center' style={{ marginTop: '20px' }}>
 					<Button primary onClick={(): void => fetchEscrowRecords('loadMore')}>
