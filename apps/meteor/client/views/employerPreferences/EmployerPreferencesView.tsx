@@ -2,10 +2,11 @@ import { Accordion, Box, CheckBox, Icon, Tooltip } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import React, { ReactElement, useMemo, useState } from 'react';
+import React, { ReactElement, useContext, useMemo, useState } from 'react';
 
 import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
+import { UserPreviousPageContext } from '../../contexts/UserPreviousPageContext/GlobalState';
 import './tooltip.css';
 
 const preferences: Record<string, any> = [
@@ -32,7 +33,8 @@ const preferences: Record<string, any> = [
 const EmployerPreferencesView = (): ReactElement => {
 	const [openGateway, setOpenGateway] = useState<Record<string, any>>({});
 	const [closeGateway, setCloseGateway] = useState('');
-	// const [checkedItems, setCheckedItems] = useState<string[]>([]);
+	const [checkedItems, setCheckedItems] = useState<string[]>([]);
+	const { value } = useContext(UserPreviousPageContext);
 	const t = useTranslation();
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -81,10 +83,14 @@ const EmployerPreferencesView = (): ReactElement => {
 		setOpenGateway({ open, id: accordionItem.id });
 	};
 
-	// const handleCheckBox = (item) => {};
+	const handleCheckBox = (item: string): void => {
+		if (!checkedItems.includes(item)) {
+			setCheckedItems([...checkedItems, item]);
+		}
+	};
 
 	const handleRouteBack = (): void => {
-		FlowRouter.go('/account/view-profile');
+		FlowRouter.go(`${value.location}`);
 	};
 
 	const showToolTip = (item: string): void => {
@@ -101,9 +107,9 @@ const EmployerPreferencesView = (): ReactElement => {
 	};
 
 	return (
-		<Page id='topup-page'>
+		<Page id='employer-preferences-page'>
 			{/* @ts-ignore */}
-			<ProfileHeader title={t('gso_topupView_profileHeader')} handleRouteBack={handleRouteBack} />
+			<ProfileHeader title={t('gso_employerPreferencesPage_header')} handleRouteBack={handleRouteBack} />
 			<Page.ScrollableContentWithShadow>
 				<Accordion style={{ margin: '15px 0' }}>
 					{preferences.map((pref, index) => (
@@ -114,7 +120,7 @@ const EmployerPreferencesView = (): ReactElement => {
 								{pref.items.map((item, index) => (
 									<Box display='flex' key={index} justifyContent='space-between' style={{ marginBottom: '9px' }}>
 										<Box display='flex'>
-											<CheckBox key={index} />
+											<CheckBox key={index} onClick={(): void => handleCheckBox(item)} />
 											<p style={{ marginLeft: '8px' }}>{item}</p>
 										</Box>
 										<Box style={{ position: 'relative' }}>
