@@ -1,3 +1,5 @@
+import './models/startup';
+import '../ee/server/models/startup';
 import './services/startup';
 import '../app/settings/server';
 import '../lib/oauthRedirectUri';
@@ -65,9 +67,7 @@ import './methods/setUserPassword';
 import './methods/toogleFavorite';
 import './methods/unmuteUserInRoom';
 import './methods/userSetUtcOffset';
-import './methods/transactions';
-import './methods/gateways';
-import './methods/escrow';
+
 import './methods/addComment';
 import './methods/createBlog';
 import './methods/createGame';
@@ -93,7 +93,6 @@ import './methods/updateProduct';
 import './methods/updateTag';
 import './methods/setRandomTrustScore';
 import './methods/setUserReward';
-import './methods/tasks';
 import './publications/messages';
 import './publications/room';
 import './publications/settings';
@@ -106,3 +105,6 @@ import './stream/streamBroadcast';
 import './settings/index';
 
 import './features/EmailInbox/index';
+
+// gso
+import './methods/gso';

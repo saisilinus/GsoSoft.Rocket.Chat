@@ -1,16 +1,12 @@
 import { Cursor } from 'mongodb';
 
+import { Escrows } from '@rocket.chat/models';
 import { ServiceClassInternal } from '../../sdk/types/ServiceClass';
-import { IEscrowService, IEscrowCreateParams, IEscrow, IEscrowUpdateParams } from '../../../definition/IEscrow';
-import { IPaginationOptions, IQueryOptions } from '../../../definition/ITeam';
-import { InsertionModel } from '../../../app/models/server/raw/BaseRaw';
-import { EscrowsModel } from '../../../app/models/server/raw';
-import { EscrowsRaw } from '../../../app/models/server/raw/Escrows';
+import { IEscrow } from '@rocket.chat/core-typings';
+
 
 export class EscrowService extends ServiceClassInternal implements IEscrowService {
 	protected name = 'escrow';
-
-	private EscrowModel: EscrowsRaw = EscrowsModel;
 
 	async create(params: IEscrowCreateParams): Promise<IEscrow> {
 		const createData: InsertionModel<IEscrow> = {
@@ -64,6 +60,6 @@ export class EscrowService extends ServiceClassInternal implements IEscrowServic
 	}
 
 	async findByUserId(userId: IEscrow['userId']): Promise<IEscrow | null> {
-		return this.EscrowModel.findOne({ userId });
+		return Escrows.findOne({ userId });
 	}
 }
