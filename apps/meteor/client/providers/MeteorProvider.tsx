@@ -18,6 +18,7 @@ import ToastMessagesProvider from './ToastMessagesProvider';
 import TooltipProvider from './TooltipProvider';
 import TranslationProvider from './TranslationProvider';
 import UserProvider from './UserProvider';
+import VideoConfProvider from './VideoConfProvider';
 import DailyTasksProvider from './DailyTasksProvider';
 import PaymentResultProvider from './PaymentResultProvider';
 import UserPreviousPageProvider from './UserPreviousPageProvider';
@@ -37,19 +38,21 @@ const MeteorProvider: FC = ({ children }) => (
 												<UserProvider>
 													<ModalProvider>
 														<AuthorizationProvider>
-															<DeviceProvider>
-																<CallProvider>
-																	<OmnichannelProvider>
-																		<UserPreviousPageProvider>
-																			<PaymentResultProvider>
-																				<DailyTasksProvider>
-																					<AttachmentProvider>{children}</AttachmentProvider>
-																				</DailyTasksProvider>
-																			</PaymentResultProvider>
-																		</UserPreviousPageProvider>
-																	</OmnichannelProvider>
-																</CallProvider>
-															</DeviceProvider>
+															<VideoConfProvider>
+																<DeviceProvider>
+																	<CallProvider>
+																		<OmnichannelProvider>
+																			<UserPreviousPageProvider>
+																				<PaymentResultProvider>
+																					<DailyTasksProvider>
+																						<AttachmentProvider>{children}</AttachmentProvider>
+																					</DailyTasksProvider>
+																				</PaymentResultProvider>
+																			</UserPreviousPageProvider>
+																		</OmnichannelProvider>
+																	</CallProvider>
+																</DeviceProvider>
+															</VideoConfProvider>
 														</AuthorizationProvider>
 													</ModalProvider>
 												</UserProvider>
