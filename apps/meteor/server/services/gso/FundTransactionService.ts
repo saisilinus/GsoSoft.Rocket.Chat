@@ -5,12 +5,11 @@ import { ServiceClassInternal } from '../../sdk/types/ServiceClass';
 import { IFundTransactionsModel } from '../../sdk/types/IRoomService';
 import { TransactionsRaw } from '../../../app/models/server/raw/Transactions';
 import { IPaginationOptions, IQueryOptions } from '../../../definition/ITeam';
-import { CreateObject } from '../../../definition/ICreate';
 import { UpdateObject } from '../../../definition/IUpdate';
-import { InsertionModel } from '../../../app/models/server/raw/BaseRaw';
 import { TransactionsModel } from '../../../app/models/server/raw';
-import { ITransactionService } from '../../sdk/types/ITransactionService';
-import { IFundTransaction } from '@rocket.chat/core-typings';
+import { ITransactionService } from '../../sdk/types/gso/ITransactionService';
+import { IFundTransaction, IPaymentGatewayData } from '@rocket.chat/core-typings';
+import { ITransactionCreateParams } from '../../../definition/ITransaction';
 
 const createHash = (length: number): string => {
 	let result = '';
@@ -27,7 +26,27 @@ const createLongRandomNumber = (): string => {
 	return foo;
 };
 
-export class TransactionService extends ServiceClassInternal implements ITransactionService {
+export class FundTransactionService extends ServiceClassInternal implements ITransactionService {
+
+	async create(params: ITransactionCreateParams): Promise<IFundTransaction> {
+		const gatewayData: IPaymentGatewayData = {
+			gateway: params.gateway,
+			quantity: params.quantity,
+			amount: params.amount,
+			currency: params.currency,
+		};
+		const createData: InsertionModel<ITransaction> = {
+			...new CreateObject(),
+			...params,
+			gatewayData,
+			hash: createHash(6),
+			transactionCode: createLongRandomNumber(),
+		};
+		const result = await this.TransactionModel.insertOne(createData);
+		return this.TransactionModel.findOneById(result.insertedId);
+	}
+
+
 	findByOwner(ownerId: any, options: any): Promise<IFundTransaction[]> {
 		throw new Error('Method not implemented.');
 	}
@@ -52,24 +71,6 @@ export class TransactionService extends ServiceClassInternal implements ITransac
 	protected name = 'transaction';
 
 	private TransactionModel: TransactionsRaw = TransactionsModel;
-
-	// async create(params: ITransactionCreateParams): Promise<ITransaction> {
-	// 	const gatewayData: IGatewayData = {
-	// 		gateway: params.gateway,
-	// 		quantity: params.quantity,
-	// 		amount: params.amount,
-	// 		currency: params.currency,
-	// 	};
-	// 	const createData: InsertionModel<ITransaction> = {
-	// 		...new CreateObject(),
-	// 		...params,
-	// 		gatewayData,
-	// 		hash: createHash(6),
-	// 		transactionCode: createLongRandomNumber(),
-	// 	};
-	// 	const result = await this.TransactionModel.insertOne(createData);
-	// 	return this.TransactionModel.findOneById(result.insertedId);
-	// }
 
 	async delete(transactionId: string): Promise<void> {
 		await this.getTransaction(transactionId);

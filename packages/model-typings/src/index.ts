@@ -62,6 +62,5 @@ export * from './models/IVoipRoomModel';
 export * from './models/IWebdavAccountsModel';
 
 // GSO
-export * from './models/gso/IPaymentGatewaysModel';
 export * from './models/gso/ITasksModel';
 export * from './models/gso/IFundTransactionsModel';

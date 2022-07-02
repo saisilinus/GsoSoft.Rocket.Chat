@@ -1,6 +1,12 @@
-import { IFundTransaction, Optional } from '@rocket.chat/core-typings';
+import { IFundTransaction } from '@rocket.chat/core-typings';
 
 export interface ITransactionService {
+	/**
+	 * Since there are many type of transaction, custom logic would be needed before call insertOne
+	 * @param doc fund-transaction sub type object
+	 */
+	create(doc: IFundTransaction): Promise<IFundTransaction>;
+
 	/**
 	 * Find transactions belonging to an owner ( person or organization )
 	 * @param name

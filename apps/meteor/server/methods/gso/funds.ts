@@ -1,9 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 
-import { TaskService } from '../services/task/service';
-import { TasksModel } from '../../app/models/server/raw';
-import { sampleTasks } from '../../app/models/server/raw/StaticTasks';
 import { Users } from '../../../app/models/server/raw';
 import {
 	IDeposit,
@@ -15,6 +12,11 @@ import {
  * All fund related method exposed to client side
  */
 Meteor.methods({
+	/**
+	 * User decides to deposit an amount of fund. The system check if user is having any pending deposit before, load it or initiate a new one
+	 *
+	 * @param params
+	 */
 	'fund.deposit'(params: IDeposit) {
 		const nonce = Math.floor(Math.random() * 10);
 		// 1. validating data
@@ -37,6 +39,8 @@ Meteor.methods({
 			const query = { _id: Meteor.userId() };
 			await Users.update(query, { $inc: { credit: params.quantity } });
 		}
+
+		//
 
 		// delegate to gateway adapter
 

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import { IDeposit, IFundTransaction, ISendFund, IUser, IWithdraw } from '@rocket.chat/core-typings';
-import { TransactionService } from '../../services/gso/TransactionService';
+import { FundTransactionService } from '../../services/gso/TransactionService';
 
 /**
  * All fund related method exposed to client side
@@ -67,7 +67,7 @@ Meteor.methods({
 			}),
 		);
 
-		const Transactions = new TransactionService();
+		const Transactions = new FundTransactionService();
 
 		const results = await Transactions.list(paginationOptions, {
 			sort: queryOptions.sort,
@@ -80,7 +80,7 @@ Meteor.methods({
 	async markTransactionAudited(transactionId: ITransaction['_id']) {
 		check(transactionId, String);
 
-		const Transactions = new TransactionService();
+		const Transactions = new FundTransactionService();
 
 		await Transactions.delete(transactionId);
 
@@ -90,7 +90,7 @@ Meteor.methods({
 	async getOneTransaction(transactionId: ITransaction['_id']) {
 		check(transactionId, String);
 
-		const Transactions = new TransactionService();
+		const Transactions = new FundTransactionService();
 
 		const transaction = await Transactions.getTransaction(transactionId);
 
