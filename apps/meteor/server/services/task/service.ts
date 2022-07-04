@@ -1,16 +1,14 @@
 import { Cursor } from 'mongodb';
+import { ITask } from '@rocket.chat/core-typings/dist/gso';
+import { Tasks } from '@rocket.chat/models';
+import { InsertionModel } from '@rocket.chat/model-typings';
+import { IPaginationOptions, IQueryOptions } from '@rocket.chat/core-typings';
 
 import { ServiceClassInternal } from '../../sdk/types/ServiceClass';
-import { ITaskService, ITaskCreateParams, ITask, ITaskUpdateParams } from '../../../definition/ITask';
-import { IPaginationOptions, IQueryOptions } from '../../../definition/ITeam';
-import { InsertionModel } from '../../../app/models/server/raw/BaseRaw';
-import { TasksModel } from '../../../app/models/server/raw';
-import { TasksRaw } from '../../../app/models/server/raw/Tasks';
+import { ITaskService, ITaskCreateParams, ITaskUpdateParams } from '../../sdk/types/ITaskService';
 
 export class TaskService extends ServiceClassInternal implements ITaskService {
 	protected name = 'task';
-
-	private TaskModel: TasksRaw = TasksModel;
 
 	async create(params: ITaskCreateParams): Promise<ITask> {
 		const createData: InsertionModel<ITask> = {
@@ -20,17 +18,19 @@ export class TaskService extends ServiceClassInternal implements ITaskService {
 			assignedBy: '',
 			assignedTo: '',
 		};
-		const result = await this.TaskModel.insertOne(createData);
-		return this.TaskModel.findOneById(result.insertedId);
+		const result = await Tasks.insertOne(createData);
+		const task = await Tasks.findOneById(result.insertedId);
+		if (!task) throw new Error('task-does-not-exist');
+		return task;
 	}
 
 	async delete(taskId: string): Promise<void> {
 		await this.getTask(taskId);
-		await this.TaskModel.removeById(taskId);
+		await Tasks.removeById(taskId);
 	}
 
 	async getTask(taskId: string): Promise<ITask> {
-		const task = await this.TaskModel.findOneById(taskId);
+		const task = await Tasks.findOneById(taskId);
 		if (!task) {
 			throw new Error('task-does-not-exist');
 		}
@@ -45,15 +45,17 @@ export class TaskService extends ServiceClassInternal implements ITaskService {
 		const updateData = {
 			...params,
 		};
-		const result = await this.TaskModel.updateOne(query, { $set: updateData });
-		return this.TaskModel.findOneById(result.upsertedId._id.toHexString());
+		const result = await Tasks.updateOne(query, { $set: updateData });
+		const task = await Tasks.findOneById(result.upsertedId._id.toHexString());
+		if (!task) throw new Error('task-does-not-exist');
+		return task;
 	}
 
 	list(
 		{ offset, count }: IPaginationOptions = { offset: 0, count: 50 },
 		{ sort, query }: IQueryOptions<ITask> = { sort: { endDate: 1, sortOrder: -1 } },
 	): Cursor<ITask> {
-		return this.TaskModel.find(
+		return Tasks.find(
 			{ ...query },
 			{
 				...(sort && { sort }),

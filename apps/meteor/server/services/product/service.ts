@@ -1,36 +1,34 @@
 import { Cursor } from 'mongodb';
+import { IProduct } from '@rocket.chat/core-typings/dist/gso';
+import { Products } from '@rocket.chat/models';
+import { InsertionModel } from '@rocket.chat/model-typings';
+import { IPaginationOptions, IQueryOptions } from '@rocket.chat/core-typings';
 
 import { ServiceClassInternal } from '../../sdk/types/ServiceClass';
-import { IProductService, IProductCreateParams, IProduct, IProductUpdateBody, IProductUpdateParams } from '../../../definition/IProduct';
-import { ProductsRaw } from '../../../app/models/server/raw/Products';
-import { IPaginationOptions, IQueryOptions } from '../../../definition/ITeam';
-import { CreateObject } from '../../../definition/ICreate';
-import { UpdateObject } from '../../../definition/IUpdate';
-import { InsertionModel } from '../../../app/models/server/raw/BaseRaw';
-import { ProductsModel } from '../../../app/models/server/raw';
+import { IProductService, IProductCreateParams, IProductUpdateParams } from '../../sdk/types/IProductService';
 
 export class ProductService extends ServiceClassInternal implements IProductService {
 	protected name = 'product';
 
-	private ProductModel: ProductsRaw = ProductsModel;
-
 	async create(params: IProductCreateParams): Promise<IProduct> {
 		const createData: InsertionModel<IProduct> = {
-			...new CreateObject(),
+			createdAt: new Date(),
 			...params,
 			...(params.ranking ? { ranking: params.ranking } : { ranking: 0 }),
 		};
-		const result = await this.ProductModel.insertOne(createData);
-		return this.ProductModel.findOneById(result.insertedId);
+		const result = await Products.insertOne(createData);
+		const product = await Products.findOneById(result.insertedId);
+		if (!product) throw new Error('product-does-not-exist');
+		return product;
 	}
 
 	async delete(productId: string): Promise<void> {
 		await this.getProduct(productId);
-		await this.ProductModel.removeById(productId);
+		await Products.removeById(productId);
 	}
 
 	async getProduct(productId: string): Promise<IProduct> {
-		const product = this.ProductModel.findOneById(productId);
+		const product = await Products.findOneById(productId);
 		if (!product) {
 			throw new Error('product-does-not-exist');
 		}
@@ -42,19 +40,20 @@ export class ProductService extends ServiceClassInternal implements IProductServ
 		const query = {
 			_id: productId,
 		};
-		const updateData: IProductUpdateBody = {
-			...new UpdateObject(),
+		const updateData = {
 			...params,
 		};
-		const result = await this.ProductModel.updateOne(query, { $set: updateData });
-		return this.ProductModel.findOneById(result.upsertedId._id.toHexString());
+		const result = await Products.updateOne(query, { $set: updateData });
+		const product = await Products.findOneById(result.upsertedId._id.toHexString());
+		if (!product) throw new Error('product-does-not-exist');
+		return product;
 	}
 
 	list(
 		{ offset, count }: IPaginationOptions = { offset: 0, count: 50 },
 		{ sort, query }: IQueryOptions<IProduct> = { sort: {} },
 	): Cursor<IProduct> {
-		return this.ProductModel.find(
+		return Products.find(
 			{ ...query },
 			{
 				...(sort && { sort }),

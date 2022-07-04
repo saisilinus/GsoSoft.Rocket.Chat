@@ -1,6 +1,6 @@
 import type { IPaymentGateway } from '@rocket.chat/core-typings';
 
-import type { IBaseModel } from './IBaseModel';
+import type { IBaseModel } from '../IBaseModel';
 
 // export type IGatewayCreateParams = PartialBy<Omit<IPaymentGateway, '_updatedAt'>, 'cmpClass' | 'cmpConfig'>;
 //

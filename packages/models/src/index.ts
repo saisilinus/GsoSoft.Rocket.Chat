@@ -60,7 +60,18 @@ import type {
 	IUsersModel,
 	IVoipRoomModel,
 	IWebdavAccountsModel,
-	IEscrowsModel, IFundTransactionsModel,
+	IEscrowsModel,
+	IFundTransactionsModel,
+	IBlogsModel,
+	ICommentsModel,
+	IGamesModel,
+	IGatewaysModel,
+	IProductsModel,
+	ITagGroupsModel,
+	ITagsModel,
+	ITasksModel,
+	ITransactionsModel,
+	IPaymentGatewaysModel,
 } from '@rocket.chat/model-typings';
 
 import { proxify } from './proxify';
@@ -139,7 +150,17 @@ export const UserDataFiles = proxify<IUserDataFilesModel>('IUserDataFilesModel')
 export const UsersSessions = proxify<IUsersSessionsModel>('IUsersSessionsModel');
 export const VoipRoom = proxify<IVoipRoomModel>('IVoipRoomModel');
 export const WebdavAccounts = proxify<IWebdavAccountsModel>('IWebdavAccountsModel');
+
 // gso expansion , each model here is like a mongodb Collection
 export const Escrows = proxify<IEscrowsModel>('IEscrowsModel');
 export const FundTransactions = proxify<IFundTransactionsModel>('IFundTransactionsModel');
-export const Escrows = proxify<IEscrowsModel>('I');
+export const Blogs = proxify<IBlogsModel>('IBlogsModel');
+export const Comments = proxify<ICommentsModel>('ICommentsModel');
+export const Games = proxify<IGamesModel>('IGamesModel');
+export const Gateways = proxify<IGatewaysModel>('IGatewaysModel');
+export const Products = proxify<IProductsModel>('IProductsModel');
+export const TagGroups = proxify<ITagGroupsModel>('ITagGroupsModel');
+export const Tags = proxify<ITagsModel>('ITagsModel');
+export const Tasks = proxify<ITasksModel>('ITasksModel');
+export const Transactions = proxify<ITransactionsModel>('ITransactionsModel');
+export const PaymentGateways = proxify<IPaymentGatewaysModel>('IPaymentGatewaysModel');

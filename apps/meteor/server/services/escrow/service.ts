@@ -1,8 +1,11 @@
 import { Cursor } from 'mongodb';
-
+import { IEscrow } from '@rocket.chat/core-typings/dist/gso';
 import { Escrows } from '@rocket.chat/models';
+import { InsertionModel } from '@rocket.chat/model-typings';
+import { IPaginationOptions, IQueryOptions } from '@rocket.chat/core-typings';
+
 import { ServiceClassInternal } from '../../sdk/types/ServiceClass';
-import { IEscrow } from '@rocket.chat/core-typings';
+import { IEscrowService, IEscrowCreateParams, IEscrowUpdateParams } from '../../sdk/types/IEscrowService';
 
 
 export class EscrowService extends ServiceClassInternal implements IEscrowService {
@@ -12,21 +15,23 @@ export class EscrowService extends ServiceClassInternal implements IEscrowServic
 		const createData: InsertionModel<IEscrow> = {
 			...params,
 			startDate: new Date(),
-			endDate: -1,
+			endDate: new Date(),
 			approvedBy: '',
 			status: 'submitted',
 		};
-		const result = await this.EscrowModel.insertOne(createData);
-		return this.EscrowModel.findOneById(result.insertedId);
+		const result = await Escrows.insertOne(createData);
+		const escrow = await Escrows.findOneById(result.insertedId);
+		if (!escrow) throw new Error('escrow-does-not-exist');
+		return escrow;
 	}
 
 	async delete(escrowId: string): Promise<void> {
 		await this.getEscrow(escrowId);
-		await this.EscrowModel.removeById(escrowId);
+		await Escrows.removeById(escrowId);
 	}
 
 	async getEscrow(escrowId: string): Promise<IEscrow> {
-		const escrow = await this.EscrowModel.findOneById(escrowId);
+		const escrow = await Escrows.findOneById(escrowId);
 		if (!escrow) {
 			throw new Error('escrow-does-not-exist');
 		}
@@ -41,15 +46,17 @@ export class EscrowService extends ServiceClassInternal implements IEscrowServic
 		const updateData = {
 			...params,
 		};
-		const result = await this.EscrowModel.updateOne(query, { $set: updateData });
-		return this.EscrowModel.findOneById(result.upsertedId._id.toHexString());
+		const result = await Escrows.updateOne(query, { $set: updateData });
+		const escrow = await Escrows.findOneById(result.upsertedId._id.toHexString());
+		if (!escrow) throw new Error('escrow-does-not-exist');
+		return escrow;
 	}
 
 	list(
 		{ offset, count }: IPaginationOptions = { offset: 0, count: 50 },
 		{ sort, query }: IQueryOptions<IEscrow> = { sort: {} },
 	): Cursor<IEscrow> {
-		return this.EscrowModel.find(
+		return Escrows.find(
 			{ ...query },
 			{
 				...(sort && { sort }),

@@ -1,37 +1,33 @@
 import { AggregationCursor } from 'mongodb';
+import { IBlog } from '@rocket.chat/core-typings/dist/gso';
+import { Blogs } from '@rocket.chat/models';
+import { InsertionModel } from '@rocket.chat/model-typings';
 
 import { ServiceClassInternal } from '../../sdk/types/ServiceClass';
-import { IBlogService, IBlogCreateParams, IBlog, IBlogUpdateBody, IBlogUpdateParams } from '../../../definition/IBlog';
-import { BlogsRaw } from '../../../app/models/server/raw/Blogs';
-import { CreateObject } from '../../../definition/ICreate';
-import { UpdateObject } from '../../../definition/IUpdate';
-import { InsertionModel } from '../../../app/models/server/raw/BaseRaw';
-import { BlogsModel } from '../../../app/models/server/raw';
+import { IBlogService, IBlogCreateParams, IBlogUpdateParams } from '../../sdk/types/IBlogService';
 
 export class BlogService extends ServiceClassInternal implements IBlogService {
 	protected name = 'blog';
 
-	private BlogModel: BlogsRaw = BlogsModel;
-
 	async create(params: IBlogCreateParams): Promise<IBlog> {
 		const createData: InsertionModel<IBlog> = {
-			...new CreateObject(),
 			...params,
 			...(params.tags ? { tags: params.tags } : { tags: [] }),
+			createdAt: new Date(),
 		};
-		const result = await this.BlogModel.insertOne(createData);
-		const blog = await this.BlogModel.findOneById(result.insertedId);
+		const result = await Blogs.insertOne(createData);
+		const blog = await Blogs.findOneById(result.insertedId);
 		if (!blog) throw new Error('blog-does-not-exist');
 		return blog;
 	}
 
 	async delete(blogId: string): Promise<void> {
 		await this.getBlog(blogId);
-		await this.BlogModel.removeById(blogId);
+		await Blogs.removeById(blogId);
 	}
 
 	async getBlog(blogId: string): Promise<IBlog> {
-		const blog = await this.BlogModel.findOneById(blogId);
+		const blog = await Blogs.findOneById(blogId);
 		if (!blog) {
 			throw new Error('blog-does-not-exist');
 		}
@@ -43,17 +39,16 @@ export class BlogService extends ServiceClassInternal implements IBlogService {
 		const query = {
 			_id: blogId,
 		};
-		const updateData: IBlogUpdateBody = {
-			...new UpdateObject(),
+		const updateData = {
 			...params,
 		};
-		const result = await this.BlogModel.updateOne(query, { $set: updateData });
-		const blog = await this.BlogModel.findOneById(result.upsertedId._id.toHexString());
+		const result = await Blogs.updateOne(query, { $set: updateData });
+		const blog = await Blogs.findOneById(result.upsertedId._id.toHexString());
 		if (!blog) throw new Error('blog-does-not-exist');
 		return blog;
 	}
 
 	list(limit = 10): AggregationCursor<IBlog> {
-		return this.BlogModel.getBlogsWithComments(limit);
+		return Blogs.getBlogsWithComments(limit);
 	}
 }

@@ -1,4 +1,4 @@
-import { IFundTransaction, Optional } from '@rocket.chat/core-typings';
+import { IFundTransaction } from '@rocket.chat/core-typings';
 
 export interface ITransactionService {
 	/**

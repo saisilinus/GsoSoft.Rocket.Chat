@@ -1,38 +1,32 @@
 import { Cursor } from 'mongodb';
+import { IGateway } from '@rocket.chat/core-typings/dist/gso';
+import { Gateways } from '@rocket.chat/models';
+import { InsertionModel } from '@rocket.chat/model-typings';
+import { IPaginationOptions, IQueryOptions } from '@rocket.chat/core-typings';
 
 import { ServiceClassInternal } from '../../sdk/types/ServiceClass';
-import { IGatewayService, IGatewayCreateParams, IGateway, IGatewayUpdateParams } from '../../../definition/IGateway';
-
-import type { IPaymentGateway } from '@rocket.chat/core-typings';
-import { Users } from '@rocket.chat/models';
-
-
-import { IPaginationOptions, IQueryOptions } from '../../../definition/ITeam';
-import { CreateObject } from '../../../definition/ICreate';
-import { UpdateObject } from '../../../definition/IUpdate';
-import { GatewaysModel } from '../../../app/models/server/raw';
+import { IGatewayService, IGatewayCreateParams, IGatewayUpdateParams } from '../../sdk/types/IGatewayService';
 
 export class GatewayService extends ServiceClassInternal implements IGatewayService {
 	protected name = 'gateway';
 
-	private GatewayModel: GatewaysRaw = GatewaysModel;
-
 	async create(params: IGatewayCreateParams): Promise<IGateway> {
 		const createData: InsertionModel<IGateway> = {
-			...new CreateObject(),
 			...params,
 		};
-		const result = await this.GatewayModel.insertOne(createData);
-		return this.GatewayModel.findOneById(result.insertedId);
+		const result = await Gateways.insertOne(createData);
+		const gateway = await Gateways.findOneById(result.insertedId);
+		if (!gateway) throw new Error('gateway-does-not-exist');
+		return gateway;
 	}
 
 	async delete(gatewayId: string): Promise<void> {
 		await this.getGateway(gatewayId);
-		await this.GatewayModel.removeById(gatewayId);
+		await Gateways.removeById(gatewayId);
 	}
 
 	async getGateway(gatewayId: string): Promise<IGateway> {
-		const gateway = await this.GatewayModel.findOneById(gatewayId);
+		const gateway = await Gateways.findOneById(gatewayId);
 		if (!gateway) {
 			throw new Error('gateway-does-not-exist');
 		}
@@ -45,18 +39,19 @@ export class GatewayService extends ServiceClassInternal implements IGatewayServ
 			_id: gatewayId,
 		};
 		const updateData = {
-			...new UpdateObject(),
 			...params,
 		};
-		const result = await this.GatewayModel.updateOne(query, { $set: updateData });
-		return this.GatewayModel.findOneById(result.upsertedId._id.toHexString());
+		const result = await Gateways.updateOne(query, { $set: updateData });
+		const gateway = await Gateways.findOneById(result.upsertedId._id.toHexString());
+		if (!gateway) throw new Error('gateway-does-not-exist');
+		return gateway;
 	}
 
 	list(
 		{ offset, count }: IPaginationOptions = { offset: 0, count: 50 },
 		{ sort, query }: IQueryOptions<IGateway> = { sort: {} },
 	): Cursor<IGateway> {
-		return this.GatewayModel.find(
+		return Gateways.find(
 			{ ...query },
 			{
 				...(sort && { sort }),
