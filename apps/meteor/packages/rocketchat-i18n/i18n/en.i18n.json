@@ -42,6 +42,7 @@
 	"gso_paymentResultPage_gateway": "Gateway:",
 	"gso_paymentResultPage_credit": "Your credit is now:",
 	"gso_employerPreferencesPage_header": "Employer Preferences",
+	"gso_employerPreferencesPage_title": "Pick your preferences",
 	"403": "Forbidden",
 	"500": "Internal Server Error",
 	"__count__empty_rooms_will_be_removed_automatically": "__count__ empty rooms will be removed automatically.",

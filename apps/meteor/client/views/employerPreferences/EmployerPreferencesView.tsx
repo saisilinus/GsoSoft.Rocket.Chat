@@ -111,6 +111,8 @@ const EmployerPreferencesView = (): ReactElement => {
 			{/* @ts-ignore */}
 			<ProfileHeader title={t('gso_employerPreferencesPage_header')} handleRouteBack={handleRouteBack} />
 			<Page.ScrollableContentWithShadow>
+				{/* @ts-ignore */}
+				<h3 style={{ fontSize: '19px', marginBottom: '10px' }}>{t('gso_employerPreferencesPage_title')}</h3>
 				<Accordion style={{ margin: '15px 0' }}>
 					{preferences.map((pref, index) => (
 						/* @ts-ignore */
