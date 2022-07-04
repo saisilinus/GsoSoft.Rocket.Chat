@@ -1,18 +1,24 @@
-import { ITask } from '../meteor/definition/ITask';
-import { PartialBy } from '../meteor/definition/PartialBy';
+import { faker } from '@faker-js/faker';
+import { ITask } from '@rocket.chat/core-typings/dist/gso';
+import { ModelOptionalId } from '@rocket.chat/model-typings';
+
+const typeOptions: ITask['type'][] = ['daily', 'longterm', 'achievements'];
+const statusOptions: ITask['status'][] = [-1, 0, 1];
+const getRandomNumber = Math.ceil(Math.random() * 10);
 
 const getRandomFutureDate = () => {
     const today = new Date();
-    const nonce = Math.floor(Math.random() * 10);
-    return new Date(today.setDate(today.getDate() + nonce));
+    return new Date(today.setDate(today.getDate() + getRandomNumber));
 };
+
+const pickRandom = (arr: any[]) => arr[Math.floor(Math.random() * arr.length)];
 
 const staticFields: Pick<ITask, 'startDate' | 'endDate' | 'assignedBy' | 'assignedTo' | 'sortOrder'> = {
     startDate: new Date(),
     endDate: getRandomFutureDate(),
     assignedBy: '',
     assignedTo: '',
-    sortOrder: 0,
+    sortOrder: getRandomNumber,
 };
 
 export const sampleTasks: Omit<ITask, '_id' | '_updatedAt'>[] = [
@@ -99,3 +105,26 @@ export const sampleTasks: Omit<ITask, '_id' | '_updatedAt'>[] = [
         reward: 25,  
     },
 ];
+
+/**
+ * Generates random tasks
+ * @param limit number of tasks to generate (default=100)
+ * @returns tasks
+ */
+export const generateTasks = (limit:number = 100): Pick<ModelOptionalId<ITask>, "_id" | "title" | "description" | "startDate" | "endDate" | "assignedBy" | "assignedTo" | "type" | "sortOrder" | "status" | "reward">[] => {
+    let taskList: Omit<ITask, '_id' | '_updatedAt'>[] = [];
+
+    for(let i = 0;i < limit; i++) {
+        let newTask: Omit<ITask, '_id' | '_updatedAt'> = {
+            ...staticFields,
+            title: faker.lorem.sentence(),
+            description: faker.lorem.paragraph(),
+            type: pickRandom(typeOptions),
+            status: pickRandom(statusOptions),
+            reward: Math.ceil(Math.random() * 100),
+        };
+        taskList.push(newTask);
+    }
+
+    return taskList;
+};
