@@ -1,8 +1,9 @@
 import { Accordion, Box, CheckBox, Scrollable, Tile } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
-import React, { ReactElement, ReactNode, useEffect, useMemo, useState } from 'react';
+import React, { ReactElement, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 
 import CityData from '../../../public/json_data/geo_location.json';
+import { DispatchAddressContext } from '../../contexts/AddressContext/GlobalState';
 import Page from '../Page';
 import ProfileHeader from '../ProfileHeader/ProfileHeader';
 
@@ -18,6 +19,7 @@ const AddressPicker = ({ title, id, handleRouteBack, children }: Props): ReactEl
 	const [selectedDistricts, setSelectedDistricts] = useState<Record<string, any>[] | undefined>([]);
 	const [checkedDistrict, setCheckedDistrict] = useState('');
 	const t = useTranslation();
+	const { dispatch } = useContext(DispatchAddressContext);
 
 	useEffect(() => {
 		// The first city is checked by default.
@@ -68,7 +70,14 @@ const AddressPicker = ({ title, id, handleRouteBack, children }: Props): ReactEl
 						<Scrollable smooth>
 							<Tile height={200} elevation='0'>
 								{CityData.map((city, index) => (
-									<Box key={index} display='flex' style={{ marginBottom: '10px' }}>
+									<Box
+										key={index}
+										display='flex'
+										style={{ marginBottom: '10px' }}
+										onClick={(): void => {
+											dispatch({ type: 'ADD_ADDRESS', payload: { city: city.displayName, district: checkedDistrict } });
+										}}
+									>
 										<CheckBox checked={checkedItem === city.displayName} onClick={(): void => setCheckedItem(city.displayName)} />
 										<p style={{ marginLeft: '8px' }}>{city.displayName}</p>
 									</Box>
@@ -83,7 +92,14 @@ const AddressPicker = ({ title, id, handleRouteBack, children }: Props): ReactEl
 							<Tile height={200} elevation='0'>
 								{selectedDistricts?.length ? (
 									selectedDistricts.map((district, index) => (
-										<Box key={index} display='flex' style={{ marginBottom: '10px' }}>
+										<Box
+											key={index}
+											display='flex'
+											style={{ marginBottom: '10px' }}
+											onClick={(): void => {
+												dispatch({ type: 'ADD_ADDRESS', payload: { city: checkedItem, district: district.displayName } });
+											}}
+										>
 											<CheckBox
 												checked={checkedDistrict === district.displayName}
 												onClick={(): void => setCheckedDistrict(district.displayName)}

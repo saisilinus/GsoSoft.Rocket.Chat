@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import AttachmentProvider from '../components/message/Attachments/providers/AttachmentProvider';
+import AddressProvider from './AddressProvider';
 import AuthorizationProvider from './AuthorizationProvider';
 import AvatarUrlProvider from './AvatarUrlProvider';
 import { CallProvider } from './CallProvider';
@@ -41,7 +42,9 @@ const MeteorProvider: FC = ({ children }) => (
 																	<UserPreviousPageProvider>
 																		<PaymentResultProvider>
 																			<DailyTasksProvider>
-																				<AttachmentProvider>{children}</AttachmentProvider>
+																				<AddressProvider>
+																					<AttachmentProvider>{children}</AttachmentProvider>
+																				</AddressProvider>
 																			</DailyTasksProvider>
 																		</PaymentResultProvider>
 																	</UserPreviousPageProvider>
