@@ -33,6 +33,19 @@ const TopBar = ({ location }: Props): ReactElement => {
 								</Box>
 							),
 						},
+						hallOfFame: {
+							action: function noRefCheck(): void {
+								// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
+								dispatch({ type: 'ADD_LOCATION', payload: { location: `/${location}` } });
+								FlowRouter.go('/hall-of-fame');
+							},
+							label: (
+								<Box alignItems='center' display='flex'>
+									<Icon mie='x4' name='team' size='x20' />
+									Hall of Fame
+								</Box>
+							),
+						},
 						tasks: {
 							action: function noRefCheck(): void {
 								// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
