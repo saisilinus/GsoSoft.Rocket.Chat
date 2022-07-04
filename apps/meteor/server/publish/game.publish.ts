@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 
-import { GameService } from '../services/game/service';
+import { GameService } from '../services/gso';
 
 if (Meteor.isServer) {
 	const Games = new GameService();
@@ -10,8 +10,8 @@ if (Meteor.isServer) {
 		check(
 			paginationOptions,
 			Match.ObjectIncluding({
-				offset: Match.Optional(Number),
-				count: Match.Optional(Number),
+				offset: Number,
+				count: Number,
 			}),
 		);
 		check(

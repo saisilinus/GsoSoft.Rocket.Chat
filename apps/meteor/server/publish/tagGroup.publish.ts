@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 
-import { TagGroupService } from '../services/tagGroup/service';
+import { TagGroupService } from '../services/gso';
 
 if (Meteor.isServer) {
 	const TagGroups = new TagGroupService();
@@ -10,8 +10,8 @@ if (Meteor.isServer) {
 		check(
 			paginationOptions,
 			Match.ObjectIncluding({
-				offset: Match.Optional(Number),
-				count: Match.Optional(Number),
+				offset: Number,
+				count: Number,
 			}),
 		);
 		check(

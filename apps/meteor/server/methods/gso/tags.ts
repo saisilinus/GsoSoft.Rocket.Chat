@@ -1,10 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
+import { IPaginationOptions, IQueryOptions, ITag } from '@rocket.chat/core-typings';
 
-import { TagService } from '../services/tag/service';
+import { TagService } from '../../services/gso';
+import { ITagCreateParams, ITagUpdateParams } from '../../sdk/types/ITagService';
 
 Meteor.methods({
-	async addTag(params) {
+	async addTag(params: ITagCreateParams): Promise<ITag> {
 		check(
 			params,
 			Match.ObjectIncluding({
@@ -27,7 +29,7 @@ Meteor.methods({
 		return tag;
 	},
 
-	async deleteTag(tagId) {
+	async deleteTag(tagId: ITag['_id']): Promise<boolean> {
 		check(tagId, String);
 
 		const Tags = new TagService();
@@ -37,7 +39,7 @@ Meteor.methods({
 		return true;
 	},
 
-	async getOneTag(tagId) {
+	async getOneTag(tagId: ITag['_id']): Promise<ITag> {
 		check(tagId, String);
 
 		const Tags = new TagService();
@@ -47,12 +49,12 @@ Meteor.methods({
 		return tag;
 	},
 
-	async getTags(paginationOptions, queryOptions) {
+	async getTags(paginationOptions: IPaginationOptions, queryOptions: IQueryOptions<ITag>): Promise<ITag[]> {
 		check(
 			paginationOptions,
 			Match.ObjectIncluding({
-				offset: Match.Optional(Number),
-				count: Match.Optional(Number),
+				offset: Number,
+				count: Number,
 			}),
 		);
 		check(
@@ -70,7 +72,7 @@ Meteor.methods({
 		return results;
 	},
 
-	async updateTag(tagId, params) {
+	async updateTag(tagId: ITag['_id'], params: ITagUpdateParams): Promise<ITag> {
 		check(tagId, String);
 		check(
 			params,
@@ -86,5 +88,14 @@ Meteor.methods({
 		const tag = await Tags.update(tagId, params);
 
 		return tag;
+	},
+
+	async listTagsByCategory(limit?: number): Promise<ITag[]> {
+		check(limit, Match.Optional(Number));
+
+		const Tags = new TagService();
+		const results = await Tags.listByCategory(limit).toArray();
+
+		return results;
 	},
 });

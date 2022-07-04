@@ -1,10 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
+import { IPaginationOptions, IQueryOptions, ITagGroup } from '@rocket.chat/core-typings';
 
-import { TagGroupService } from '../services/tagGroup/service';
+import { TagGroupService } from '../../services/gso';
+import { ITagGroupCreateParams, ITagGroupUpdateParams } from '../../sdk/types/ITagGroupService';
 
 Meteor.methods({
-	async addTagGroup(params) {
+	async addTagGroup(params: ITagGroupCreateParams): Promise<ITagGroup> {
 		check(
 			params,
 			Match.ObjectIncluding({
@@ -21,7 +23,7 @@ Meteor.methods({
 		return tagGroup;
 	},
 
-	async deleteTagGroup(tagGroupId) {
+	async deleteTagGroup(tagGroupId: ITagGroup['_id']): Promise<boolean> {
 		check(tagGroupId, String);
 
 		const TagGroups = new TagGroupService();
@@ -31,7 +33,7 @@ Meteor.methods({
 		return true;
 	},
 
-	async getOneTagGroup(tagGroupId) {
+	async getOneTagGroup(tagGroupId: ITagGroup['_id']): Promise<ITagGroup> {
 		check(tagGroupId, String);
 
 		const TagGroups = new TagGroupService();
@@ -41,12 +43,12 @@ Meteor.methods({
 		return tagGroup;
 	},
 
-	async getTagGroups(paginationOptions, queryOptions) {
+	async getTagGroups(paginationOptions: IPaginationOptions, queryOptions: IQueryOptions<ITagGroup>): Promise<ITagGroup[]> {
 		check(
 			paginationOptions,
 			Match.ObjectIncluding({
-				offset: Match.Optional(Number),
-				count: Match.Optional(Number),
+				offset: Number,
+				count: Number,
 			}),
 		);
 		check(
@@ -64,7 +66,7 @@ Meteor.methods({
 		return results;
 	},
 
-	async updateTagGroup(tagGroupId, params) {
+	async updateTagGroup(tagGroupId: ITagGroup['_id'], params: ITagGroupUpdateParams): Promise<ITagGroup> {
 		check(tagGroupId, String);
 		check(
 			params,

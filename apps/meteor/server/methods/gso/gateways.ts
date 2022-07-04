@@ -1,8 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { check, Match } from 'meteor/check';
-
-import { IDeposit, IWithdraw } from '@rocket.chat/core-typings';
-import { Users } from '../../../app/models/server/raw';
 
 Meteor.methods({
 	'fund.listGateways'() {
@@ -53,5 +49,4 @@ Meteor.methods({
 
 		return [PerfectMoneyVoucher, BankTransfer, UsdtBlockChain, CreditCard, PaypalClass];
 	},
-
 });
