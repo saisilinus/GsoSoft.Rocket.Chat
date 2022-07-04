@@ -17,7 +17,7 @@ const HallOfFameView = (): ReactElement => {
 		<AddressPicker
 			id='hall-of-fame'
 			// @ts-ignore
-			title={t('gso_employerPreferencesPage_header')}
+			title={t('gso_hallOfFamePage_header')}
 			handleRouteBack={handleRouteBack}
 			children={<div>Hall of fame</div>}
 		/>
