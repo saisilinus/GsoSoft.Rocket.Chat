@@ -50,7 +50,7 @@ export class ProductService extends ServiceClassInternal implements IProductServ
 	}
 
 	list(
-		{ offset, count }: IPaginationOptions = { offset: 0, count: 50 },
+		{ offset, count }: Partial<IPaginationOptions> = { offset: 0, count: 50 },
 		{ sort, query }: IQueryOptions<IProduct> = { sort: {} },
 	): Cursor<IProduct> {
 		return Products.find(

@@ -47,7 +47,7 @@ export class TagGroupService extends ServiceClassInternal implements ITagGroupSe
 	}
 
 	list(
-		{ offset, count }: IPaginationOptions = { offset: 0, count: 50 },
+		{ offset, count }: Partial<IPaginationOptions> = { offset: 0, count: 50 },
 		{ sort, query }: IQueryOptions<ITagGroup> = { sort: {} },
 	): Cursor<ITagGroup> {
 		return TagGroups.find(

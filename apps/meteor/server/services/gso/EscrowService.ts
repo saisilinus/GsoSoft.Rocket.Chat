@@ -52,7 +52,7 @@ export class EscrowService extends ServiceClassInternal implements IEscrowServic
 	}
 
 	list(
-		{ offset, count }: IPaginationOptions = { offset: 0, count: 50 },
+		{ offset, count }: Partial<IPaginationOptions> = { offset: 0, count: 50 },
 		{ sort, query }: IQueryOptions<IEscrow> = { sort: {} },
 	): Cursor<IEscrow> {
 		return Escrows.find(

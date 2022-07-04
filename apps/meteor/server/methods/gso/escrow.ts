@@ -137,8 +137,8 @@ Meteor.methods({
 		check(
 			paginationOptions,
 			Match.ObjectIncluding({
-				offset: Number,
-				count: Number,
+				offset: Match.Optional(Number),
+				count: Match.Optional(Number),
 			}),
 		);
 		check(

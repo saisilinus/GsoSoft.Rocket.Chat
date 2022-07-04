@@ -52,7 +52,7 @@ export class TaskService extends ServiceClassInternal implements ITaskService {
 	}
 
 	list(
-		{ offset, count }: IPaginationOptions = { offset: 0, count: 50 },
+		{ offset, count }: Partial<IPaginationOptions> = { offset: 0, count: 50 },
 		{ sort, query }: IQueryOptions<ITask> = { sort: { endDate: 1, sortOrder: -1 } },
 	): Cursor<ITask> {
 		return Tasks.find(

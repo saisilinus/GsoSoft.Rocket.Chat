@@ -47,7 +47,7 @@ export class TagService extends ServiceClassInternal implements ITagService {
 	}
 
 	list(
-		{ offset, count }: IPaginationOptions = { offset: 0, count: 50 },
+		{ offset, count }: Partial<IPaginationOptions> = { offset: 0, count: 50 },
 		{ sort, query }: IQueryOptions<ITag> = { sort: {} },
 	): Cursor<ITag> {
 		return Tags.find(

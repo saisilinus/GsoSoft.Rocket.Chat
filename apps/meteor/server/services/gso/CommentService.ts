@@ -49,7 +49,7 @@ export class CommentService extends ServiceClassInternal implements ICommentServ
 	}
 
 	list(
-		{ offset, count }: IPaginationOptions = { offset: 0, count: 50 },
+		{ offset, count }: Partial<IPaginationOptions> = { offset: 0, count: 50 },
 		{ sort, query }: IQueryOptions<IComment> = { sort: {} },
 	): Cursor<IComment> {
 		return Comments.find(

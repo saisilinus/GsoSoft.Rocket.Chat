@@ -71,7 +71,7 @@ export class TransactionService extends ServiceClassInternal implements ITransac
 	}
 
 	list(
-		{ offset, count }: IPaginationOptions = { offset: 0, count: 50 },
+		{ offset, count }: Partial<IPaginationOptions> = { offset: 0, count: 50 },
 		{ sort, query }: IQueryOptions<ITransaction> = { sort: {} },
 	): Cursor<ITransaction> {
 		return Transactions.find(

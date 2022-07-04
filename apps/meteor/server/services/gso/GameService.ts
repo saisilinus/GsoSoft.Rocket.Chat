@@ -51,7 +51,7 @@ export class GameService extends ServiceClassInternal implements IGameService {
 	}
 
 	list(
-		{ offset, count }: IPaginationOptions = { offset: 0, count: 50 },
+		{ offset, count }: Partial<IPaginationOptions> = { offset: 0, count: 50 },
 		{ sort, query }: IQueryOptions<IGame> = { sort: {} },
 	): Cursor<IGame> {
 		return Games.find(

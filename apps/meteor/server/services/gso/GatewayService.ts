@@ -48,7 +48,7 @@ export class GatewayService extends ServiceClassInternal implements IGatewayServ
 	}
 
 	list(
-		{ offset, count }: IPaginationOptions = { offset: 0, count: 50 },
+		{ offset, count }: Partial<IPaginationOptions> = { offset: 0, count: 50 },
 		{ sort, query }: IQueryOptions<IGateway> = { sort: {} },
 	): Cursor<IGateway> {
 		return Gateways.find(
