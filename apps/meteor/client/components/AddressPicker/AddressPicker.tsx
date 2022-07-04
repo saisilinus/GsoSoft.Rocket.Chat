@@ -22,7 +22,9 @@ const AddressPicker = ({ title, id, handleRouteBack, children }: Props): ReactEl
 	useEffect(() => {
 		// The first city is checked by default.
 		if (CityData.length) {
-			setCheckedItem(CityData[0].displayName);
+			const firstCity = CityData[0];
+			setCheckedItem(firstCity.displayName);
+			setCheckedDistrict(firstCity.children ? firstCity.children[0].displayName : '');
 		}
 	}, []);
 
