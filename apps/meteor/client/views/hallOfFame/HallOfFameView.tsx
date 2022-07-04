@@ -4,8 +4,6 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import React, { ReactElement, useContext } from 'react';
 
 import AddressPicker from '../../components/AddressPicker/AddressPicker';
-import Page from '../../components/Page';
-import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
 import { UserPreviousPageContext } from '../../contexts/UserPreviousPageContext/GlobalState';
 
 const HallOfFameView = (): ReactElement => {
@@ -16,13 +14,13 @@ const HallOfFameView = (): ReactElement => {
 		FlowRouter.go(`${value.location}`);
 	};
 	return (
-		<Page id='hall-of-fame'>
-			{/* @ts-ignore */}
-			<ProfileHeader title={t('gso_employerPreferencesPage_header')} handleRouteBack={handleRouteBack} />
-			<Page.ScrollableContentWithShadow>
-				<AddressPicker />
-			</Page.ScrollableContentWithShadow>
-		</Page>
+		<AddressPicker
+			id='hall-of-fame'
+			// @ts-ignore
+			title={t('gso_employerPreferencesPage_header')}
+			handleRouteBack={handleRouteBack}
+			children={<div>Hall of fame</div>}
+		/>
 	);
 };
 
