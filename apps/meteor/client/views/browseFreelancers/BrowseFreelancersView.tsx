@@ -16,7 +16,7 @@ const ranks = ['Rising Talent', 'Top Rated', 'Top Rated Plus', 'Expert Vetted'];
 const BrowseFreelancersComponent = (): ReactElement => (
 	<Accordion style={{ margin: '30px 0' }}>
 		{projectType.map((project, index) => (
-			<Accordion.Item title={project} key={index}>
+			<Accordion.Item title={project} key={index} defaultExpanded={index === 0}>
 				<Box display='flex' flexDirection='column'>
 					<MultiSelect
 						style={{ marginLeft: 'auto', marginBottom: '15px', width: '70%' }}

@@ -116,7 +116,7 @@ const EmployerPreferencesView = (): ReactElement => {
 				<Accordion style={{ margin: '15px 0' }}>
 					{preferences.map((pref, index) => (
 						/* @ts-ignore */
-						<Accordion.Item key={index} title={pref.title} id={pref.id} onToggle={onAccordionToggle}>
+						<Accordion.Item key={index} title={pref.title} id={pref.id} onToggle={onAccordionToggle} defaultExpanded={index === 0}>
 							<Box>
 								<p style={{ marginBottom: '15px' }}>{pref.desc}</p>
 								{pref.items.map((item, index) => (
