@@ -46,6 +46,19 @@ const TopBar = ({ location }: Props): ReactElement => {
 								</Box>
 							),
 						},
+						browseFreelancers: {
+							action: function noRefCheck(): void {
+								// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
+								dispatch({ type: 'ADD_LOCATION', payload: { location: `/${location}` } });
+								FlowRouter.go('/browse-freelancers');
+							},
+							label: (
+								<Box alignItems='center' display='flex'>
+									<Icon mie='x4' name='magnifier' size='x20' />
+									Browse Freelancers
+								</Box>
+							),
+						},
 						tasks: {
 							action: function noRefCheck(): void {
 								// This so as to allow the linting to pass - @typescript-eslint/no-empty-function
