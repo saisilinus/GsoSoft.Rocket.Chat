@@ -2,8 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import { Tasks } from '@rocket.chat/models';
 
-import { TaskService } from '../../services/gso';
-import { sampleTasks } from '../../../data/tasks';
+import { sampleTasks, TaskService } from '../../services/gso';
 
 Meteor.methods({
 	async seed() {

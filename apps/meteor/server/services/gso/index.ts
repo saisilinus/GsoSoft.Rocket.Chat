@@ -8,3 +8,4 @@ export * from './TagGroupService';
 export * from './TagService';
 export * from './TaskService';
 export * from './TransactionService';
+export * from './fake';
