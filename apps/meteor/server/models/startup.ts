@@ -54,3 +54,6 @@ import './Users';
 import './UsersSessions';
 import './VoipRoom';
 import './WebdavAccounts';
+
+// gso
+import './gso/startup';
