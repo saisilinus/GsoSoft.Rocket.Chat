@@ -12,31 +12,24 @@ const MeteorProvider = lazy(() => import('../../providers/MeteorProvider'));
 const BannerRegion = lazy(() => import('../banners/BannerRegion'));
 const AppLayout = lazy(() => import('./AppLayout'));
 const PortalsWrapper = lazy(() => import('./PortalsWrapper'));
+const ModalRegion = lazy(() => import('../modal/ModalRegion'));
 
-const AppRoot: FC = () => {
-	if (document.visibilityState === 'visible') {
-		// If it's a new day then a user's number of consective logins is increased.
-		Meteor.call('setUserReward', (error, result) => {
-			localStorage.setItem('showModal', result.showModal);
-			if (error) console.log(error, 'error');
-		});
-	}
-	return (
-		<Suspense fallback={<PageLoading />}>
-			<MeteorProvider>
-				<QueryClientProvider client={queryClient}>
-					<OmnichannelRoomIconProvider>
-						<DailyTasksProvider>
-							<ConnectionStatusBar />
-							<BannerRegion />
-							<AppLayout />
-							<PortalsWrapper />
-						</DailyTasksProvider>
-					</OmnichannelRoomIconProvider>
-				</QueryClientProvider>
-			</MeteorProvider>
-		</Suspense>
-	);
-};
+const AppRoot: FC = () => (
+	<Suspense fallback={<PageLoading />}>
+		<MeteorProvider>
+			<QueryClientProvider client={queryClient}>
+				<OmnichannelRoomIconProvider>
+					<DailyTasksProvider>
+						<ConnectionStatusBar />
+						<BannerRegion />
+						<AppLayout />
+						<PortalsWrapper />
+						<ModalRegion />
+					</DailyTasksProvider>
+				</OmnichannelRoomIconProvider>
+			</QueryClientProvider>
+		</MeteorProvider>
+	</Suspense>
+);
 
 export default AppRoot;

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 
-import { GatewayService } from '../services/gateway/service';
+import { GatewayService } from '../services/gso';
 
 if (Meteor.isServer) {
 	const Gateways = new GatewayService();

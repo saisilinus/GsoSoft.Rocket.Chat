@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 
-import { EscrowService } from '../services/escrow/service';
+import { EscrowService } from '../services/gso';
 
 if (Meteor.isServer) {
 	const Escrows = new EscrowService();
@@ -24,7 +24,7 @@ if (Meteor.isServer) {
 
 		return Escrows.list(paginationOptions, {
 			sort: queryOptions.sort,
-			query: { ...queryOptions.query, userId: Meteor.userId() },
+			query: { ...queryOptions.query, userId: Meteor.userId() as string },
 		});
 	});
 }
