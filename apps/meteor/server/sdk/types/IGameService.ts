@@ -13,6 +13,7 @@ export type IGameUpdateBody = IGameUpdateParams & { _updatedAt: IGame['_updatedA
 
 export interface IGameService {
 	create(params: IGameCreateParams): Promise<IGame>;
+	createMany(games: IGameCreateParams[]): Promise<void>;
 	list(paginationOptions?: IPaginationOptions, queryOptions?: IQueryOptions<IGame>): Cursor<IGame>;
 	update(gameId: string, params: IGameUpdateParams): Promise<IGame>;
 	delete(gameId: string): Promise<void>;

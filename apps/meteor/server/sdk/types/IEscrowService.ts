@@ -9,6 +9,7 @@ export type IEscrowUpdateParams = AtLeastOne<IEscrowLean>;
 
 export interface IEscrowService {
 	create(params: IEscrowCreateParams): Promise<IEscrow>;
+	createMany(escrows: IEscrowCreateParams[]): Promise<void>;
 	list(paginationOptions?: IPaginationOptions, queryOptions?: IQueryOptions<IEscrow>): Cursor<IEscrow>;
 	update(EscrowId: IEscrow['_id'], params: IEscrowUpdateParams): Promise<IEscrow>;
 	delete(EscrowId: IEscrow['_id']): Promise<void>;

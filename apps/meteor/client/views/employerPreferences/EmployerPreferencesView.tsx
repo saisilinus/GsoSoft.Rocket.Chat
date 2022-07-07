@@ -2,7 +2,8 @@ import { Accordion, Box, Button, CheckBox, Icon, Tooltip } from '@rocket.chat/fu
 import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import React, { ReactElement, useContext, useMemo, useState } from 'react';
+import { Meteor } from 'meteor/meteor';
+import React, { ReactElement, useContext, useEffect, useMemo, useState } from 'react';
 
 import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
@@ -36,6 +37,18 @@ const EmployerPreferencesView = (): ReactElement => {
 	const [checkedItems, setCheckedItems] = useState<string[]>([]);
 	const { value } = useContext(UserPreviousPageContext);
 	const t = useTranslation();
+
+	useEffect(() => {
+		Meteor.call('listTagsByCategory', 3, (error, result) => {
+			if (result) {
+				console.log(result);
+			}
+
+			if (error) {
+				console.log(error);
+			}
+		});
+	}, []);
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const openGatewayFn = useMemo((): void => {

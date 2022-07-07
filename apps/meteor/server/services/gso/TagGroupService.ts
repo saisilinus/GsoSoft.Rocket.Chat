@@ -21,6 +21,14 @@ export class TagGroupService extends ServiceClassInternal implements ITagGroupSe
 		return tagGroup;
 	}
 
+	async createMany(tagGroups: ITagGroupCreateParams[]): Promise<void> {
+		const data: InsertionModel<ITagGroup>[] = tagGroups.map((tagGroup) => ({
+			...tagGroup,
+			createdAt: new Date(),
+		}));
+		await TagGroups.insertMany(data);
+	}
+
 	async delete(tagGroupId: string): Promise<void> {
 		await this.getTagGroup(tagGroupId);
 		await TagGroups.removeById(tagGroupId);

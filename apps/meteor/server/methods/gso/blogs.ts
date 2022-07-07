@@ -27,6 +27,15 @@ Meteor.methods({
 		return blog;
 	},
 
+	async createManyBlogs(blogs: Omit<IBlogCreateParams, 'authorId'>[]): Promise<void> {
+		if (!Meteor.userId()) {
+			throw new Meteor.Error('error-invalid-user', 'Invalid user');
+		}
+		const Blogs = new BlogService();
+		const data: IBlogCreateParams[] = blogs.map((blog) => ({ ...blog, authorId: Meteor.userId() as string }));
+		await Blogs.createMany(data);
+	},
+
 	async deleteBlog(blogId: IBlog['_id']): Promise<boolean> {
 		check(blogId, String);
 

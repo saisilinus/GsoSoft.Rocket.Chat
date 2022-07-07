@@ -21,6 +21,15 @@ export class BlogService extends ServiceClassInternal implements IBlogService {
 		return blog;
 	}
 
+	async createMany(blogs: IBlogCreateParams[]): Promise<void> {
+		const data: InsertionModel<IBlog>[] = blogs.map((blog) => ({
+			...blog,
+			createdAt: new Date(),
+			...(blog.tags ? { tags: blog.tags } : { tags: [] }),
+		}));
+		await Blogs.insertMany(data);
+	}
+
 	async delete(blogId: string): Promise<void> {
 		await this.getBlog(blogId);
 		await Blogs.removeById(blogId);

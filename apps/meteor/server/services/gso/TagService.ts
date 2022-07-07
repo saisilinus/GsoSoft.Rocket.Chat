@@ -21,6 +21,14 @@ export class TagService extends ServiceClassInternal implements ITagService {
 		return tag;
 	}
 
+	async createMany(tags: ITagCreateParams[]): Promise<void> {
+		const data: InsertionModel<ITag>[] = tags.map((tag) => ({
+			...tag,
+			createdAt: new Date(),
+		}));
+		await Tags.insertMany(data);
+	}
+
 	async delete(tagId: string): Promise<void> {
 		await this.getTag(tagId);
 		await Tags.removeById(tagId);

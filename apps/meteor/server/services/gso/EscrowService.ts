@@ -24,6 +24,18 @@ export class EscrowService extends ServiceClassInternal implements IEscrowServic
 		return escrow;
 	}
 
+	async createMany(escrows: IEscrowCreateParams[]): Promise<void> {
+		const data: InsertionModel<IEscrow>[] = escrows.map((escrow) => ({
+			...escrow,
+			startDate: new Date(),
+			endDate: -1,
+			approvedBy: '',
+			status: 'submitted',
+		}));
+
+		await Escrows.insertMany(data);
+	}
+
 	async delete(escrowId: string): Promise<void> {
 		await this.getEscrow(escrowId);
 		await Escrows.removeById(escrowId);

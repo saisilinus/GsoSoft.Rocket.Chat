@@ -15,6 +15,7 @@ export type IBlogUpdateBody = IBlogUpdateParams & { _updatedAt: IBlog['_updatedA
 
 export interface IBlogService {
 	create(params: IBlogCreateParams): Promise<IBlog>;
+	createMany(blogs: IBlogCreateParams[]): Promise<void>;
 	list(limit?: number): AggregationCursor<IBlog>;
 	update(blogId: string, params: IBlogUpdateParams): Promise<IBlog>;
 	delete(blogId: string): Promise<void>;

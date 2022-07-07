@@ -20,6 +20,10 @@ export class GatewayService extends ServiceClassInternal implements IGatewayServ
 		return gateway;
 	}
 
+	async createMany(gateways: IGatewayCreateParams[]): Promise<void> {
+		await Gateways.insertMany(gateways);
+	}
+
 	async delete(gatewayId: string): Promise<void> {
 		await this.getGateway(gatewayId);
 		await Gateways.removeById(gatewayId);

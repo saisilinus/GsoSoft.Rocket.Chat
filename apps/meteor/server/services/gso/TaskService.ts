@@ -24,6 +24,17 @@ export class TaskService extends ServiceClassInternal implements ITaskService {
 		return task;
 	}
 
+	async createMany(tasks: ITaskCreateParams[]): Promise<void> {
+		const data: InsertionModel<ITask>[] = tasks.map((task) => ({
+			...task,
+			...(task.sortOrder ? { sortOrder: task.sortOrder } : { sortOrder: 0 }),
+			startDate: new Date(),
+			assignedBy: '',
+			assignedTo: '',
+		}));
+		await Tasks.insertMany(data);
+	}
+
 	async delete(taskId: string): Promise<void> {
 		await this.getTask(taskId);
 		await Tasks.removeById(taskId);

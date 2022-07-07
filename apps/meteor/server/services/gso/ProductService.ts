@@ -22,6 +22,15 @@ export class ProductService extends ServiceClassInternal implements IProductServ
 		return product;
 	}
 
+	async createMany(products: IProductCreateParams[]): Promise<void> {
+		const data: InsertionModel<IProduct>[] = products.map((product) => ({
+			...product,
+			createdAt: new Date(),
+			...(product.ranking ? { ranking: product.ranking } : { ranking: 0 }),
+		}));
+		await Products.insertMany(data);
+	}
+
 	async delete(productId: string): Promise<void> {
 		await this.getProduct(productId);
 		await Products.removeById(productId);

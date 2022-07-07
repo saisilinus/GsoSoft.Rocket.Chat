@@ -71,6 +71,15 @@ Meteor.methods({
 		return transaction;
 	},
 
+	async createManyTransactions(transactions: Omit<ITransactionCreateParams, 'createdBy'>[]): Promise<void> {
+		if (!Meteor.userId()) {
+			throw new Meteor.Error('error-invalid-user', 'Invalid user');
+		}
+		const Transactions = new TransactionService();
+		const data: ITransactionCreateParams[] = transactions.map((transaction) => ({ ...transaction, createdBy: Meteor.userId() as string }));
+		await Transactions.createMany(data);
+	},
+
 	async deleteTransaction(transactionId: ITransaction['_id']) {
 		check(transactionId, String);
 

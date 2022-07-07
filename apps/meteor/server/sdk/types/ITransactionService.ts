@@ -10,6 +10,7 @@ export type ITransactionUpdateParams = AtLeastOne<Omit<ITransactionLean, 'hash' 
 
 export interface ITransactionService {
 	create(params: ITransactionCreateParams): Promise<ITransaction>;
+	createMany(transactions: ITransactionCreateParams[]): Promise<void>;
 	list(paginationOptions?: IPaginationOptions, queryOptions?: IQueryOptions<ITransaction>): Cursor<ITransaction>;
 	update(transactionId: ITransaction['_id'], params: ITransactionUpdateParams): Promise<ITransaction>;
 	delete(transactionId: ITransaction['_id']): Promise<void>;

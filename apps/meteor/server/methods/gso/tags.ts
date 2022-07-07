@@ -29,6 +29,15 @@ Meteor.methods({
 		return tag;
 	},
 
+	async createManyTags(tags: Omit<ITagCreateParams, 'createdBy'>[]): Promise<void> {
+		if (!Meteor.userId()) {
+			throw new Meteor.Error('error-invalid-user', 'Invalid user');
+		}
+		const Tags = new TagService();
+		const data: ITagCreateParams[] = tags.map((tag) => ({ ...tag, createdBy: Meteor.userId() as string }));
+		await Tags.createMany(data);
+	},
+
 	async deleteTag(tagId: ITag['_id']): Promise<boolean> {
 		check(tagId, String);
 

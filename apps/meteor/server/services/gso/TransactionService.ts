@@ -45,6 +45,22 @@ export class TransactionService extends ServiceClassInternal implements ITransac
 		return transaction;
 	}
 
+	async createMany(transactions: ITransactionCreateParams[]): Promise<void> {
+		const data: InsertionModel<ITransaction>[] = transactions.map((transaction) => ({
+			...transaction,
+			createdAt: new Date(),
+			hash: createHash(6),
+			transactionCode: createLongRandomNumber(),
+			gatewayData: {
+				gateway: transaction.gateway,
+				quantity: transaction.quantity,
+				amount: transaction.amount,
+				currency: transaction.currency,
+			},
+		}));
+		await Transactions.insertMany(data);
+	}
+
 	async delete(transactionId: string): Promise<void> {
 		await this.getTransaction(transactionId);
 		await Transactions.removeById(transactionId);

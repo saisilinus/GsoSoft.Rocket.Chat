@@ -3,6 +3,7 @@ import { check, Match } from 'meteor/check';
 import { Tasks } from '@rocket.chat/models';
 
 import { sampleTasks, TaskService } from '../../services/gso';
+import { ITaskCreateParams } from '../../sdk/types/ITaskService';
 
 Meteor.methods({
 	async seed() {
@@ -29,6 +30,11 @@ Meteor.methods({
 		const task = await Tasks.create(params);
 
 		return task;
+	},
+
+	async createManyTasks(tasks: ITaskCreateParams[]): Promise<void> {
+		const Tasks = new TaskService();
+		await Tasks.createMany(tasks);
 	},
 
 	async deleteTask(taskId) {

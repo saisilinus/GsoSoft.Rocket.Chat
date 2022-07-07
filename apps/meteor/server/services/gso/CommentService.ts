@@ -21,6 +21,12 @@ export class CommentService extends ServiceClassInternal implements ICommentServ
 		return comment;
 	}
 
+	async createMany(comments: ICommentCreateParams[]): Promise<void> {
+		const data: InsertionModel<IComment>[] = comments.map((comment) => ({ ...comment, createdAt: new Date() }));
+
+		await Comments.insertMany(data);
+	}
+
 	async delete(commentId: string): Promise<void> {
 		await this.getComment(commentId);
 		await Comments.removeById(commentId);
