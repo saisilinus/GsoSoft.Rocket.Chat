@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 
-import { TransactionService } from '../services/transaction/service';
+import { TransactionService } from '../services/gso';
 
 if (Meteor.isServer) {
 	const Transactions = new TransactionService();
@@ -24,7 +24,7 @@ if (Meteor.isServer) {
 
 		return Transactions.list(paginationOptions, {
 			sort: queryOptions.sort,
-			query: { ...queryOptions.query, createdBy: Meteor.userId() },
+			query: { ...queryOptions.query, createdBy: Meteor.userId() as string },
 		});
 	});
 }
