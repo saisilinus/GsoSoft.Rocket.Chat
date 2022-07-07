@@ -24,6 +24,11 @@ Meteor.methods({
 		return game;
 	},
 
+	async createManyGames(games: IGameCreateParams[]): Promise<void> {
+		const Games = new GameService();
+		await Games.createMany(games);
+	},
+
 	async deleteGame(gameId: IGame['_id']): Promise<boolean> {
 		check(gameId, String);
 

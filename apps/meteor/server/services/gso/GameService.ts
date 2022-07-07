@@ -23,6 +23,16 @@ export class GameService extends ServiceClassInternal implements IGameService {
 		return game;
 	}
 
+	async createMany(games: IGameCreateParams[]): Promise<void> {
+		const data: InsertionModel<IGame>[] = games.map((game) => ({
+			...game,
+			createdAt: new Date(),
+			...(game.tags ? { tags: game.tags } : { tags: [] }),
+			...(game.ranking ? { ranking: game.ranking } : { ranking: 0 }),
+		}));
+		await Games.insertMany(data);
+	}
+
 	async delete(gameId: string): Promise<void> {
 		await this.getGame(gameId);
 		await Games.removeById(gameId);

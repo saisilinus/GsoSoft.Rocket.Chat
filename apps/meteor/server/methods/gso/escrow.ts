@@ -88,6 +88,15 @@ Meteor.methods({
 		return escrow;
 	},
 
+	async createManyEscrows(escrows: Omit<IEscrowCreateParams, 'userId'>[]): Promise<void> {
+		if (!Meteor.userId()) {
+			throw new Meteor.Error('error-invalid-user', 'Invalid user');
+		}
+		const Escrows = new EscrowService();
+		const data: IEscrowCreateParams[] = escrows.map((escrow) => ({ ...escrow, userId: Meteor.userId() as string }));
+		await Escrows.createMany(data);
+	},
+
 	async deleteEscrow(escrowId: IEscrow['_id']): Promise<boolean> {
 		check(escrowId, String);
 

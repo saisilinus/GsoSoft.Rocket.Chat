@@ -14,6 +14,7 @@ export type IProductUpdateBody = IProductUpdateParams & { _updatedAt: IProduct['
 
 export interface IProductService {
 	create(params: IProductCreateParams): Promise<IProduct>;
+	createMany(products: IProductCreateParams[]): Promise<void>;
 	list(paginationOptions?: IPaginationOptions, queryOptions?: IQueryOptions<IProduct>): Cursor<IProduct>;
 	update(productId: string, params: IProductUpdateParams): Promise<IProduct>;
 	delete(productId: string): Promise<void>;

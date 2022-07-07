@@ -10,6 +10,7 @@ export type ITaskUpdateParams = AtLeastOne<ITaskLean>;
 
 export interface ITaskService {
 	create(params: ITaskCreateParams): Promise<ITask>;
+	createMany(tasks: ITaskCreateParams[]): Promise<void>;
 	list(paginationOptions?: IPaginationOptions, queryOptions?: IQueryOptions<ITask>): Cursor<ITask>;
 	update(taskId: ITask['_id'], params: ITaskUpdateParams): Promise<ITask>;
 	delete(taskId: ITask['_id']): Promise<void>;

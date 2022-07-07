@@ -10,6 +10,7 @@ export type IGatewayUpdateParams = AtLeastOne<IGatewayLean>;
 
 export interface IGatewayService {
 	create(params: IGatewayCreateParams): Promise<IGateway>;
+	createMany(gateways: IGatewayCreateParams[]): Promise<void>;
 	list(paginationOptions?: IPaginationOptions, queryOptions?: IQueryOptions<IGateway>): Cursor<IGateway>;
 	update(gatewayId: IGateway['_id'], params: IGatewayUpdateParams): Promise<IGateway>;
 	delete(gatewayId: IGateway['_id']): Promise<void>;

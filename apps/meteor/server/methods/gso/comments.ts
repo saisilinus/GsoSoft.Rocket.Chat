@@ -27,6 +27,15 @@ Meteor.methods({
 		return comment;
 	},
 
+	async createManyComments(comments: Omit<ICommentCreateParams, 'authorId'>[]): Promise<void> {
+		if (!Meteor.userId()) {
+			throw new Meteor.Error('error-invalid-user', 'Invalid user');
+		}
+		const Comments = new CommentService();
+		const data: ICommentCreateParams[] = comments.map((comment) => ({ ...comment, authorId: Meteor.userId() as string }));
+		await Comments.createMany(data);
+	},
+
 	async deleteComment(commentId: IComment['_id']): Promise<boolean> {
 		check(commentId, String);
 

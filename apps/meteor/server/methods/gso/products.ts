@@ -24,6 +24,11 @@ Meteor.methods({
 		return product;
 	},
 
+	async createManyProducts(products: IProductCreateParams[]): Promise<void> {
+		const Products = new ProductService();
+		await Products.createMany(products);
+	},
+
 	async deleteProduct(productId: IProduct['_id']): Promise<boolean> {
 		check(productId, String);
 

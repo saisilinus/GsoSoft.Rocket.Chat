@@ -14,6 +14,7 @@ export type ITagGroupUpdateBody = ITagGroupUpdateParams & { _updatedAt: ITagGrou
 
 export interface ITagGroupService {
 	create(params: ITagGroupCreateParams): Promise<ITagGroup>;
+	createMany(tagGroups: ITagGroupCreateParams[]): Promise<void>;
 	list(paginationOptions?: IPaginationOptions, queryOptions?: IQueryOptions<ITagGroup>): Cursor<ITagGroup>;
 	update(tagId: string, params: ITagGroupUpdateParams): Promise<ITagGroup>;
 	delete(tagId: string): Promise<void>;
