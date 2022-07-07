@@ -6,11 +6,9 @@ export type ITagGroupWithoutID = Omit<ITagGroup, '_id'>;
 
 export type ITagGroupLean = Omit<ITagGroup, 'createdAt' | '_updatedAt' | '_id'>;
 
-export type ITagGroupCreateParams = Omit<ITagGroup, 'createdAt' | '_updatedAt' | '_id'>;
+export type ITagGroupCreateParams = Omit<ITagGroup, 'createdAt' | '_updatedAt'>;
 
 export type ITagGroupUpdateParams = Partial<ITagGroupLean>;
-
-export type ITagGroupUpdateBody = ITagGroupUpdateParams & { _updatedAt: ITagGroup['_updatedAt'] };
 
 export interface ITagGroupService {
 	create(params: ITagGroupCreateParams): Promise<ITagGroup>;

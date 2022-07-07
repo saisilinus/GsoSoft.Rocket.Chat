@@ -13,6 +13,7 @@ Meteor.methods({
 				title: String,
 				description: String,
 				sortOrder: Number,
+				_id: String,
 			}),
 		);
 
