@@ -73,9 +73,9 @@ Meteor.methods({
 			}),
 		);
 
-		const Tasks = new TaskService();
+		// const Tasks = new TaskService();
 
-		const results = await Tasks.list(paginationOptions, queryOptions).toArray();
+		const results = ''; // await Tasks.list(paginationOptions, queryOptions).toArray();
 
 		return results;
 	},

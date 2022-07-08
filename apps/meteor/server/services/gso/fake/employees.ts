@@ -1,5 +1,3 @@
-import { faker } from '@faker-js/faker';
-
 interface IImageData {
 	file: string;
 	width: number;
@@ -22,42 +20,54 @@ export interface IEmployee {
 		type: string;
 		data: {
 			unit: string;
-			amount: string;
+			amount: number;
 		};
 	};
 	ratingScore: number;
 	ratingCount: number;
 	ratingAvg: number;
 	photoCount: number;
-	timestamp: number;
+	timestamp: Date;
 	viewCount: number;
 	address: string;
-	lastUpdateStamp: number;
+	lastUpdateStamp: Date;
 	covers: ICover[];
 }
+
+function uuid() {
+	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		// eslint-disable-next-line prefer-const,eqeqeq
+		let r = (Math.random() * 16) | 0;
+		// eslint-disable-next-line eqeqeq
+		const v = c == 'x' ? r : (r & 0x3) | 0x8;
+		return v.toString(16);
+	});
+}
+
+const generateRandomDate = (): Date => new Date(+new Date() - Math.floor(Math.random() * 10000000000));
 
 export const generateEmployees = (limit = 3): IEmployee[] => {
 	const employeeList: IEmployee[] = [];
 
 	for (let i = 0; i < limit; i++) {
 		const newEmployee: IEmployee = {
-			_id: faker.datatype.uuid(),
-			name: faker.name.findName(),
+			_id: uuid(),
+			name: 'name here',
 			charge: {
 				type: 'PerTimeReactComponent',
 				data: {
 					unit: 'hour',
-					amount: faker.finance.amount(),
+					amount: 3453,
 				},
 			},
 			ratingScore: Math.random() * 10,
-			ratingCount: faker.datatype.number({ min: 1, max: 1000 }),
+			ratingCount: Math.floor(Math.random() * 1000) + 1,
 			ratingAvg: Math.random() * 10,
-			photoCount: faker.datatype.number({ min: 1, max: 50 }),
-			timestamp: faker.date.past(5).getTime(),
-			viewCount: faker.datatype.number({ min: 0, max: 50 }),
-			address: `${faker.address.city()}, Vietnam`,
-			lastUpdateStamp: faker.date.past(1).getTime(),
+			photoCount: Math.floor(Math.random() * 50) + 1,
+			timestamp: generateRandomDate(),
+			viewCount: Math.floor(Math.random() * 50),
+			address: `Test, Vietnam`,
+			lastUpdateStamp: generateRandomDate(),
 			covers: [
 				{
 					baseName: 'avatar1',

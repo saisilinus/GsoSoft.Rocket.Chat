@@ -1,8 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { check, Match } from 'meteor/check';
-
-import { IDeposit, IGatewayTransaction, IWithdraw } from '@rocket.chat/core-typings';
-import { Users } from '../../../app/models/server/raw';
+import { IGatewayTransaction } from '@rocket.chat/core-typings';
 
 Meteor.methods({
 	'payment.listGateways'() {

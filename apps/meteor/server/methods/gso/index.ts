@@ -1,8 +1,8 @@
-import './funds';
+import './fund';
 
-import './gateways';
+import './payment';
 
-import './tasks';
+import './task';
 
 import './blogs';
 

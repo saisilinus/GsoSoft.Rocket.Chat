@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker';
 import { ITask } from '@rocket.chat/core-typings/dist/gso';
 import { ModelOptionalId } from '@rocket.chat/model-typings';
 
@@ -125,8 +124,8 @@ export const generateTasks = (
 	for (let i = 0; i < limit; i++) {
 		const newTask: Omit<ITask, '_id' | '_updatedAt'> = {
 			...staticFields,
-			title: faker.lorem.sentence(),
-			description: faker.lorem.paragraph(),
+			title: 'some title',
+			description: 'some desc',
 			type: pickRandom(typeOptions),
 			status: pickRandom(statusOptions),
 			reward: Math.ceil(Math.random() * 100),
