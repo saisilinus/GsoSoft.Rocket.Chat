@@ -1,4 +1,3 @@
-import type { InsertOneWriteOpResult } from 'mongodb';
 import type { IRoom, IFundTransaction } from '@rocket.chat/core-typings';
 
 import type { IBaseModel } from '../IBaseModel';
@@ -7,7 +6,6 @@ import type { IBaseModel } from '../IBaseModel';
  * Data layer object for IFundTransaction. Expose DB functions
  */
 export interface IFundTransactionsModel extends IBaseModel<IRoom> {
-
 	/**
 	 *
 	 * fund transaction is often vulnerable to hack and abuse. Audit are always welcome

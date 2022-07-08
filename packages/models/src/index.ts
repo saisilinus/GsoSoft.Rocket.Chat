@@ -60,7 +60,7 @@ import type {
 	IVideoConferenceModel,
 	IVoipRoomModel,
 	IWebdavAccountsModel,
-	IEscrowsModel, IFundTransactionsModel,
+	IFundTransactionsModel,
 } from '@rocket.chat/model-typings';
 
 import { proxify } from './proxify';
@@ -140,6 +140,4 @@ export const VideoConference = proxify<IVideoConferenceModel>('IVideoConferenceM
 export const VoipRoom = proxify<IVoipRoomModel>('IVoipRoomModel');
 export const WebdavAccounts = proxify<IWebdavAccountsModel>('IWebdavAccountsModel');
 // gso expansion , each model here is like a mongodb Collection
-export const Escrows = proxify<IEscrowsModel>('IEscrowsModel');
 export const FundTransactions = proxify<IFundTransactionsModel>('IFundTransactionsModel');
-export const Escrows = proxify<IEscrowsModel>('I');

@@ -1,6 +1,6 @@
 import type { IUser } from '../IUser';
 import type { IRocketChatRecord } from '../IRocketChatRecord';
-import type { IPaymentGateway } from './IPaymentGateway';
+import type { IGatewayTransaction, IPaymentGateway } from './IPaymentGateway';
 
 export interface IFundTransaction extends IRocketChatRecord {
 	createdAt: Date;
@@ -27,8 +27,7 @@ enum TransactionType {
 	Credit = 1,
 }
 
-
-export interface ITransactionCreateParams   {
+export interface ITransactionCreateParams {
 	gateway: IPaymentGateway['_id'];
 	transactionCode: string;
 	quantity: number;
@@ -38,5 +37,5 @@ export interface ITransactionCreateParams   {
 	updatedBy?: IUser['_id'];
 	createdAt: Date;
 	createdBy: IUser['_id'];
-	gatewayData: IGatewayData;
+	gatewayData: IGatewayTransaction;
 }

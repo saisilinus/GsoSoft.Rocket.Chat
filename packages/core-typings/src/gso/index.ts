@@ -2,6 +2,7 @@ export * from './IDeposit';
 export * from './IEscrow';
 export * from './IFundBalance';
 export * from './IFundTransaction';
+export * from './IInventory';
 export * from './IPurchase';
 export * from './IPaymentGateway';
 export * from './IReservation';
