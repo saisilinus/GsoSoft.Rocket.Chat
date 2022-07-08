@@ -24,9 +24,10 @@ Meteor.methods({
 		return tagGroup;
 	},
 
-	async createManyTagGroups(tagGroups: ITagGroupCreateParams[]): Promise<void> {
+	async createManyTagGroups(tagGroups: ITagGroupCreateParams[]): Promise<boolean> {
 		const TagGroups = new TagGroupService();
 		await TagGroups.createMany(tagGroups);
+		return true;
 	},
 
 	async deleteTagGroup(tagGroupId: ITagGroup['_id']): Promise<boolean> {
