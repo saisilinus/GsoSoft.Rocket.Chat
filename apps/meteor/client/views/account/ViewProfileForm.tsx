@@ -12,7 +12,7 @@ import ViewAccountInfo from './ViewAccountInfo';
 type Props = {
 	values: Record<string, unknown>;
 	handlers: Record<string, (eventOrValue: unknown) => void>;
-	user: IUser;
+	user: IUser | null;
 };
 
 function ViewProfileForm({ values, handlers, user, ...props }: Props): ReactElement {
@@ -39,11 +39,6 @@ function ViewProfileForm({ values, handlers, user, ...props }: Props): ReactElem
 			handleConfirmationPassword('');
 		}
 	}, [password, handleConfirmationPassword]);
-
-	const {
-		// eslint-disable-next-line no-empty-pattern
-		emails: [],
-	} = user;
 
 	const handleSubmit = (e): void => {
 		e.preventDefault();
@@ -72,7 +67,7 @@ function ViewProfileForm({ values, handlers, user, ...props }: Props): ReactElem
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const _buyCredit = useMemo(() => {
-		if (!user.credit) {
+		if (!user?.credit) {
 			Meteor.call('buyCredit', dummyCredit, (error, result) => {
 				if (result) {
 					console.log('Bought credit');
@@ -83,11 +78,11 @@ function ViewProfileForm({ values, handlers, user, ...props }: Props): ReactElem
 			});
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [user.credit]);
+	}, [user?.credit]);
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const _setRandomTrustScore = useMemo(() => {
-		if (!user.trustScore) {
+		if (!user?.trustScore) {
 			Meteor.call('setRandomTrustScore', (error, result) => {
 				if (result) {
 					console.log('Set a random trust score');
@@ -97,7 +92,7 @@ function ViewProfileForm({ values, handlers, user, ...props }: Props): ReactElem
 				}
 			});
 		}
-	}, [user.trustScore]);
+	}, [user?.trustScore]);
 
 	const careerItems = [
 		/* @ts-ignore */
@@ -112,7 +107,7 @@ function ViewProfileForm({ values, handlers, user, ...props }: Props): ReactElem
 			icon: 'trust-score',
 			/* @ts-ignore */
 			content: `${t('gso_viewProfileForm_careerItems_trustScore')}: ${
-				userWithCredit.trustScore !== 0 ? userWithCredit.trustScore * 100 : 0
+				userWithCredit?.trustScore !== undefined && userWithCredit?.trustScore !== 0 ? userWithCredit.trustScore * 100 : 0
 			}/100`,
 			rc: false,
 		},
@@ -152,9 +147,9 @@ function ViewProfileForm({ values, handlers, user, ...props }: Props): ReactElem
 						/>
 					</Field>
 				),
-				[username, user.username, handleAvatar, avatarSuggestions, user.avatarETag],
+				[username, user?.username, handleAvatar, avatarSuggestions, user?.avatarETag],
 			)}
-			<Box style={{ margin: '0px auto', fontSize: '16px' }}>{user.bio ? user.bio : 'No user bio...'}</Box>
+			<Box style={{ margin: '0px auto', fontSize: '16px' }}>{user?.bio ? user?.bio : 'No user bio...'}</Box>
 			<Box display='flex' flexDirection='column' style={{ marginTop: '30px' }}>
 				{/* @ts-ignore */}
 				<ViewAccountInfo title={t('gso_viewProfileForm_viewAccountInfo_careerItems')} items={careerItems} />

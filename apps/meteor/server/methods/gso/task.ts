@@ -1,13 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
+import { Tasks } from '@rocket.chat/models';
 
-import { TaskService } from '../services/task/service';
-import { TasksModel } from '../../app/models/server/raw';
-import { sampleTasks } from '../../app/models/server/raw/StaticTasks';
+import { sampleTasks, TaskService } from '../../services/gso';
+import { ITaskCreateParams } from '../../sdk/types/ITaskService';
 
 Meteor.methods({
 	async seed() {
-		const result = await TasksModel.insertMany(sampleTasks);
+		const result = await Tasks.insertMany(sampleTasks);
 		return result.ops;
 	},
 
@@ -30,6 +30,11 @@ Meteor.methods({
 		const task = await Tasks.create(params);
 
 		return task;
+	},
+
+	async createManyTasks(tasks: ITaskCreateParams[]): Promise<void> {
+		const Tasks = new TaskService();
+		await Tasks.createMany(tasks);
 	},
 
 	async deleteTask(taskId) {
@@ -84,9 +89,10 @@ Meteor.methods({
 				description: Match.Optional(String),
 				type: Match.Optional(Match.OneOf('daily', 'longterm', 'achievements')),
 				status: Match.Optional(Match.OneOf(-1, 0, 1)),
-				reward: Match.Optional(Number),
+				reward: Number,
 				sortOrder: Match.Optional(Number),
 				endDate: Match.Optional(Date),
+				assignedTo: Match.Optional(String),
 			}),
 		);
 

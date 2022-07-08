@@ -45,11 +45,15 @@ const TopUpView = (): ReactElement => {
 			if (element) {
 				// If the Accordion Item is closed then open it, otherwise close it.
 				if (openGateway.open === 'true') {
+					// @ts-ignore
 					element.firstElementChild.setAttribute('aria-expanded', 'true');
+					// @ts-ignore
 					element.lastElementChild.className =
 						'rcx-box rcx-box--full rcx-box--animated rcx-accordion-item__panel--expanded rcx-accordion-item__panel';
 				} else {
+					// @ts-ignore
 					element.firstElementChild.setAttribute('aria-expanded', 'false');
+					// @ts-ignore
 					element.lastElementChild.className = 'rcx-box rcx-box--full rcx-box--animated rcx-accordion-item__panel';
 				}
 			}
@@ -60,7 +64,9 @@ const TopUpView = (): ReactElement => {
 		if (closeGateway) {
 			const element = document.querySelector(`#${closeGateway}`);
 			if (element) {
+				// @ts-ignore
 				element.firstElementChild.setAttribute('aria-expanded', 'false');
+				// @ts-ignore
 				element.lastElementChild.className = 'rcx-box rcx-box--full rcx-box--animated rcx-accordion-item__panel';
 			}
 		}

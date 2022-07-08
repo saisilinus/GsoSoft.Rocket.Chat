@@ -1,22 +1,18 @@
-import { IFundTransaction } from '@rocket.chat/core-typings';
+import { IPaginationOptions, IQueryOptions } from '@rocket.chat/core-typings';
+import { AtLeastOne, ITransaction } from '@rocket.chat/core-typings/src/gso';
+import { Cursor } from 'mongodb';
+
+export type ITransactionLean = Omit<ITransaction, '_id' | '_updatedAt' | 'createdAt'>;
+
+export type ITransactionCreateParams = Omit<ITransactionLean, 'hash' | 'transactionCode' | 'gatewayData' | 'updatedBy'>;
+
+export type ITransactionUpdateParams = AtLeastOne<Omit<ITransactionLean, 'hash' | 'transactionCode'>>;
 
 export interface ITransactionService {
-	/**
-	 * Since there are many type of transaction, custom logic would be needed before call insertOne
-	 * @param doc fund-transaction sub type object
-	 */
-	create(doc: IFundTransaction): Promise<IFundTransaction>;
-
-	/**
-	 * Find transactions belonging to an owner ( person or organization )
-	 * @param name
-	 * @param options
-	 */
-	findByOwner(ownerId: any, options: any): Promise<IFundTransaction[]>;
-
-	getById(transactionId: IFundTransaction['_id']): Promise<null | IFundTransaction>;
-
-	archive(transactionId: IFundTransaction['_id']): Promise<boolean>;
-
-	markAudited(transactionId: IFundTransaction['_id']): Promise<boolean>;
+	create(params: ITransactionCreateParams): Promise<ITransaction>;
+	createMany(transactions: ITransactionCreateParams[]): Promise<void>;
+	list(paginationOptions?: IPaginationOptions, queryOptions?: IQueryOptions<ITransaction>): Cursor<ITransaction>;
+	update(transactionId: ITransaction['_id'], params: ITransactionUpdateParams): Promise<ITransaction>;
+	delete(transactionId: ITransaction['_id']): Promise<void>;
+	getTransaction(transactionId: ITransaction['_id']): Promise<ITransaction>;
 }

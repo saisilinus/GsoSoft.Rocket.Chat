@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 
-import { TagService } from '../services/tag/service';
+import { TagService } from '../services/gso';
 
 if (Meteor.isServer) {
 	const Tags = new TagService();
@@ -23,5 +23,11 @@ if (Meteor.isServer) {
 		);
 
 		return Tags.list(paginationOptions, queryOptions);
+	});
+
+	Meteor.publish('tags.getListByCategory', function (limit) {
+		check(limit, Match.Optional(Number));
+
+		return Tags.listByCategory(limit);
 	});
 }

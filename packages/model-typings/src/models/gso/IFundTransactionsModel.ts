@@ -20,5 +20,4 @@ export interface IFundTransactionsModel extends IBaseModel<IRoom> {
 	getTransaction(transactionId: IFundTransaction['_id']): Promise<IFundTransaction>;
 
 	findByOwner(name: any, options: any): any;
-
 }

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 
-import { TaskService } from '../services/task/service';
+import { TaskService } from '../services/gso';
 
 if (Meteor.isServer) {
 	const Tasks = new TaskService();
