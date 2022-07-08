@@ -7,5 +7,5 @@ export * from './ProductService';
 export * from './TagGroupService';
 export * from './TagService';
 export * from './TaskService';
-export * from './TransactionService';
+export * from './FundTransactionService';
 export * from './fake';

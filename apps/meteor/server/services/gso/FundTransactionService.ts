@@ -5,7 +5,7 @@ import { InsertionModel } from '@rocket.chat/model-typings';
 import { IPaginationOptions, IQueryOptions } from '@rocket.chat/core-typings';
 
 import { ServiceClassInternal } from '../../sdk/types/ServiceClass';
-import { ITransactionService, ITransactionCreateParams, ITransactionUpdateParams } from '../../sdk/types/ITransactionService';
+import { ITransactionService, ITransactionCreateParams, ITransactionUpdateParams } from '../../sdk/types/gso/ITransactionService';
 
 const createHash = (length: number): string => {
 	let result = '';
@@ -22,7 +22,7 @@ const createLongRandomNumber = (): string => {
 	return foo;
 };
 
-export class TransactionService extends ServiceClassInternal implements ITransactionService {
+export class FundTransactionService extends ServiceClassInternal implements ITransactionService {
 	protected name = 'transaction';
 
 	async create(params: ITransactionCreateParams): Promise<ITransaction> {
