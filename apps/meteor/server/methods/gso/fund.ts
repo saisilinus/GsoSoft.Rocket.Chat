@@ -1,12 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
+import { IDeposit, ISendFund, IUser, IWithdraw } from '@rocket.chat/core-typings';
 
 import { Users } from '../../../app/models/server/raw';
-import {
-	IDeposit,
-	ISendFund, IUser,
-	IWithdraw,
-} from '@rocket.chat/core-typings';
 
 /**
  * All fund related method exposed to client side
@@ -17,7 +13,7 @@ Meteor.methods({
 	 *
 	 * @param params
 	 */
-	'fund.deposit'(params: IDeposit) {
+	'fund.initDeposit'(params: IDeposit) {
 		const nonce = Math.floor(Math.random() * 10);
 		// 1. validating data
 		check(

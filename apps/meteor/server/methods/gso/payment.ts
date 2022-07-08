@@ -1,11 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 
-import { IDeposit, IWithdraw } from '@rocket.chat/core-typings';
+import { IDeposit, IGatewayTransaction, IWithdraw } from '@rocket.chat/core-typings';
 import { Users } from '../../../app/models/server/raw';
 
 Meteor.methods({
-	'fund.listGateways'() {
+	'payment.listGateways'() {
 		const PerfectMoneyVoucher = {
 			_id: 'perfect-money-voucher',
 			show: false,
@@ -53,5 +53,12 @@ Meteor.methods({
 
 		return [PerfectMoneyVoucher, BankTransfer, UsdtBlockChain, CreditCard, PaypalClass];
 	},
-
+	/**
+	 * user sub
+	 * @param transaction
+	 */
+	'payment.submit'(transaction: IGatewayTransaction) {
+		console.log(transaction);
+		return [];
+	},
 });

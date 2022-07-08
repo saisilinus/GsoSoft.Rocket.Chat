@@ -10,6 +10,18 @@ import type { IPaymentGateway } from '@rocket.chat/core-typings';
 export interface IPaymentGatewayAdapter {
 	getId(): string;
 
+	/**
+	 * Convert fund-transaction amount to gateway specific data in deposit.
+	 * For ex : if our system use Litecoin as currency, paypal-gateway can be used to get the equivalent amount of USD/EURO
+	 */
+	convertDeposit(): any;
+
+	/**
+	 * Convert fund-transaction amount to gateway specific data in withdrawal
+	 * For ex : if our system use Litecoin as currency, paypal-gateway can be used to get the equivalent amount of USD/EURO
+	 */
+	convertWithdrawal(): any;
+
 	getGatewayInfo(): IPaymentGateway;
 
 	/**
