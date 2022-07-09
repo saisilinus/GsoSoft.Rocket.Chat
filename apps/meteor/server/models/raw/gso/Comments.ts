@@ -7,6 +7,6 @@ import { BaseRaw } from '../BaseRaw';
 
 export class CommentsRaw extends BaseRaw<IComment> implements ICommentsModel {
 	constructor(db: Db, trash?: Collection<RocketChatRecordDeleted<IComment>>) {
-		super(db, getCollectionName('comment'), trash);
+		super(db, getCollectionName('comment', true), trash);
 	}
 }

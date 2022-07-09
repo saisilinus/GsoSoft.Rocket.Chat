@@ -7,7 +7,8 @@ import { BaseRaw } from '../BaseRaw';
 
 export class BlogsRaw extends BaseRaw<IBlog> implements IBlogsModel {
 	constructor(db: Db, trash?: Collection<RocketChatRecordDeleted<IBlog>>) {
-		super(db, getCollectionName('blog'), trash);
+		console.log('col name ', getCollectionName('blog', true));
+		super(db, getCollectionName('blog', true), trash);
 	}
 
 	getBlogsWithComments(limit = 10): AggregationCursor<IBlog> {

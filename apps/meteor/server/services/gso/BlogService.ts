@@ -1,7 +1,8 @@
 import { AggregationCursor } from 'mongodb';
 import { IBlog } from '@rocket.chat/core-typings/dist/gso';
-import { Blogs } from '@rocket.chat/models';
+// import { Blogs } from '@rocket.chat/models';
 import { InsertionModel } from '@rocket.chat/model-typings';
+import { Blogs } from '@rocket.chat/models';
 
 import { ServiceClassInternal } from '../../sdk/types/ServiceClass';
 import { IBlogService, IBlogCreateParams, IBlogUpdateParams } from '../../sdk/types/IBlogService';
