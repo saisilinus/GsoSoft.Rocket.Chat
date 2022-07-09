@@ -52,6 +52,7 @@ Meteor.methods({
 
 		const Blogs = new BlogService();
 
+		// const result = await Blogs.list(limit).toArray();
 		const result = await Blogs.list(limit).toArray();
 		console.log('getBlogs result ', result);
 

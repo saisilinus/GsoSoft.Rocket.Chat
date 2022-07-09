@@ -1,5 +1,5 @@
 import { AtLeastOne, IBlog, PartialBy } from '@rocket.chat/core-typings';
-import { AggregationCursor } from 'mongodb';
+import { AggregationCursor, FindCursor } from 'mongodb';
 
 export type IBlogWithoutID = PartialBy<Omit<IBlog, '_id'>, 'tags'>;
 
@@ -15,9 +15,14 @@ export type IBlogUpdateBody = IBlogUpdateParams & { _updatedAt: IBlog['_updatedA
 
 export interface IBlogService {
 	create(params: IBlogCreateParams): Promise<IBlog>;
+
 	createMany(blogs: IBlogCreateParams[]): Promise<void>;
-	list(limit?: number): AggregationCursor<IBlog>;
+
+	list(limit?: number): AggregationCursor<IBlog> | FindCursor;
+
 	update(blogId: string, params: IBlogUpdateParams): Promise<IBlog>;
+
 	delete(blogId: string): Promise<void>;
+
 	getBlog(blogId: string): Promise<IBlog>;
 }

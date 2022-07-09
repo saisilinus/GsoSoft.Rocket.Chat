@@ -7,15 +7,15 @@ import { BaseRaw } from '../BaseRaw';
 
 export class BlogsRaw extends BaseRaw<IBlog> implements IBlogsModel {
 	constructor(db: Db, trash?: Collection<RocketChatRecordDeleted<IBlog>>) {
-		console.log('col name ', getCollectionName('blog', true));
-		super(db, getCollectionName('blog', true), trash);
+		// console.log('col name ', getCollectionName('blogs', true));
+		super(db, 'blogs', trash);
 	}
 
 	getBlogsWithComments(limit = 10): AggregationCursor<IBlog> {
 		const pipeline = [
 			{
 				$lookup: {
-					from: 'comments',
+					from: 'gso_comments',
 					as: 'comments',
 					let: { post: '$_id' },
 					pipeline: [
@@ -31,6 +31,11 @@ export class BlogsRaw extends BaseRaw<IBlog> implements IBlogsModel {
 				},
 			},
 		];
+		console.log(this.col.countDocuments());
+		console.log(this.col.collectionName);
+		console.log(this.col.dbName);
+		console.log(this.col.find({}));
 		return this.col.aggregate(pipeline);
+		// return this.col.find({ } });
 	}
 }

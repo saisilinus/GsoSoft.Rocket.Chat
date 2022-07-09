@@ -1,4 +1,4 @@
-import { AggregationCursor } from 'mongodb';
+import { AggregationCursor, FindCursor } from 'mongodb';
 import { IBlog } from '@rocket.chat/core-typings/dist/gso';
 // import { Blogs } from '@rocket.chat/models';
 import { InsertionModel } from '@rocket.chat/model-typings';
@@ -58,7 +58,8 @@ export class BlogService extends ServiceClassInternal implements IBlogService {
 		return blog;
 	}
 
-	list(limit = 10): AggregationCursor<IBlog> {
+	list(limit = 10): AggregationCursor<IBlog> | FindCursor {
+		// return Blogs.find({}); 12
 		return Blogs.getBlogsWithComments(limit);
 	}
 }
