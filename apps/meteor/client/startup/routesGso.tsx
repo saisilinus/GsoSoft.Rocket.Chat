@@ -5,6 +5,7 @@ import React, { lazy } from 'react';
 
 import { appLayout } from '../lib/appLayout';
 import MainLayout from '../views/root/MainLayout';
+import FundBalanceView from '../views/gso/FundBalanceView';
 
 const BlogViewPage = lazy(() => import('../views/blog/BlogView'));
 const GamesViewPage = lazy(() => import('../views/games/GamesView'));
@@ -184,6 +185,17 @@ FlowRouter.route('/products/detail/:id', {
 		appLayout.render(
 			<MainLayout>
 				<ProductDetailPageView />
+			</MainLayout>,
+		);
+	},
+});
+
+FlowRouter.route('/fund/balance', {
+	name: 'fund-balance',
+	action: () => {
+		appLayout.render(
+			<MainLayout>
+				<FundBalanceView />
 			</MainLayout>,
 		);
 	},

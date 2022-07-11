@@ -1,6 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
-import { ICurrency, IDeposit, IFundTransaction, ISendFund, IUser, IWithdraw } from '@rocket.chat/core-typings';
+import {
+	ICurrency,
+	IDeposit,
+	IFundAccount,
+	IFundBalance,
+	IFundTransaction,
+	ISendFund,
+	IUser,
+	IWithdraw,
+} from '@rocket.chat/core-typings';
 
 import { FundTransactionService } from '../../services/gso';
 
@@ -22,6 +31,7 @@ Meteor.methods({
 		 */
 		const GSD: ICurrency = {
 			code: 'GSD',
+			isMain: true,
 		} as ICurrency;
 
 		const USD: ICurrency = {
@@ -122,9 +132,32 @@ Meteor.methods({
 		return params;
 	},
 
-	getUserFund(userId: IUser['_id']) {
+	getUserFundBalance(userId: IUser['_id']): IFundBalance {
 		console.log(userId);
-		return userId;
+
+		const fundBalance: IFundBalance = {
+			owner: userId,
+			accounts: [
+				{
+					currency: 'USD',
+					lastTransaction: '5635sdf',
+					realizedAmount: 10,
+					unrealizedAmount: 13,
+					lastAmount: 5, // for audit purpose
+					lastAudited: new Date(),
+				} as IFundAccount,
+				{
+					currency: 'GSD',
+					lastTransaction: '12adf31',
+					realizedAmount: 55,
+					unrealizedAmount: 24,
+					lastAmount: 5, // for audit purpose
+					lastAudited: new Date(),
+				} as IFundAccount,
+			],
+		} as IFundBalance;
+
+		return fundBalance;
 	},
 
 	async getTransactions(paginationOptions, queryOptions) {
