@@ -21,7 +21,7 @@ const TopUpView = (): ReactElement => {
 	const capitalize = useCapitalizeAndJoin();
 
 	const getGatewaysFn = (): void => {
-		Meteor.call('getStaticGateways', {}, {}, (_error, result) => {
+		Meteor.call('payment.listGateways', {}, {}, (_error, result) => {
 			if (result) {
 				if (result.length) {
 					setFetchedGateways(result);

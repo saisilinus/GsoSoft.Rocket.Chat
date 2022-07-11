@@ -1,5 +1,6 @@
 import type { IUser } from '../IUser';
 import type { IRocketChatRecord } from '../IRocketChatRecord';
+import type { ICurrency } from './ICurrency';
 
 export interface IInventory extends IRocketChatRecord {
 	createdAt: Date;
@@ -36,16 +37,35 @@ export interface IItem {
 	managedBy: any;
 
 	/**
+	 * If pricing is there, 	purchasable = true ;
 	 * sale price versus the global currency
+	 * Format:
+	 * {
+	 *   "USD": 352,
+	 *   "JPY": 42
+	 * }
 	 */
-	price: number;
+	pricing: any;
+
 	/**
-	 * name language key
+	 * this code will be used by client side for name/description in multi-language.
+	 * convention [module]_[name]: gift_rose, game_vipTicket, job_postingTicket, etc...
+	 * correspondingly, english lang data can be:
+	 *   "gso_gift_rose_name": "a rose",
+	 *   "gso_gift_rose_desc": "This is a rose to gift to someone u love, blabla..",
+	 *
 	 */
-	nameLangKey: string;
+	code: string;
+
 	icon: string;
-	/**
-	 * description language key
-	 */
-	descLangKey: string;
 }
+
+// export interface IItemPrice {
+// 	currencyCode:ICurrency;
+// 	/**
+// 	 *
+// 	 */
+// 	unit: string;
+// 	price: number;
+//
+// }

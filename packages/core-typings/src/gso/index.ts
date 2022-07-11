@@ -1,7 +1,7 @@
 export * from './AtLeastOne';
+export * from './ICurrency';
 export * from './PartialBy';
 export * from './RequireAtleastOne';
-export * from './IDeposit';
 export * from './IEscrow';
 export * from './IFundBalance';
 export * from './IFundTransaction';
@@ -11,7 +11,7 @@ export * from './IPaymentGateway';
 export * from './IReservation';
 export * from './ISendFund';
 export * from './ITask';
-export * from './IWithdraw';
+
 export * from './IBlog';
 export * from './IComment';
 export * from './IGame';
