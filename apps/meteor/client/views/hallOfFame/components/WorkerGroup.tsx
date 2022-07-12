@@ -8,8 +8,8 @@ type Props = {
 };
 
 const WorkerGroup = ({ workerData }: Props): ReactElement => (
-	<Box display='flex' justifyContent='space-between'>
-		{workerData.slice(1).map((data, index) => (
+	<Box>
+		{workerData.map((data, index) => (
 			<WorkerProfile key={index} workerData={data} />
 		))}
 	</Box>

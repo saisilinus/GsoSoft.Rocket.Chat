@@ -21,3 +21,5 @@ import './tagGroups';
 import './tags';
 
 import './setUserReward';
+
+import './workers';

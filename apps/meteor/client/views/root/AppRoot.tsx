@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import React, { FC, lazy, Suspense } from 'react';
 import { QueryClientProvider } from 'react-query';
 
