@@ -8,6 +8,7 @@ import React, { ReactElement, useContext, useEffect, useMemo, useState } from 'r
 
 import AddressPicker from '../../components/AddressPicker/AddressPicker';
 import { UserPreviousPageContext } from '../../contexts/UserPreviousPageContext/GlobalState';
+import { useShuffle } from '../../hooks/useShuffleArray';
 import WorkerGroup from '../hallOfFame/components/WorkerGroup';
 
 const projectType = ['Hourly', 'Fixed-Rate', 'Short-term', 'Long-term'];
@@ -17,14 +18,18 @@ const BrowseFreelancersComponent = (): ReactElement => {
 	const [openGateway, setOpenGateway] = useState<Record<string, any>>({});
 	const [closeGateway, setCloseGateway] = useState('');
 	const [listOfWorkers, setListOfWorkers] = useState<Record<string, any>[]>([]);
+	const arrayShuffle = useShuffle();
 
 	useEffect(() => {
-		Meteor.call('getWorkers', (error, result) => {
-			if (result.length) {
-				setListOfWorkers(result.slice(0, 3));
-			}
-		});
-	}, []);
+		if (!listOfWorkers.length) {
+			Meteor.call('getWorkers', (error, result) => {
+				if (result.length) {
+					const shuffled = arrayShuffle(result);
+					setListOfWorkers(shuffled.slice(0, 3));
+				}
+			});
+		}
+	}, [arrayShuffle, listOfWorkers.length]);
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	useMemo((): void => {
@@ -90,6 +95,7 @@ const BrowseFreelancersComponent = (): ReactElement => {
 			}
 		});
 	};
+
 	return (
 		<Accordion style={{ margin: '30px 0' }}>
 			{projectType.map((project, index) => (
@@ -109,7 +115,7 @@ const BrowseFreelancersComponent = (): ReactElement => {
 							}}
 							placeholder='Sort by ranks'
 						/>
-						<WorkerGroup workerData={listOfWorkers} />
+						<WorkerGroup workerData={listOfWorkers} component='browseFreelancers' />
 						<Box display='flex' justifyContent='space-between' style={{ marginTop: '45px' }}>
 							<Button primary onClick={handleLoadMore}>
 								Load more
