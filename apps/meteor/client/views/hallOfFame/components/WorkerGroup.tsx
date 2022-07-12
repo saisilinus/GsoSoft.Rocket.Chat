@@ -21,7 +21,10 @@ const WorkerGroup = ({ workerData, component }: Props): ReactElement => {
 	}, []);
 
 	return (
-		<Box>
+		<Box
+			display={`${component === 'hallOfFame' ? 'flex' : 'block'}`}
+			justifyContent={`${component === 'hallOfFame' ? 'space-between' : ''}`}
+		>
 			{component === 'hallOfFame'
 				? listOfWorkers.map((data, index) => <WorkerProfile key={index} workerData={data} />)
 				: workerData.map((data, index) => <WorkerProfile key={index} workerData={data} />)}
