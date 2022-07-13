@@ -3,11 +3,12 @@ import { Accordion, Box, MultiSelect, Button } from '@rocket.chat/fuselage';
 import { useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import React, { ReactElement, useContext, useMemo, useState } from 'react';
+import { Meteor } from 'meteor/meteor';
+import React, { ReactElement, useContext, useEffect, useMemo, useState } from 'react';
 
-import ListOfFreelancers from '../../../public/json_data/job-browse-by-city-district_response.json';
 import AddressPicker from '../../components/AddressPicker/AddressPicker';
 import { UserPreviousPageContext } from '../../contexts/UserPreviousPageContext/GlobalState';
+import { useShuffle } from '../../hooks/useShuffleArray';
 import WorkerGroup from '../hallOfFame/components/WorkerGroup';
 
 const projectType = ['Hourly', 'Fixed-Rate', 'Short-term', 'Long-term'];
@@ -16,6 +17,20 @@ const ranks = ['Rising Talent', 'Top Rated', 'Top Rated Plus', 'Expert Vetted'];
 const BrowseFreelancersComponent = (): ReactElement => {
 	const [openGateway, setOpenGateway] = useState<Record<string, any>>({});
 	const [closeGateway, setCloseGateway] = useState('');
+	const [listOfWorkers, setListOfWorkers] = useState<Record<string, any>[]>([]);
+	const arrayShuffle = useShuffle();
+
+	useEffect(() => {
+		if (!listOfWorkers.length) {
+			Meteor.call('getWorkers', (error, result) => {
+				if (result.length) {
+					const shuffled = arrayShuffle(result);
+					setListOfWorkers(shuffled.slice(0, 3));
+				}
+			});
+		}
+	}, [arrayShuffle, listOfWorkers.length]);
+
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	useMemo((): void => {
 		if (openGateway) {
@@ -72,6 +87,15 @@ const BrowseFreelancersComponent = (): ReactElement => {
 			setOpenGateway({ open, id: accordionItem.id });
 		}
 	};
+
+	const handleLoadMore = (): void => {
+		Meteor.call('getWorkers', (error, result) => {
+			if (result.length) {
+				setListOfWorkers(result);
+			}
+		});
+	};
+
 	return (
 		<Accordion style={{ margin: '30px 0' }}>
 			{projectType.map((project, index) => (
@@ -91,9 +115,11 @@ const BrowseFreelancersComponent = (): ReactElement => {
 							}}
 							placeholder='Sort by ranks'
 						/>
-						<WorkerGroup workerData={ListOfFreelancers} />
+						<WorkerGroup workerData={listOfWorkers} component='browseFreelancers' />
 						<Box display='flex' justifyContent='space-between' style={{ marginTop: '45px' }}>
-							<Button primary>Load more</Button>
+							<Button primary onClick={handleLoadMore}>
+								Load more
+							</Button>
 							<Button secondary onClick={(): void => onAccordionToggle(project, 'button')}>
 								Collapse
 							</Button>

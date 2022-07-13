@@ -16,7 +16,7 @@ const HallOfFameComponent = (): ReactElement => (
 			<Tile key={index} style={{ marginBottom: '45px' }}>
 				{/* @ts-ignore */}
 				<h3 style={{ fontSize: '19px', marginBottom: '10px' }}>{workerList.name}</h3>
-				<WorkerGroup workerData={workerList.items} />
+				<WorkerGroup workerData={workerList.items} component='hallOfFame' />
 			</Tile>
 		))}
 	</>
