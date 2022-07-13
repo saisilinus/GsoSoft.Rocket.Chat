@@ -8,7 +8,7 @@ import { CallProvider } from './CallProvider';
 import ConnectionStatusProvider from './ConnectionStatusProvider';
 import CustomSoundProvider from './CustomSoundProvider';
 import DailyTasksProvider from './DailyTasksProvider';
-import { DeviceProvider } from './DeviceProvider';
+import { DeviceProvider } from './DeviceProvider/DeviceProvider';
 import LayoutProvider from './LayoutProvider';
 import ModalProvider from './ModalProvider';
 import OmnichannelProvider from './OmnichannelProvider';
