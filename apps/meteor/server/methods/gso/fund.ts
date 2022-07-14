@@ -17,7 +17,7 @@ import { FundTransactionService } from '../../services/gso';
  * All fund related method exposed to client side
  */
 Meteor.methods({
-	// Mock trust score
+	// this should be in settings table, but hardcode 4 now !!
 	async listCurrencies() {
 		const THB: ICurrency = {
 			code: 'THB',

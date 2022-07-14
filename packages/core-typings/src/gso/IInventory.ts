@@ -15,7 +15,6 @@ export interface IInventory extends IRocketChatRecord {
 	itemCount: number;
 }
 
-
 /**
  * Item in user inventory/bag. Item can be created by various modules within the system, and can be burned/exchange for other items.
  */

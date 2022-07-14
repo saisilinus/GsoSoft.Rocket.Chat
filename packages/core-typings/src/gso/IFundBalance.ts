@@ -25,7 +25,7 @@ export interface IFundAccount {
 	/**
 	 * available to spend, send, withdrawal etc...
 	 */
-	realizedAmount: number;
+	availableAmount: number;
 
 	/**
 	 * frozen, pending, seized, etc..

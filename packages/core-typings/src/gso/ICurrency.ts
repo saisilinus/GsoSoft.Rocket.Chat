@@ -8,6 +8,10 @@ export interface ICurrency {
 	 */
 	code: string;
 	/**
+	 * Like $ for USD, € for EURO, ₫ for VND , ₭ for Laos kip
+	 */
+	symbol: string;
+	/**
 	 * whether is a main currency of the system.
 	 */
 	isMain: boolean;
@@ -20,4 +24,7 @@ export interface ICurrency {
 	 * if empty = this coin can not be exchange to other coin.
 	 */
 	exchangeRate: any;
+
+	isDepositable: boolean;
+	isWithdrawable: boolean;
 }

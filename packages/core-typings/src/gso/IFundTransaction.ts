@@ -1,17 +1,12 @@
 import type { IUser } from '../IUser';
 import type { IRocketChatRecord } from '../IRocketChatRecord';
 import type { IGatewayTransaction, IPaymentGateway, IPaymentGatewayData } from './IPaymentGateway';
+import type { ICurrency } from './ICurrency';
 
 export interface IFundTransaction extends IRocketChatRecord {
 	createdAt: Date;
 	createdBy: IUser;
 	amount: number;
-
-	active: boolean;
-	username?: string;
-	nickname?: string;
-	name?: string;
-
 	status: any;
 
 	creditType: TransactionType;
@@ -78,4 +73,15 @@ export interface IWithdraw extends IFundTransaction {
 	status: 'success' | 'cancelled' | 'error';
 	updatedBy?: IUser['_id'];
 	gatewayData: IPaymentGatewayData;
+}
+
+/**
+ * Put it here so less file to manage!?
+ * Withdraw fund transaction, usually (or always) with the help of a payment gateway (usually from third party payment provider)
+ *
+ */
+export interface IExchangeCurrency extends IFundTransaction {
+	from: ICurrency['code'];
+	to: ICurrency['code'];
+
 }
