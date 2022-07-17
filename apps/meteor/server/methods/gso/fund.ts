@@ -3,45 +3,25 @@ import { check, Match } from 'meteor/check';
 import {
 	ICurrency,
 	IDeposit,
+	IExchangeCurrency,
 	IFundAccount,
 	IFundBalance,
+	IFundOwner,
 	IFundTransaction,
 	ISendFund,
-	IUser,
 	IWithdraw,
 } from '@rocket.chat/core-typings';
 
-import { FundTransactionService } from '../../services/gso';
+import { FundService } from '../../services/gso';
 
 /**
  * All fund related method exposed to client side
  */
 Meteor.methods({
-	// this should be in settings table, but hardcode 4 now !!
 	async listCurrencies() {
-		const THB: ICurrency = {
-			code: 'THB',
-			exchangeRate: {
-				GSD: 3.4,
-			},
-		} as ICurrency;
+		const sv = new FundService();
 
-		/**
-		 * GSO dollar
-		 */
-		const GSD: ICurrency = {
-			code: 'GSD',
-			isMain: true,
-		} as ICurrency;
-
-		const USD: ICurrency = {
-			code: 'USD',
-			exchangeRate: {
-				GSD: 23.4,
-			},
-		} as ICurrency;
-
-		return [THB, GSD, USD];
+		return sv.listCurrencies(Meteor.userId());
 	},
 
 	/**
@@ -78,7 +58,7 @@ Meteor.methods({
 
 		// update transaction table
 
-		const Transactions = new FundTransactionService();
+		const Transactions = new FundService();
 
 		const transaction = await Transactions.create({
 			...params,
@@ -119,38 +99,55 @@ Meteor.methods({
 	},
 
 	/**
-	 *
+	 * Allow user to init an currency exchange order. Return fund state before and after.
 	 * @param from
 	 * @param to
 	 */
-	exchangeCurrency(from: string, to: string) {
-		console.log(from, to);
-		return '';
+	async initCurrencyExchange(from: string, to: string, amount: number): Promise<IExchangeCurrency> {
+		// 1. verify user data _ryan
+		console.log(from, to, amount);
+
+		// 2. send to service layer
+		const fundService = new FundService();
+		return fundService.initCurrencyExchange(Meteor.userId(), from, to, amount);
+	},
+
+	/**
+	 * Allow user to init an currency exchange order. Return fund state before and after.
+	 * @param from
+	 * @param to
+	 */
+	async submitCurrencyExchange(orderId: IExchangeCurrency['_id']): boolean {
+		// 1. verify user data
+
+		// 2. send to service layer
+		const fundService = new FundService();
+		return fundService.submitCurrencyExchange(orderId);
 	},
 
 	sendFund(params: ISendFund) {
 		return params;
 	},
 
-	getUserFundBalance(userId: IUser['_id']): IFundBalance {
-		console.log(userId);
+	getUserFundBalance(owner: IFundOwner): IFundBalance {
+		console.log(owner);
 
 		const fundBalance: IFundBalance = {
-			owner: userId,
+			owner,
 			accounts: [
 				{
 					currency: 'USD',
 					lastTransaction: '5635sdf',
-					realizedAmount: 10,
-					unrealizedAmount: 13,
+					availableAmount: 10,
+					unAvailableAmount: 13,
 					lastAmount: 5, // for audit purpose
 					lastAudited: new Date(),
 				} as IFundAccount,
 				{
 					currency: 'GSD',
 					lastTransaction: '12adf31',
-					realizedAmount: 55,
-					unrealizedAmount: 24,
+					availableAmount: 55,
+					unAvailableAmount: 24,
 					lastAmount: 5, // for audit purpose
 					lastAudited: new Date(),
 				} as IFundAccount,
@@ -176,7 +173,7 @@ Meteor.methods({
 			}),
 		);
 
-		const Transactions = new FundTransactionService();
+		const Transactions = new FundService();
 
 		const results = await Transactions.list(paginationOptions, {
 			sort: queryOptions.sort,
@@ -189,7 +186,7 @@ Meteor.methods({
 	async markTransactionAudited(transactionId: IFundTransaction['_id']) {
 		check(transactionId, String);
 
-		const Transactions = new FundTransactionService();
+		const Transactions = new FundService();
 
 		await Transactions.delete(transactionId);
 
@@ -199,7 +196,7 @@ Meteor.methods({
 	async getOneTransaction(transactionId: IFundTransaction['_id']) {
 		check(transactionId, String);
 
-		const Transactions = new FundTransactionService();
+		const Transactions = new FundService();
 
 		const transaction = await Transactions.getTransaction(transactionId);
 

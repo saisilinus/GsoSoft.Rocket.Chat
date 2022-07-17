@@ -3,7 +3,7 @@ import { check, Match } from 'meteor/check';
 import { ITransaction } from '@rocket.chat/core-typings';
 import { Users } from '@rocket.chat/models';
 
-import { FundTransactionService } from '../../services/gso';
+import { FundService } from '../../services/gso';
 import { ITransactionCreateParams, ITransactionUpdateParams } from '../../sdk/types/gso/ITransactionService';
 
 /**
@@ -33,7 +33,7 @@ Meteor.methods({
 			await Users.update(query, { $inc: { credit: params.quantity } });
 		}
 
-		const Transactions = new FundTransactionService();
+		const Transactions = new FundService();
 
 		const transaction = await Transactions.create({
 			...params,
@@ -61,7 +61,7 @@ Meteor.methods({
 			throw new Meteor.Error('error-invalid-user', 'Invalid user');
 		}
 
-		const Transactions = new FundTransactionService();
+		const Transactions = new FundService();
 
 		const transaction = await Transactions.create({
 			...params,
@@ -75,7 +75,7 @@ Meteor.methods({
 		if (!Meteor.userId()) {
 			throw new Meteor.Error('error-invalid-user', 'Invalid user');
 		}
-		const Transactions = new FundTransactionService();
+		const Transactions = new FundService();
 		const data: ITransactionCreateParams[] = transactions.map((transaction) => ({ ...transaction, createdBy: Meteor.userId() as string }));
 		await Transactions.createMany(data);
 	},
@@ -83,7 +83,7 @@ Meteor.methods({
 	async deleteTransaction(transactionId: ITransaction['_id']) {
 		check(transactionId, String);
 
-		const Transactions = new FundTransactionService();
+		const Transactions = new FundService();
 
 		await Transactions.delete(transactionId);
 
@@ -93,7 +93,7 @@ Meteor.methods({
 	async getOneTransaction(transactionId: ITransaction['_id']) {
 		check(transactionId, String);
 
-		const Transactions = new FundTransactionService();
+		const Transactions = new FundService();
 
 		const transaction = await Transactions.getTransaction(transactionId);
 
@@ -125,7 +125,7 @@ Meteor.methods({
 			throw new Meteor.Error('error-invalid-user', 'Invalid user');
 		}
 
-		const Transactions = new FundTransactionService();
+		const Transactions = new FundService();
 
 		const transaction = await Transactions.update(transactionId, { ...params, updatedBy: Meteor.userId() as string });
 
@@ -148,7 +148,7 @@ Meteor.methods({
 			}),
 		);
 
-		const Transactions = new FundTransactionService();
+		const Transactions = new FundService();
 
 		const results = await Transactions.list(paginationOptions, {
 			sort: queryOptions.sort,

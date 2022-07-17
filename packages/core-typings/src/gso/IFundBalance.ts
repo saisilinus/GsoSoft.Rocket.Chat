@@ -4,14 +4,13 @@ import type { IRocketChatRecord } from '../IRocketChatRecord';
 import type { IRoom } from '../IRoom';
 import type { ICurrency } from './ICurrency';
 
-export interface IFundBalance extends IRocketChatRecord {
-	/**
-	 * for atomicity in ACID
-	 */
-	lockedAt: Date;
-	lockedBy: any;
+export interface IFundOwner {
+	id: IUser['_id'] | IRoom['_id'];
+	type: 'user' | 'group' | '2bDefined';
+}
 
-	owner: IUser['_id'] | IRoom['_id'];
+export interface IFundBalance extends IRocketChatRecord {
+	owner: IFundOwner;
 	accounts: Array<IFundAccount>;
 }
 
@@ -28,10 +27,16 @@ export interface IFundAccount {
 	availableAmount: number;
 
 	/**
-	 * frozen, pending, seized, etc..
+	 * frozen, pending, seized, etc..., not available for spending
 	 */
-	unrealizedAmount: number;
+	unAvailableAmount: number;
 
 	lastAmount: number; // for audit purpose
 	lastAudited: Date;
+
+	/**
+	 * for atomicity in ACID
+	 */
+	lockedAt: Date;
+	lockedBy: any;
 }

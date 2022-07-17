@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { IGatewayTransaction } from '@rocket.chat/core-typings';
 
 Meteor.methods({
-	'payment.listGateways'() {
+	getPaymentGateways() {
 		const PerfectMoneyVoucher = {
 			_id: 'perfect-money-voucher',
 			show: false,
@@ -51,11 +51,13 @@ Meteor.methods({
 		return [PerfectMoneyVoucher, BankTransfer, UsdtBlockChain, CreditCard, PaypalClass];
 	},
 	/**
-	 * user sub
+	 * user submit payment info
 	 * @param transaction
 	 */
-	'payment.submit'(transaction: IGatewayTransaction) {
+	submitPayment(transaction: IGatewayTransaction) {
+		// 1. data submit from client can be
 		console.log(transaction);
 		return [];
 	},
+
 });

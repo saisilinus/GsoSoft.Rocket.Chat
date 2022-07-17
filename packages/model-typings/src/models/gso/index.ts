@@ -2,6 +2,7 @@ export * from './IBlogsModel';
 export * from './ICommentsModel';
 export * from './IEscrowsModel';
 export * from './IFundTransactionsModel';
+export * from './IFundBalancesModel';
 export * from './IGamesModel';
 export * from './IGatewaysModel';
 export * from './IPaymentGatewaysModel';

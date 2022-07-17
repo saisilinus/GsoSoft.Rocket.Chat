@@ -2,7 +2,11 @@ import type { IUser } from '../IUser';
 import type { IRocketChatRecord } from '../IRocketChatRecord';
 import type { IGatewayTransaction, IPaymentGateway, IPaymentGatewayData } from './IPaymentGateway';
 import type { ICurrency } from './ICurrency';
+import type { IFundAccount } from './IFundBalance';
 
+/**
+ * All fund related transaction : such as deposit/withdraw/Frozen
+ */
 export interface IFundTransaction extends IRocketChatRecord {
 	createdAt: Date;
 	createdBy: IUser;
@@ -81,7 +85,9 @@ export interface IWithdraw extends IFundTransaction {
  *
  */
 export interface IExchangeCurrency extends IFundTransaction {
-	from: ICurrency['code'];
-	to: ICurrency['code'];
+	from: IFundAccount;
+	to: IFundAccount;
+	amount: number;
 
+	status: 'init' | 'success' | 'error';
 }

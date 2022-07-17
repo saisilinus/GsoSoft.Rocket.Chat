@@ -28,7 +28,7 @@ registerAccountRoute('/payment-history', {
 	component: lazy(() => import('../paymentHistory/paymentHistory')),
 });
 
-registerAccountRoute('/topup', {
+registerAccountRoute('/topup/:currency', {
 	name: 'topup',
 	component: lazy(() => import('../topup/TopUpView')),
 });
