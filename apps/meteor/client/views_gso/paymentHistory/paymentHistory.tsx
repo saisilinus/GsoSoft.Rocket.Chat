@@ -8,8 +8,8 @@ import { isMobile, isDesktop } from 'react-device-detect';
 import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
 import { useEndpointData } from '../../hooks/useEndpointData';
-import { useQuery } from '../directory/hooks';
-import DateRangePicker from '../omnichannel/analytics/DateRangePicker';
+import { useQuery } from '../../views/directory/hooks';
+import DateRangePicker from '../../views/omnichannel/analytics/DateRangePicker';
 import CustomerSupport from './components/customerSupport';
 import PaymentModule from './components/paymentModule';
 

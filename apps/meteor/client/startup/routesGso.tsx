@@ -5,23 +5,23 @@ import React, { lazy } from 'react';
 
 import { appLayout } from '../lib/appLayout';
 import MainLayout from '../views/root/MainLayout';
-import FundBalanceView from '../views/gso/FundBalanceView';
+import FundBalanceView from '../views_gso/FundBalanceView';
 
-const BlogViewPage = lazy(() => import('../views/blog/BlogView'));
-const GamesViewPage = lazy(() => import('../views/games/GamesView'));
-const ProductsViewPage = lazy(() => import('../views/products/ProductsView'));
+const BlogViewPage = lazy(() => import('../views_gso/blog/BlogView'));
+const GamesViewPage = lazy(() => import('../views_gso/games/GamesView'));
+const ProductsViewPage = lazy(() => import('../views_gso/products/ProductsView'));
 const StoreViewPage = lazy(() => import('../views/store/StoreView'));
 const MessagesViewPage = lazy(() => import('../views/messages/MessagesView'));
-const EmployerPreferencesView = lazy(() => import('../views/employerPreferences/EmployerPreferencesView'));
-const HallOfFameView = lazy(() => import('../views/hallOfFame/HallOfFameView'));
-const BrowseFreelancersView = lazy(() => import('../views/browseFreelancers/BrowseFreelancersView'));
+const EmployerPreferencesView = lazy(() => import('../views_gso/employerPreferences/EmployerPreferencesView'));
+const HallOfFameView = lazy(() => import('../views_gso/hallOfFame/HallOfFameView'));
+const BrowseFreelancersView = lazy(() => import('../views_gso/browseFreelancers/BrowseFreelancersView'));
 const SelectRoleViewPage = lazy(() => import('../views/roles/SelectRoleView'));
 const RoleResultViewPage = lazy(() => import('../views/roles/components/RoleResult'));
-const EscrowHistoryViewPage = lazy(() => import('../views/escrowHistory/escrowHistory'));
-const BlogDetailPageView = lazy(() => import('../views/blog/BlogDetail'));
-const GameDetailPageView = lazy(() => import('../views/games/SingleGameDetails'));
-const ProductDetailPageView = lazy(() => import('../views/products/SIngleProductDetails'));
-const DailyTasksPageView = lazy(() => import('../views/dailyTasks/DailyTasks'));
+const EscrowHistoryViewPage = lazy(() => import('../views_gso/escrowHistory/escrowHistory'));
+const BlogDetailPageView = lazy(() => import('../views_gso/blog/BlogDetail'));
+const GameDetailPageView = lazy(() => import('../views_gso/games/SingleGameDetails'));
+const ProductDetailPageView = lazy(() => import('../views_gso/products/SIngleProductDetails'));
+const DailyTasksPageView = lazy(() => import('../views_gso/dailyTasks/DailyTasks'));
 
 // New Routes for GSO app
 

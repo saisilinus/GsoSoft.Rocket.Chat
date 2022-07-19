@@ -7,7 +7,7 @@ import React, { ReactElement, useEffect, useMemo, useState } from 'react';
 import Page from '../../components/Page';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
 import { useEndpointData } from '../../hooks/useEndpointData';
-import { useQuery } from '../directory/hooks';
+import { useQuery } from '../../views/directory/hooks';
 import CustomerSupport from '../paymentHistory/components/customerSupport';
 import PaymentModule from '../paymentHistory/components/paymentModule';
 

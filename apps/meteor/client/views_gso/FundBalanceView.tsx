@@ -7,9 +7,9 @@ import { Meteor } from 'meteor/meteor';
 // @ts-ignore
 import React, { ReactElement, useEffect, useMemo, useState } from 'react';
 
-import Page from '../../components/Page';
-import { useCapitalizeAndJoin } from '../../hooks/useCapitalization';
-import SingleGame from '../games/SingleGame';
+import Page from '../components/Page';
+import { useCapitalizeAndJoin } from '../hooks/useCapitalization';
+import SingleGame from './games/SingleGame';
 
 const FundBalanceView = (): ReactElement => {
 	const [currencyList, setCurrencyList] = useState([]);

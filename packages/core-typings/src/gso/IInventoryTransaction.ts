@@ -7,9 +7,12 @@ export interface IInventoryTransaction extends IRocketChatRecord {
 	amount: number;
 	status: any;
 
-
 	/**
 	 * mark if this transaction is audited.
 	 */
 	audited: boolean;
+}
+
+export interface ISendGift extends IInventoryTransaction {
+	toAccount: IUser['_id'];
 }

@@ -25,7 +25,7 @@ registerAccountRoute('/view-profile', {
 
 registerAccountRoute('/payment-history', {
 	name: 'payment-history',
-	component: lazy(() => import('../paymentHistory/paymentHistory')),
+	component: lazy(() => import('../../views_gso/paymentHistory/paymentHistory')),
 });
 
 registerAccountRoute('/topup/:currency', {

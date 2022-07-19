@@ -5,8 +5,8 @@ import { isMobile } from 'react-device-detect';
 import BottomBar from '../../components/BottomBar';
 import Page from '../../components/Page';
 import TopBar from '../../topbar/TopBar';
-import SingleBlogPost from '../blog/SingleBlogPost';
-import DailyLogin from '../dailyLogin/DailyLogin';
+import SingleBlogPost from '../../views_gso/blog/SingleBlogPost';
+import DailyLogin from '../../views_gso/dailyLogin/DailyLogin';
 
 const LandingView = (): ReactElement => {
 	const [blogResults, setBlogResults] = useState([]);
