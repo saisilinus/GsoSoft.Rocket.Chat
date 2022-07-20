@@ -18,6 +18,26 @@ registerAccountRoute('/profile', {
 	component: lazy(() => import('./profile/AccountProfileRoute')),
 });
 
+registerAccountRoute('/view-profile', {
+	name: 'view-profile',
+	component: lazy(() => import('./ViewProfilePage')),
+});
+
+registerAccountRoute('/payment-history', {
+	name: 'payment-history',
+	component: lazy(() => import('../../views_gso/paymentHistory/paymentHistory')),
+});
+
+registerAccountRoute('/topup/:currency', {
+	name: 'topup',
+	component: lazy(() => import('../topup/TopUpView')),
+});
+
+registerAccountRoute('/payment-result', {
+	name: 'payment-result',
+	component: lazy(() => import('../topup/components/PaymentResult')),
+});
+
 registerAccountRoute('/security', {
 	name: 'security',
 	component: lazy(() => import('./security/AccountSecurityRoute')),

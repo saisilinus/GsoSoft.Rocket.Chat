@@ -1,0 +1,28 @@
+{
+	"groups": [
+		{
+			"_id": "cooking",
+			"title": "Cooking",
+			"description": "The following are all activities/skills related to cooking",
+			"sortOrder": 1
+		},
+		{
+			"_id": "backend",
+			"title": "Backend Developer",
+			"description": "The following are all activities/skills related to backend development",
+			"sortOrder": 2
+		},
+		{
+			"_id": "painting",
+			"title": "Painting",
+			"description": "The following are all activities/skills related to painting",
+			"sortOrder": 3
+		},
+		{
+			"_id": "security",
+			"title": "Security",
+			"description": "The following are all activities/skills related to home security",
+			"sortOrder": 4
+		}
+	]
+}

@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import { IEscrow } from '@rocket.chat/core-typings';
+import { Users } from '@rocket.chat/models';
 
-import { EscrowService } from '../services/escrow/service';
-import { Users } from '../../app/models/server';
-import { EscrowsModel } from '../../app/models/server/raw';
+import { EscrowService } from '../../services/gso';
+import { IEscrowCreateParams, IEscrowUpdateParams } from '../../sdk/types/IEscrowService';
 
 Meteor.methods({
 	getConfig() {
@@ -55,7 +55,7 @@ Meteor.methods({
 		};
 		return [employerConfig, employeeConfig, brokerConfig, broker2Config, broker3Config];
 	},
-	async addEscrow(params: IEscrow) {
+	async addEscrow(params: IEscrowCreateParams): Promise<IEscrow> {
 		check(
 			params,
 			Match.ObjectIncluding({
@@ -81,14 +81,23 @@ Meteor.methods({
 			userId: Meteor.userId() as string,
 		});
 
-		const query = { _id: Meteor.userId() };
+		const query = { _id: Meteor.userId() as string };
 		const updateData = { role: params.type };
 		await Users.update(query, { $set: updateData, $inc: { credit: -params.amount } });
 
 		return escrow;
 	},
 
-	async deleteEscrow(escrowId: IEscrow['_id']) {
+	async createManyEscrows(escrows: Omit<IEscrowCreateParams, 'userId'>[]): Promise<void> {
+		if (!Meteor.userId()) {
+			throw new Meteor.Error('error-invalid-user', 'Invalid user');
+		}
+		const Escrows = new EscrowService();
+		const data: IEscrowCreateParams[] = escrows.map((escrow) => ({ ...escrow, userId: Meteor.userId() as string }));
+		await Escrows.createMany(data);
+	},
+
+	async deleteEscrow(escrowId: IEscrow['_id']): Promise<boolean> {
 		check(escrowId, String);
 
 		const Escrows = new EscrowService();
@@ -98,11 +107,7 @@ Meteor.methods({
 		return true;
 	},
 
-	async reset() {
-		await EscrowsModel.deleteMany({});
-	},
-
-	async getOneEscrow(escrowId: IEscrow['_id']) {
+	async getOneEscrow(escrowId: IEscrow['_id']): Promise<IEscrow> {
 		check(escrowId, String);
 
 		const Escrows = new EscrowService();
@@ -112,7 +117,7 @@ Meteor.methods({
 		return escrow;
 	},
 
-	async updateEscrow(escrowId: IEscrow['_id'], params: IEscrow) {
+	async updateEscrow(escrowId: IEscrow['_id'], params: IEscrowUpdateParams): Promise<IEscrow> {
 		check(escrowId, String);
 		check(
 			params,
@@ -137,7 +142,7 @@ Meteor.methods({
 		return escrow;
 	},
 
-	async getEscrows(paginationOptions, queryOptions) {
+	async getEscrows(paginationOptions, queryOptions): Promise<IEscrow[]> {
 		check(
 			paginationOptions,
 			Match.ObjectIncluding({

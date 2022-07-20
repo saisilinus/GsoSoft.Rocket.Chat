@@ -1,0 +1,144 @@
+{
+	"tags": [
+		{
+			"title": "Making stock",
+			"description": "",
+			"sortOrder": 1,
+			"rank": 1,
+			"category": "cooking"
+		},
+		{
+			"title": "Mixing cocktails",
+			"description": "",
+			"sortOrder": 2,
+			"rank": 2,
+			"category": "cooking"
+		},
+		{
+			"title": "Salad dressing",
+			"description": "",
+			"sortOrder": 3,
+			"rank": 3,
+			"category": "cooking"
+		},
+		{
+			"title": "Prepping meals",
+			"description": "",
+			"sortOrder": 4,
+			"rank": 4,
+			"category": "cooking"
+		},
+		{
+			"title": "Roasting vegetables",
+			"description": "",
+			"sortOrder": 5,
+			"rank": 5,
+			"category": "cooking"
+		},
+		{
+			"title": "Scripting",
+			"description": "",
+			"sortOrder": 1,
+			"rank": 1,
+			"category": "backend"
+		},
+		{
+			"title": "APIs",
+			"description": "",
+			"sortOrder": 2,
+			"rank": 2,
+			"category": "backend"
+		},
+		{
+			"title": "Databases",
+			"description": "",
+			"sortOrder": 3,
+			"rank": 3,
+			"category": "backend"
+		},
+		{
+			"title": "3rd party apis",
+			"description": "",
+			"sortOrder": 4,
+			"rank": 4,
+			"category": "backend"
+		},
+		{
+			"title": "Operating systems",
+			"description": "",
+			"sortOrder": 5,
+			"rank": 5,
+			"category": "backend"
+		},
+		{
+			"title": "Spin painting",
+			"description": "",
+			"sortOrder": 1,
+			"rank": 1,
+			"category": "painting"
+		},
+		{
+			"title": "Marble rolling",
+			"description": "",
+			"sortOrder": 2,
+			"rank": 2,
+			"category": "painting"
+		},
+		{
+			"title": "Splatter painting",
+			"description": "",
+			"sortOrder": 3,
+			"rank": 3,
+			"category": "painting"
+		},
+		{
+			"title": "Body tracing and painting",
+			"description": "",
+			"sortOrder": 4,
+			"rank": 4,
+			"category": "painting"
+		},
+		{
+			"title": "Shaving cream marble",
+			"description": "",
+			"sortOrder": 5,
+			"rank": 5,
+			"category": "painting"
+		},
+		{
+			"title": "Monitored alarm",
+			"description": "",
+			"sortOrder": 1,
+			"rank": 1,
+			"category": "security"
+		},
+		{
+			"title": "Smoke alarm",
+			"description": "",
+			"sortOrder": 2,
+			"rank": 2,
+			"category": "security"
+		},
+		{
+			"title": "Intruder alarm",
+			"description": "",
+			"sortOrder": 3,
+			"rank": 3,
+			"category": "security"
+		},
+		{
+			"title": "CCTV cameras",
+			"description": "",
+			"sortOrder": 4,
+			"rank": 4,
+			"category": "security"
+		},
+		{
+			"title": "Security guard",
+			"description": "",
+			"sortOrder": 5,
+			"rank": 5,
+			"category": "security"
+		}
+	]
+}

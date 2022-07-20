@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 
-import { ProductService } from '../services/product/service';
+import { ProductService } from '../services/gso';
 
 if (Meteor.isServer) {
 	const Products = new ProductService();
