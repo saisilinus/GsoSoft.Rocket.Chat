@@ -1,6 +1,6 @@
 import { IPaymentGateway } from '@rocket.chat/core-typings';
 import { Accordion } from '@rocket.chat/fuselage';
-import { useTranslation } from '@rocket.chat/ui-contexts';
+import { useRouteParameter, useTranslation } from '@rocket.chat/ui-contexts';
 // @ts-ignore
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Meteor } from 'meteor/meteor';
@@ -19,9 +19,10 @@ const TopUpView = (): ReactElement => {
 	const [closeGateway, setCloseGateway] = useState('');
 	const t = useTranslation();
 	const capitalize = useCapitalizeAndJoin();
+	const inputCurrency = useRouteParameter('currency');
 
 	const getGatewaysFn = (): void => {
-		Meteor.call('getStaticGateways', {}, {}, (_error, result) => {
+		Meteor.call('getPaymentGateways', {}, {}, (_error, result) => {
 			if (result) {
 				if (result.length) {
 					setFetchedGateways(result);
@@ -45,11 +46,15 @@ const TopUpView = (): ReactElement => {
 			if (element) {
 				// If the Accordion Item is closed then open it, otherwise close it.
 				if (openGateway.open === 'true') {
+					// @ts-ignore
 					element.firstElementChild.setAttribute('aria-expanded', 'true');
+					// @ts-ignore
 					element.lastElementChild.className =
 						'rcx-box rcx-box--full rcx-box--animated rcx-accordion-item__panel--expanded rcx-accordion-item__panel';
 				} else {
+					// @ts-ignore
 					element.firstElementChild.setAttribute('aria-expanded', 'false');
+					// @ts-ignore
 					element.lastElementChild.className = 'rcx-box rcx-box--full rcx-box--animated rcx-accordion-item__panel';
 				}
 			}
@@ -60,7 +65,9 @@ const TopUpView = (): ReactElement => {
 		if (closeGateway) {
 			const element = document.querySelector(`#${closeGateway}`);
 			if (element) {
+				// @ts-ignore
 				element.firstElementChild.setAttribute('aria-expanded', 'false');
+				// @ts-ignore
 				element.lastElementChild.className = 'rcx-box rcx-box--full rcx-box--animated rcx-accordion-item__panel';
 			}
 		}
@@ -86,10 +93,11 @@ const TopUpView = (): ReactElement => {
 	return (
 		<Page id='topup-page'>
 			{/* @ts-ignore */}
-			<ProfileHeader title={t('gso_topupView_profileHeader')} handleRouteBack={handleRouteBack} />
+			<ProfileHeader title={t('gso_topupView_profileHeader')}
+										 handleRouteBack={handleRouteBack} />
 			<Page.ScrollableContentWithShadow>
 				{/* @ts-ignore */}
-				<h3 style={{ fontSize: '19px', marginBottom: '10px' }}>{t('gso_topupView_title')}</h3>
+				<h3 style={{ fontSize: '19px', marginBottom: '10px' }}>{t('gso_topupView_title', { currency: inputCurrency })}</h3>
 				{/* @ts-ignore */}
 				<p style={{ fontSize: '16px' }}>{t('gso_topupView_info')}</p>
 				<Accordion style={{ margin: '15px 0' }}>

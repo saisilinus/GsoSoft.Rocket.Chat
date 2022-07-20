@@ -3,6 +3,7 @@ import { useDebouncedState } from '@rocket.chat/fuselage-hooks';
 import { useUserPreference, useUserSubscriptions, useSetting } from '@rocket.chat/ui-contexts';
 import { useEffect } from 'react';
 
+import { useVideoConfIncomingCalls } from '../../contexts/VideoConfContext';
 import { useOmnichannelEnabled } from '../../hooks/omnichannel/useOmnichannelEnabled';
 import { useQueuedInquiries } from '../../hooks/omnichannel/useQueuedInquiries';
 import { useQueryOptions } from './useQueryOptions';
@@ -26,6 +27,8 @@ export const useRoomList = (): Array<ISubscription & IRoom> => {
 
 	const inquiries = useQueuedInquiries();
 
+	const incomingCalls = useVideoConfIncomingCalls();
+
 	let queue: IRoom[] = emptyQueue;
 	if (inquiries.enabled) {
 		queue = inquiries.queue;
@@ -33,6 +36,7 @@ export const useRoomList = (): Array<ISubscription & IRoom> => {
 
 	useEffect(() => {
 		setRoomList(() => {
+			const incomingCall = new Set();
 			const favorite = new Set();
 			const team = new Set();
 			const omnichannel = new Set();
@@ -44,6 +48,10 @@ export const useRoomList = (): Array<ISubscription & IRoom> => {
 			const onHold = new Set();
 
 			rooms.forEach((room) => {
+				if (incomingCalls.find((call) => call.rid === room.rid)) {
+					return incomingCall.add(room);
+				}
+
 				if (sidebarShowUnread && (room.alert || room.unread) && !room.hideUnreadStatus) {
 					return unread.add(room);
 				}
@@ -80,12 +88,13 @@ export const useRoomList = (): Array<ISubscription & IRoom> => {
 			});
 
 			const groups = new Map();
-			// showOmnichannel && groups.set('Omnichannel', []);
+			showOmnichannel && groups.set('Omnichannel', []);
 			showOmnichannel && groups.set('BlogPostSection', []);
 			showOmnichannel && groups.set('GamesSection', []);
 			showOmnichannel && groups.set('ProductsSection', []);
 			showOmnichannel && groups.set('StoreSection', []);
 			showOmnichannel && groups.set('MessagesSection', []);
+			incomingCall.size && groups.set('Incoming Calls', incomingCall);
 			showOmnichannel && inquiries.enabled && queue.length && groups.set('Incoming_Livechats', queue);
 			showOmnichannel && omnichannel.size && groups.set('Open_Livechats', omnichannel);
 			showOmnichannel && onHold.size && groups.set('On_Hold_Chats', onHold);
@@ -93,7 +102,7 @@ export const useRoomList = (): Array<ISubscription & IRoom> => {
 			favoritesEnabled && favorite.size && groups.set('Favorites', favorite);
 			sidebarGroupByType && team.size && groups.set('Teams', team);
 			sidebarGroupByType && isDiscussionEnabled && discussion.size && groups.set('Discussions', discussion);
-			// sidebarGroupByType && channels.size && groups.set('Channels', channels);
+			sidebarGroupByType && channels.size && groups.set('Channels', channels);
 			sidebarGroupByType && direct.size && groups.set('Direct_Messages', direct);
 			!sidebarGroupByType && groups.set('Conversations', conversation);
 			return [...groups.entries()].flatMap(([key, group]) => [key, ...group]);
@@ -101,6 +110,7 @@ export const useRoomList = (): Array<ISubscription & IRoom> => {
 	}, [
 		rooms,
 		showOmnichannel,
+		incomingCalls,
 		inquiries.enabled,
 		queue,
 		sidebarShowUnread,

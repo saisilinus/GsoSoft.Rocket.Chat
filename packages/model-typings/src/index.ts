@@ -38,7 +38,6 @@ export * from './models/INpsModel';
 export * from './models/INpsVoteModel';
 export * from './models/IOAuthAppsModel';
 export * from './models/IOEmbedCacheModel';
-export * from './models/IOmnichannelQueueModel';
 export * from './models/IPbxEventsModel';
 export * from './models/IPushTokenModel';
 export * from './models/IPermissionsModel';
@@ -58,10 +57,9 @@ export * from './models/IUploadsModel';
 export * from './models/IUserDataFilesModel';
 export * from './models/IUsersModel';
 export * from './models/IUsersSessionsModel';
+export * from './models/IVideoConferenceModel';
 export * from './models/IVoipRoomModel';
 export * from './models/IWebdavAccountsModel';
 
 // GSO
-export * from './models/gso/IPaymentGatewaysModel';
-export * from './models/gso/ITasksModel';
-export * from './models/gso/IFundTransactionsModel';
+export * from './models/gso';

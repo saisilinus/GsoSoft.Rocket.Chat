@@ -28,7 +28,7 @@ function UserAvatarEditor({ currentUsername, username, setAvatarObj, suggestions
 
 	// Refetch user data so that we can get createdAt field.
 	const { value: data } = useEndpointData(
-		'users.info',
+		'/v1/users.info',
 		useMemo(() => ({ ...(username && { username }) }), [username]),
 	);
 

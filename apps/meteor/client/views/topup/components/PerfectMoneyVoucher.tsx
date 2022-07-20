@@ -23,7 +23,7 @@ const PerfectMoneyVoucher = ({ capitalize }: Props): ReactElement => {
 		setEVoucherNumber('');
 		setActivationCode('');
 		Meteor.call(
-			'buyCredit',
+			'submitPayment',
 			{
 				gateway: 'perfect-money-voucher',
 				quantity: 80,
