@@ -1,6 +1,5 @@
 import { IBlog, RocketChatRecordDeleted } from '@rocket.chat/core-typings';
 import type { IBlogsModel } from '@rocket.chat/model-typings';
-import { getCollectionName } from '@rocket.chat/models';
 import { Db, Collection, AggregationCursor } from 'mongodb';
 
 import { BaseRaw } from '../BaseRaw';

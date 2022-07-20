@@ -1,6 +1,5 @@
 import { AggregationCursor, FindCursor } from 'mongodb';
 import { IBlog } from '@rocket.chat/core-typings/dist/gso';
-// import { Blogs } from '@rocket.chat/models';
 import { InsertionModel } from '@rocket.chat/model-typings';
 import { Blogs } from '@rocket.chat/models';
 
@@ -53,7 +52,7 @@ export class BlogService extends ServiceClassInternal implements IBlogService {
 			...params,
 		};
 		const result = await Blogs.updateOne(query, { $set: updateData });
-		const blog = await Blogs.findOneById(result.upsertedId._id.toHexString());
+		const blog = await Blogs.findOneById(result.upsertedId.toHexString());
 		if (!blog) throw new Error('blog-does-not-exist');
 		return blog;
 	}

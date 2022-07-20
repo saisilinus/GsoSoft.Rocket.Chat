@@ -11,4 +11,4 @@ export * from './ITagGroupsModel';
 export * from './ITagsModel';
 export * from './ITasksModel';
 export * from './ITransactionModel';
-export * from './IMediaModel';
+export * from './IMediaPostModel';

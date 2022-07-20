@@ -1,6 +1,6 @@
 import type { IRocketChatRecord } from '../IRocketChatRecord';
 
-export interface IMedia extends IRocketChatRecord {
+export interface IMediaPost extends IRocketChatRecord {
 	caption: string;
 	images: string[];
 	createdBy: string;
