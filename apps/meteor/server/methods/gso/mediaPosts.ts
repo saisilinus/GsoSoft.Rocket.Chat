@@ -10,9 +10,8 @@ Meteor.methods({
 		check(
 			params,
 			Match.ObjectIncluding({
-				title: String,
-				content: String,
-				tags: Match.Optional([String]),
+				caption: String,
+				images: [String],
 			}),
 		);
 
@@ -74,10 +73,8 @@ Meteor.methods({
 		check(
 			params,
 			Match.ObjectIncluding({
-				title: Match.Optional(String),
-				authorId: Match.Optional(String),
-				tags: Match.Optional([String]),
-				content: Match.Optional(String),
+				caption: Match.Optional(String),
+				images: Match.Optional([String]),
 			}),
 		);
 
