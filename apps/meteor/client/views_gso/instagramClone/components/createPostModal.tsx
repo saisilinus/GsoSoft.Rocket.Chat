@@ -1,5 +1,6 @@
 import { Dropzone, FileItem } from '@dropzone-ui/react';
 import { Button, Field, FieldGroup, Icon, Modal, TextAreaInput } from '@rocket.chat/fuselage';
+import { Meteor } from 'meteor/meteor';
 import React, { ReactElement, useState } from 'react';
 
 type Props = {
@@ -8,11 +9,29 @@ type Props = {
 
 const CreatePostModal = ({ setOpenModal }: Props): ReactElement => {
 	const [files, setFiles] = useState([]);
+	const images: string[] = [];
 	// The share button should trigger sending the images or videos to cloudinary.
 	const updateFiles = (incomingFiles: any): void => {
 		setFiles(incomingFiles);
 		console.log(incomingFiles);
+		console.log(Meteor.settings.public.cloudinary);
 		// add cloudinary code here.
+		const uploadUrl = `https://api.cloudinary.com/v1_1/${Meteor.settings.public.cloudinary.name}/image/upload`;
+		files.forEach(async (file) => {
+			const formData = new FormData();
+			formData.append('file', file);
+			formData.append('upload_preset', 'ml_default');
+			formData.append('api_key', Meteor.settings.public.cloudinary.APIKey);
+			try {
+				const response = await fetch(uploadUrl, { method: 'POST', body: formData });
+				const data = await response.json();
+				images.push(data.secure_url);
+			} catch (error) {
+				console.error(error);
+			} finally {
+				console.log(images);
+			}
+		});
 	};
 	const removeFile = (id: string): void => {
 		// @ts-ignore

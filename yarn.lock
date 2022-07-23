@@ -4021,6 +4021,7 @@ __metadata:
     change-case: ^4.1.2
     chart.js: ^3.8.0
     clipboard: ^2.0.11
+    cloudinary: ^1.30.1
     codemirror: ^5.65.6
     colorette: ^2.0.19
     connect: ^3.7.0
@@ -10876,6 +10877,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cloudinary-core@npm:^2.10.2":
+  version: 2.13.0
+  resolution: "cloudinary-core@npm:2.13.0"
+  peerDependencies:
+    lodash: ">=4.0"
+  checksum: 5485fbc094b0722f6d4c6becfde431d3042c3c926a69c4bc2f6b373ac059b9b798703845c6cbf4a55ee2eb1c7718f5ec5130772117419755015b04dabd369be5
+  languageName: node
+  linkType: hard
+
+"cloudinary@npm:^1.30.1":
+  version: 1.30.1
+  resolution: "cloudinary@npm:1.30.1"
+  dependencies:
+    cloudinary-core: ^2.10.2
+    core-js: 3.6.5
+    lodash: ^4.17.21
+    proxy-agent: ^5.0.0
+    q: ^1.5.1
+  dependenciesMeta:
+    proxy-agent:
+      optional: true
+  checksum: 10c2325672b387a621804069359989d9ecb70a21df59da3dafff1aa527dd2c9575dcd22ae459ac2bf5f1bb5e13680f18c6c7e742e0635d48eb6618bba6adef24
+  languageName: node
+  linkType: hard
+
 "clsx@npm:1.1.0":
   version: 1.1.0
   resolution: "clsx@npm:1.1.0"
@@ -11438,6 +11464,13 @@ __metadata:
   version: 3.21.1
   resolution: "core-js-pure@npm:3.21.1"
   checksum: 00a5dff599b7fb0b30746a638b9d0edbdc0df24ed1580ca56be595fbe3c78c375d37fc4e1bff23627109229702c9ee8ea2587a66b8280eb33b85160aa4e401e9
+  languageName: node
+  linkType: hard
+
+"core-js@npm:3.6.5":
+  version: 3.6.5
+  resolution: "core-js@npm:3.6.5"
+  checksum: b7fcf92f888bfe40f3f005e3f729e66aa49a3a9a797e8fb4d09d429c6abcd505781b2c03836858f0dc0159249d4b7a035fc763052c9c34adbc93b6f8a6a86305
   languageName: node
   linkType: hard
 
@@ -25622,7 +25655,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"proxy-agent@npm:~5.0.0":
+"proxy-agent@npm:^5.0.0, proxy-agent@npm:~5.0.0":
   version: 5.0.0
   resolution: "proxy-agent@npm:5.0.0"
   dependencies:
@@ -25765,7 +25798,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"q@npm:^1.1.2":
+"q@npm:^1.1.2, q@npm:^1.5.1":
   version: 1.5.1
   resolution: "q@npm:1.5.1"
   checksum: 147baa93c805bc1200ed698bdf9c72e9e42c05f96d007e33a558b5fdfd63e5ea130e99313f28efc1783e90e6bdb4e48b67a36fcc026b7b09202437ae88a1fb12
