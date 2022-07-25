@@ -259,7 +259,6 @@
 		"cookie-parser": "^1.4.6",
 		"cors": "^2.8.5",
 		"cron": "~1.8.0",
-		"crypto": "^1.0.1",
 		"crypto-js": "^4.1.1",
 		"css-vars-ponyfill": "^2.4.7",
 		"csv-parse": "^5.2.0",
