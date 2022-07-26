@@ -47,7 +47,14 @@ const InstagramClone = (): ReactElement => {
 				{posts.length
 					? posts.map((post, index) => (
 							<div key={index}>
-								<InstagramPost username={post.createdBy} postId={post._id} images={post.images} likes={post.likes} caption={post.caption} />
+								<InstagramPost
+									username={post.createdBy}
+									postId={post._id}
+									images={post.images}
+									likes={post.likes}
+									caption={post.caption}
+									setCreatedPost={setCreatedPost}
+								/>
 							</div>
 					  ))
 					: 'Loading...'}

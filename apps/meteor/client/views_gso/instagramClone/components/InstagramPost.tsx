@@ -1,5 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 import { Tile, Box, Icon, Tooltip } from '@rocket.chat/fuselage';
+import sha256 from 'crypto-js/sha256';
 import { Meteor } from 'meteor/meteor';
 import React, { ReactElement } from 'react';
 
@@ -13,9 +14,10 @@ interface ICommentProps {
 type Props = {
 	username: string;
 	postId: string;
-	images: string[];
+	images: Record<string, any>[];
 	likes: number;
 	caption: string;
+	setCreatedPost: Function;
 };
 
 const Comment = ({ author, content }: ICommentProps): ReactElement => (
@@ -24,7 +26,7 @@ const Comment = ({ author, content }: ICommentProps): ReactElement => (
 	</>
 );
 
-const InstagramPost = ({ username, postId, images, likes, caption }: Props): ReactElement => {
+const InstagramPost = ({ username, postId, images, likes, caption, setCreatedPost }: Props): ReactElement => {
 	const showToolTip = (item: string): void => {
 		const element = document.getElementById(item);
 		if (element) {
@@ -37,20 +39,65 @@ const InstagramPost = ({ username, postId, images, likes, caption }: Props): Rea
 			}
 		}
 	};
+
+	const deletePost = (postId: string): void => {
+		Meteor.call('deleteMediaPost', postId, (error, result) => {
+			if (result) {
+				console.log(result);
+				// This is mean to refresh the ui and trigger fetching the new list of posts from the backend
+				setCreatedPost(true);
+			}
+
+			if (error) {
+				console.error(error);
+			}
+		});
+	};
+
+	const deletePostFromCloudinary = (images: Record<string, any>[], postId: string): void => {
+		showToolTip(postId);
+		const deleteUrl = `https://api.cloudinary.com/v1_1/${Meteor.settings.public.cloudinary.name}/image/destroy`;
+		images.forEach(async (fileData, index) => {
+			const formData = new FormData();
+			const timestamp = new Date().getTime();
+			formData.append('public_id', fileData.id);
+			formData.append('api_key', Meteor.settings.public.cloudinary.APIKey);
+			formData.append('timestamp', `${timestamp}`);
+			formData.append(
+				'signature',
+				sha256(`public_id=${fileData.id}&timestamp=${timestamp}${Meteor.settings.public.cloudinary.APISecret}`).toString(),
+			);
+			try {
+				const response = await fetch(deleteUrl, { method: 'POST', body: formData });
+				const data = await response.json();
+
+				if (index === images.length - 1 && data.result === 'ok') {
+					deletePost(postId);
+				}
+			} catch (error) {
+				console.error(error);
+			}
+		});
+	};
 	return (
 		<Tile id='post' style={{ maxWidth: '473px' }}>
 			<Box display='flex' justifyContent='space-between' alignItems='center' style={{ padding: '1rem' }}>
 				<Box display='flex' alignItems='center'>
 					<Box style={{ border: '3px solid #ff3041', borderRadius: '100%', height: '55px', width: '55px' }}>
-						<img src={images[0]} alt='profile image' style={{ width: '50px', height: '50px', borderRadius: '100%' }} />
+						<img src={images[0].url} alt='profile image' style={{ width: '50px', height: '50px', borderRadius: '100%' }} />
 					</Box>
 					<p style={{ fontWeight: 'bold', marginLeft: '8px' }}>{username}</p>
 				</Box>
-				<Tooltip id={postId} style={{ backgroundColor: 'whitesmoke' }} className='invisible' placement='left'>
+				<Tooltip id={postId} style={{ backgroundColor: 'whitesmoke', pointerEvents: 'all' }} className='invisible' placement='left'>
 					{Meteor.user()?.username === username ? (
 						<>
 							<p style={{ cursor: 'pointer', marginBottom: '8px' }}>Update</p>
-							<p style={{ color: '#ff3041', cursor: 'pointer' }}>Delete</p>
+							<p
+								style={{ color: '#ff3041', marginBottom: '8px', cursor: 'pointer' }}
+								onClick={(): void => deletePostFromCloudinary(images, postId)}
+							>
+								Delete
+							</p>
 						</>
 					) : null}
 					<p style={{ cursor: 'pointer', marginBottom: '8px' }}>Share</p>
@@ -58,7 +105,7 @@ const InstagramPost = ({ username, postId, images, likes, caption }: Props): Rea
 				<Icon onClick={(): void => showToolTip(postId)} mie='x4' name='meatballs' size='x20' style={{ cursor: 'pointer' }} />
 			</Box>
 			<Box>
-				<img src={images[0]} alt='profile image' style={{ maxWidth: '473px', height: '373px', width: '100%' }} />
+				<img src={images[0].url} alt='profile image' style={{ maxWidth: '473px', height: '373px', width: '100%' }} />
 			</Box>
 			<Box style={{ padding: '10px 16px' }}>
 				<Icon mie='x4' name='check' size='x28' style={{ marginLeft: '8px' }} />

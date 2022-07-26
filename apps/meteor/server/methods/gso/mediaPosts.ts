@@ -11,7 +11,7 @@ Meteor.methods({
 			params,
 			Match.ObjectIncluding({
 				caption: String,
-				images: [String],
+				images: Array,
 			}),
 		);
 
@@ -72,7 +72,7 @@ Meteor.methods({
 			params,
 			Match.ObjectIncluding({
 				caption: Match.Optional(String),
-				images: Match.Optional([String]),
+				images: Match.Optional(Array),
 			}),
 		);
 
