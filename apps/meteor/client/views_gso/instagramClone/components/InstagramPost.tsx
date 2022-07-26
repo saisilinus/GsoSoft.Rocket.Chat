@@ -12,7 +12,7 @@ interface ICommentProps {
 
 type Props = {
 	username: string;
-	userId: string;
+	postId: string;
 	images: string[];
 	likes: number;
 	caption: string;
@@ -24,9 +24,9 @@ const Comment = ({ author, content }: ICommentProps): ReactElement => (
 	</>
 );
 
-const InstagramPost = ({ username, userId, images, likes, caption }: Props): ReactElement => {
+const InstagramPost = ({ username, postId, images, likes, caption }: Props): ReactElement => {
 	const showToolTip = (item: string): void => {
-		const element = document.querySelector(`#${item}`);
+		const element = document.getElementById(item);
 		if (element) {
 			if (element.classList.contains('invisible')) {
 				element.classList.remove('invisible');
@@ -46,8 +46,8 @@ const InstagramPost = ({ username, userId, images, likes, caption }: Props): Rea
 					</Box>
 					<p style={{ fontWeight: 'bold', marginLeft: '8px' }}>{username}</p>
 				</Box>
-				<Tooltip id='info' style={{ backgroundColor: 'whitesmoke' }} className='invisible' placement='left'>
-					{Meteor.user()?._id === userId ? (
+				<Tooltip id={postId} style={{ backgroundColor: 'whitesmoke' }} className='invisible' placement='left'>
+					{Meteor.user()?.username === username ? (
 						<>
 							<p style={{ cursor: 'pointer', marginBottom: '8px' }}>Update</p>
 							<p style={{ color: '#ff3041', cursor: 'pointer' }}>Delete</p>
@@ -55,7 +55,7 @@ const InstagramPost = ({ username, userId, images, likes, caption }: Props): Rea
 					) : null}
 					<p style={{ cursor: 'pointer', marginBottom: '8px' }}>Share</p>
 				</Tooltip>
-				<Icon onClick={(): void => showToolTip('info')} mie='x4' name='meatballs' size='x20' style={{ cursor: 'pointer' }} />
+				<Icon onClick={(): void => showToolTip(postId)} mie='x4' name='meatballs' size='x20' style={{ cursor: 'pointer' }} />
 			</Box>
 			<Box>
 				<img src={images[0]} alt='profile image' style={{ maxWidth: '473px', height: '373px', width: '100%' }} />
