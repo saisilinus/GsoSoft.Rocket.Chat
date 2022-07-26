@@ -44,7 +44,13 @@ const InstagramClone = (): ReactElement => {
 			<ProfileHeader title={t('gso_instagramView_title')} handleRouteBack={handleRouteBack} page='instagram' openModal={setOpenModal} />
 			<Page.ScrollableContentWithShadow>
 				{openModal ? <CreatePostModal setOpenModal={setOpenModal} setCreatedPost={setCreatedPost} /> : null}
-				<InstagramPost />
+				{posts.length
+					? posts.map((post, index) => (
+							<div key={index}>
+								<InstagramPost username={post.createdBy} userId={post._id} images={post.images} likes={post.likes} caption={post.caption} />
+							</div>
+					  ))
+					: 'Loading...'}
 				<Button primary>Load more</Button>
 			</Page.ScrollableContentWithShadow>
 		</Page>
