@@ -21,7 +21,7 @@ Meteor.methods({
 
 		const MediaPosts = new MediaPostService();
 
-		const blog = await MediaPosts.create({ ...params, createdBy: Meteor.user.name });
+		const blog = await MediaPosts.create({ ...params, createdBy: Meteor.user()?.username });
 
 		return blog;
 	},
@@ -31,7 +31,7 @@ Meteor.methods({
 			throw new Meteor.Error('error-invalid-user', 'Invalid user');
 		}
 		const MediaPosts = new MediaPostService();
-		const data: IMediaPostCreateParams[] = blogs.map((blog) => ({ ...blog, createdBy: Meteor.user.name }));
+		const data: IMediaPostCreateParams[] = blogs.map((blog) => ({ ...blog, createdBy: Meteor.user()?.username }));
 		await MediaPosts.createMany(data);
 	},
 
@@ -47,13 +47,11 @@ Meteor.methods({
 
 	async getMediaPosts(limit?: number): Promise<IMediaPost[]> {
 		check(limit, Match.Optional(Number));
-		console.log('getMediaPosts begin  ', limit);
 
 		const MediaPosts = new MediaPostService();
 
 		// const result = await MediaPosts.list(limit).toArray();
 		const result = await MediaPosts.list(limit).toArray();
-		console.log('getMediaPosts result ', result);
 
 		return result;
 	},
