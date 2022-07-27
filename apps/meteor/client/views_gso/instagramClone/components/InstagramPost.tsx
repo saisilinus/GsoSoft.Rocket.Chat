@@ -3,7 +3,11 @@ import { Tile, Box, Icon, Tooltip } from '@rocket.chat/fuselage';
 import sha256 from 'crypto-js/sha256';
 import { Meteor } from 'meteor/meteor';
 import React, { ReactElement } from 'react';
+import { Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
+import 'swiper/swiper.min.css';
+import 'swiper/modules/pagination/pagination.min.css';
 import '../instagramCloneCss.css';
 
 interface ICommentProps {
@@ -110,7 +114,17 @@ const InstagramPost = ({ username, postId, images, likes, caption, setCreatedPos
 			</Box>
 			<Box>
 				{type === 'image' ? (
-					<img src={images[0].url} alt='profile image' style={{ maxWidth: '473px', height: '373px', width: '100%' }} />
+					<Swiper pagination={true} modules={[Pagination]} className='mySwiper'>
+						{images.map((img, index) => (
+							<SwiperSlide key={index}>
+								<img
+									src={img.url}
+									alt='profile image'
+									style={{ maxWidth: '473px', height: '373px', width: '100%', marginBottom: '40px' }}
+								/>
+							</SwiperSlide>
+						))}
+					</Swiper>
 				) : (
 					<video controls width='100%'>
 						<source src={images[0].url} type='video/mp4' />
