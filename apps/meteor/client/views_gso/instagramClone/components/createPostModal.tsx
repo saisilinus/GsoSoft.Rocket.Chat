@@ -13,6 +13,7 @@ type Props = {
 const CreatePostModal = ({ setOpenModal, setCreatedPost }: Props): ReactElement => {
 	const [caption, setCaption] = useState<IMediaPost['caption']>('');
 	const [files, setFiles] = useState<FileValidated[]>([]);
+	const [fileType, setFileType] = useState('image');
 	const postToBackend = (images: Record<string, any>[]): void => {
 		Meteor.call('createMediaPost', { caption, images }, (error, result) => {
 			if (result) {
@@ -31,7 +32,7 @@ const CreatePostModal = ({ setOpenModal, setCreatedPost }: Props): ReactElement 
 	// The share button should trigger sending the images or videos to cloudinary.
 	const share = (): void => {
 		const uploadedImages: Record<string, any>[] = [];
-		const uploadUrl = `https://api.cloudinary.com/v1_1/${Meteor.settings.public.cloudinary.name}/image/upload`;
+		const uploadUrl = `https://api.cloudinary.com/v1_1/${Meteor.settings.public.cloudinary.name}/${fileType}/upload`;
 		files.forEach(async (fileData) => {
 			const formData = new FormData();
 			const timestamp = new Date().getTime();
@@ -54,6 +55,9 @@ const CreatePostModal = ({ setOpenModal, setCreatedPost }: Props): ReactElement 
 	};
 
 	const updateFiles = (incomingFiles: FileValidated[]): void => {
+		if (incomingFiles[0].file.type === 'video/mp4') {
+			setFileType('video');
+		}
 		setFiles(incomingFiles);
 	};
 	const removeFile = (id: string): void => {
