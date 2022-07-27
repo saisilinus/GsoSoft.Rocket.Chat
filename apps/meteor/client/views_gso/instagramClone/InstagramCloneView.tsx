@@ -30,6 +30,17 @@ const InstagramClone = (): ReactElement => {
 				if (result.length) {
 					setPosts(result);
 					setCreatedPost(false);
+					// Meteor.call('deleteMediaPost', '62e0db48f8619e41f8b13036', (error, result) => {
+					// 	if (result) {
+					// 		console.log(result);
+					// 		// This is mean to refresh the ui and trigger fetching the new list of posts from the backend
+					// 		setCreatedPost(true);
+					// 	}
+
+					// 	if (error) {
+					// 		console.error(error);
+					// 	}
+					// });
 				}
 
 				if (error) {
@@ -38,6 +49,17 @@ const InstagramClone = (): ReactElement => {
 			});
 		}
 	}, [posts.length, createdPost]);
+
+	const extractFileType = (url: string): string => {
+		if (url) {
+			const fileType = url.slice(url.length - 3);
+			if (fileType === 'png' || fileType === 'jpg' || fileType === 'jpeg') {
+				return 'image';
+			}
+			return 'video';
+		}
+		return '';
+	};
 	return (
 		<Page id='instagram-clone-page'>
 			{/* @ts-ignore */}
@@ -54,6 +76,7 @@ const InstagramClone = (): ReactElement => {
 									likes={post.likes}
 									caption={post.caption}
 									setCreatedPost={setCreatedPost}
+									type={extractFileType(post.images[0].url)}
 								/>
 							</div>
 					  ))

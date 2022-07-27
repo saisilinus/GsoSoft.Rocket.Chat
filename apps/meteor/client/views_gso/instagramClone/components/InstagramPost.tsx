@@ -18,6 +18,7 @@ type Props = {
 	likes: number;
 	caption: string;
 	setCreatedPost: Function;
+	type: string;
 };
 
 const Comment = ({ author, content }: ICommentProps): ReactElement => (
@@ -26,7 +27,7 @@ const Comment = ({ author, content }: ICommentProps): ReactElement => (
 	</>
 );
 
-const InstagramPost = ({ username, postId, images, likes, caption, setCreatedPost }: Props): ReactElement => {
+const InstagramPost = ({ username, postId, images, likes, caption, setCreatedPost, type }: Props): ReactElement => {
 	const showToolTip = (item: string): void => {
 		const element = document.getElementById(item);
 		if (element) {
@@ -39,7 +40,6 @@ const InstagramPost = ({ username, postId, images, likes, caption, setCreatedPos
 			}
 		}
 	};
-
 	const deletePost = (postId: string): void => {
 		Meteor.call('deleteMediaPost', postId, (error, result) => {
 			if (result) {
@@ -56,7 +56,7 @@ const InstagramPost = ({ username, postId, images, likes, caption, setCreatedPos
 
 	const deletePostFromCloudinary = (images: Record<string, any>[], postId: string): void => {
 		showToolTip(postId);
-		const deleteUrl = `https://api.cloudinary.com/v1_1/${Meteor.settings.public.cloudinary.name}/image/destroy`;
+		const deleteUrl = `https://api.cloudinary.com/v1_1/${Meteor.settings.public.cloudinary.name}/${type}/destroy`;
 		images.forEach(async (fileData, index) => {
 			const formData = new FormData();
 			const timestamp = new Date().getTime();
@@ -84,7 +84,11 @@ const InstagramPost = ({ username, postId, images, likes, caption, setCreatedPos
 			<Box display='flex' justifyContent='space-between' alignItems='center' style={{ padding: '1rem' }}>
 				<Box display='flex' alignItems='center'>
 					<Box style={{ border: '3px solid #ff3041', borderRadius: '100%', height: '55px', width: '55px' }}>
-						<img src={images[0].url} alt='profile image' style={{ width: '50px', height: '50px', borderRadius: '100%' }} />
+						<img
+							src={type === 'image' ? images[0].url : 'https://source.unsplash.com/2l0CWTpcChI/300x300/'}
+							alt='profile image'
+							style={{ width: '50px', height: '50px', borderRadius: '100%' }}
+						/>
 					</Box>
 					<p style={{ fontWeight: 'bold', marginLeft: '8px' }}>{username}</p>
 				</Box>
@@ -105,7 +109,14 @@ const InstagramPost = ({ username, postId, images, likes, caption, setCreatedPos
 				<Icon onClick={(): void => showToolTip(postId)} mie='x4' name='meatballs' size='x20' style={{ cursor: 'pointer' }} />
 			</Box>
 			<Box>
-				<img src={images[0].url} alt='profile image' style={{ maxWidth: '473px', height: '373px', width: '100%' }} />
+				{type === 'image' ? (
+					<img src={images[0].url} alt='profile image' style={{ maxWidth: '473px', height: '373px', width: '100%' }} />
+				) : (
+					<video controls width='100%'>
+						<source src={images[0].url} type='video/mp4' />
+						Sorry, your browser doesn't support embedded videos.
+					</video>
+				)}
 			</Box>
 			<Box style={{ padding: '10px 16px' }}>
 				<Icon mie='x4' name='check' size='x28' style={{ marginLeft: '8px' }} />
