@@ -66,7 +66,7 @@ Meteor.methods({
 		return blog;
 	},
 
-	async updateMediaPost(blogId: IMediaPost['_id'], params: IMediaPostUpdateParams): Promise<IMediaPost> {
+	async updateMediaPost(blogId: IMediaPost['_id'], params: IMediaPostUpdateParams): Promise<boolean> {
 		check(blogId, String);
 		check(
 			params,
@@ -78,8 +78,8 @@ Meteor.methods({
 
 		const MediaPosts = new MediaPostService();
 
-		const blog = await MediaPosts.update(blogId, params);
+		await MediaPosts.update(blogId, params);
 
-		return blog;
+		return true;
 	},
 });

@@ -2,13 +2,14 @@
 import { Tile, Box, Icon, Tooltip } from '@rocket.chat/fuselage';
 import sha256 from 'crypto-js/sha256';
 import { Meteor } from 'meteor/meteor';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useContext } from 'react';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/swiper.min.css';
 import 'swiper/modules/pagination/pagination.min.css';
 import '../instagramCloneCss.css';
+import { DispatchInstagramPageContext } from '../../../contexts/InstagramPageContext/GlobalState';
 
 interface ICommentProps {
 	author: string;
@@ -16,11 +17,8 @@ interface ICommentProps {
 }
 
 type Props = {
-	username: string;
-	postId: string;
-	images: Record<string, any>[];
-	likes: number;
-	caption: string;
+	post: Record<string, any>;
+	setOpenModal: Function;
 	setCreatedPost: Function;
 	type: string;
 };
@@ -31,7 +29,8 @@ const Comment = ({ author, content }: ICommentProps): ReactElement => (
 	</>
 );
 
-const InstagramPost = ({ username, postId, images, likes, caption, setCreatedPost, type }: Props): ReactElement => {
+const InstagramPost = ({ post: { createdBy, _id, images, likes, caption }, setOpenModal, setCreatedPost, type }: Props): ReactElement => {
+	const { dispatch } = useContext(DispatchInstagramPageContext);
 	const showToolTip = (item: string): void => {
 		const element = document.getElementById(item);
 		if (element) {
@@ -83,6 +82,11 @@ const InstagramPost = ({ username, postId, images, likes, caption, setCreatedPos
 			}
 		});
 	};
+
+	const handleUpdate = (oldCaption: string, id: string): void => {
+		dispatch({ type: 'ADD_DETAILS', payload: { caption: oldCaption, id } });
+		setOpenModal(true);
+	};
 	return (
 		<Tile id='post' style={{ maxWidth: '473px' }}>
 			<Box display='flex' justifyContent='space-between' alignItems='center' style={{ padding: '1rem' }}>
@@ -94,15 +98,17 @@ const InstagramPost = ({ username, postId, images, likes, caption, setCreatedPos
 							style={{ width: '50px', height: '50px', borderRadius: '100%' }}
 						/>
 					</Box>
-					<p style={{ fontWeight: 'bold', marginLeft: '8px' }}>{username}</p>
+					<p style={{ fontWeight: 'bold', marginLeft: '8px' }}>{createdBy}</p>
 				</Box>
-				<Tooltip id={postId} style={{ backgroundColor: 'whitesmoke', pointerEvents: 'all' }} className='invisible' placement='left'>
-					{Meteor.user()?.username === username ? (
+				<Tooltip id={_id} style={{ backgroundColor: 'whitesmoke', pointerEvents: 'all' }} className='invisible' placement='left'>
+					{Meteor.user()?.username === createdBy ? (
 						<>
-							<p style={{ cursor: 'pointer', marginBottom: '8px' }}>Update</p>
+							<p style={{ cursor: 'pointer', marginBottom: '8px' }} onClick={(): void => handleUpdate(caption, _id)}>
+								Update
+							</p>
 							<p
 								style={{ color: '#ff3041', marginBottom: '8px', cursor: 'pointer' }}
-								onClick={(): void => deletePostFromCloudinary(images, postId)}
+								onClick={(): void => deletePostFromCloudinary(images, _id)}
 							>
 								Delete
 							</p>
@@ -110,7 +116,7 @@ const InstagramPost = ({ username, postId, images, likes, caption, setCreatedPos
 					) : null}
 					<p style={{ cursor: 'pointer', marginBottom: '8px' }}>Share</p>
 				</Tooltip>
-				<Icon onClick={(): void => showToolTip(postId)} mie='x4' name='meatballs' size='x20' style={{ cursor: 'pointer' }} />
+				<Icon onClick={(): void => showToolTip(_id)} mie='x4' name='meatballs' size='x20' style={{ cursor: 'pointer' }} />
 			</Box>
 			<Box>
 				{type === 'image' ? (
@@ -144,7 +150,7 @@ const InstagramPost = ({ username, postId, images, likes, caption, setCreatedPos
 				<Icon mie='x4' name='send-active' size='x28' style={{ marginLeft: '8px' }} />
 				<p style={{ fontWeight: 'bold', paddingTop: '10px' }}>{likes} views</p>
 				<p style={{ paddingTop: '10px' }}>
-					<Comment author={username} content={caption} />
+					<Comment author={createdBy} content={caption} />
 				</p>
 				<Box style={{ paddingTop: '10px' }}>
 					<p style={{ color: 'rgb(142, 142, 142)' }}>View all 2 comments</p>

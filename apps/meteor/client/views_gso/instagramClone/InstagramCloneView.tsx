@@ -30,17 +30,6 @@ const InstagramClone = (): ReactElement => {
 				if (result.length) {
 					setPosts(result);
 					setCreatedPost(false);
-					// Meteor.call('deleteMediaPost', '62e0db48f8619e41f8b13036', (error, result) => {
-					// 	if (result) {
-					// 		console.log(result);
-					// 		// This is mean to refresh the ui and trigger fetching the new list of posts from the backend
-					// 		setCreatedPost(true);
-					// 	}
-
-					// 	if (error) {
-					// 		console.error(error);
-					// 	}
-					// });
 				}
 
 				if (error) {
@@ -70,11 +59,8 @@ const InstagramClone = (): ReactElement => {
 					? posts.map((post, index) => (
 							<div key={index}>
 								<InstagramPost
-									username={post.createdBy}
-									postId={post._id}
-									images={post.images}
-									likes={post.likes}
-									caption={post.caption}
+									post={post}
+									setOpenModal={setOpenModal}
 									setCreatedPost={setCreatedPost}
 									type={extractFileType(post.images[0].url)}
 								/>

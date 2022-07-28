@@ -43,7 +43,7 @@ export class MediaPostService extends ServiceClassInternal implements IMediaPost
 		return mediaPost;
 	}
 
-	async update(mediaPostId: string, params: IMediaPostUpdateParams): Promise<IMediaPost> {
+	async update(mediaPostId: string, params: IMediaPostUpdateParams): Promise<void> {
 		await this.getMediaPost(mediaPostId);
 		const query = {
 			_id: mediaPostId,
@@ -51,10 +51,7 @@ export class MediaPostService extends ServiceClassInternal implements IMediaPost
 		const updateData = {
 			...params,
 		};
-		const result = await MediaPosts.updateOne(query, { $set: updateData });
-		const mediaPost = await MediaPosts.findOneById(result.upsertedId.toHexString());
-		if (!mediaPost) throw new Error('mediaPost-does-not-exist');
-		return mediaPost;
+		await MediaPosts.updateOne(query, { $set: updateData });
 	}
 
 	list(limit = 10): AggregationCursor<IMediaPost> | FindCursor {
