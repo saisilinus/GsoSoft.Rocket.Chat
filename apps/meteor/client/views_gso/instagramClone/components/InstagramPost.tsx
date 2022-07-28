@@ -114,7 +114,7 @@ const InstagramPost = ({ username, postId, images, likes, caption, setCreatedPos
 			</Box>
 			<Box>
 				{type === 'image' ? (
-					<Swiper pagination={true} modules={[Pagination]} className='mySwiper'>
+					<Swiper pagination={{ clickable: true }} grabCursor={true} modules={[Pagination]}>
 						{images.map((img, index) => (
 							<SwiperSlide key={index}>
 								<img
@@ -126,10 +126,16 @@ const InstagramPost = ({ username, postId, images, likes, caption, setCreatedPos
 						))}
 					</Swiper>
 				) : (
-					<video controls width='100%'>
-						<source src={images[0].url} type='video/mp4' />
-						Sorry, your browser doesn't support embedded videos.
-					</video>
+					<Swiper pagination={{ clickable: true }} grabCursor={true} modules={[Pagination]}>
+						{images.map((img, index) => (
+							<SwiperSlide key={index}>
+								<video controls width='100%' style={{ marginBottom: '40px' }}>
+									<source src={img.url} type='video/mp4' />
+									Sorry, your browser doesn't support embedded videos.
+								</video>
+							</SwiperSlide>
+						))}
+					</Swiper>
 				)}
 			</Box>
 			<Box style={{ padding: '10px 16px' }}>
