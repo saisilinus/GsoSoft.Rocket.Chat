@@ -9,6 +9,7 @@ import ConnectionStatusProvider from './ConnectionStatusProvider';
 import CustomSoundProvider from './CustomSoundProvider';
 import DailyTasksProvider from './DailyTasksProvider';
 import { DeviceProvider } from './DeviceProvider/DeviceProvider';
+import InstagramPageContextProvider from './InstagramPageProvider';
 import LayoutProvider from './LayoutProvider';
 import ModalProvider from './ModalProvider';
 import OmnichannelProvider from './OmnichannelProvider';
@@ -37,27 +38,29 @@ const MeteorProvider: FC = ({ children }) => (
 										<AvatarUrlProvider>
 											<CustomSoundProvider>
 												<UserProvider>
-													<ModalProvider>
-														<AuthorizationProvider>
-															<VideoConfProvider>
-																<DeviceProvider>
+													<DeviceProvider>
+														<ModalProvider>
+															<AuthorizationProvider>
+																<VideoConfProvider>
 																	<CallProvider>
 																		<OmnichannelProvider>
 																			<UserPreviousPageProvider>
 																				<PaymentResultProvider>
 																					<DailyTasksProvider>
 																						<AddressProvider>
-																							<AttachmentProvider>{children}</AttachmentProvider>
+																							<InstagramPageContextProvider>
+																								<AttachmentProvider>{children}</AttachmentProvider>
+																							</InstagramPageContextProvider>
 																						</AddressProvider>
 																					</DailyTasksProvider>
 																				</PaymentResultProvider>
 																			</UserPreviousPageProvider>
 																		</OmnichannelProvider>
 																	</CallProvider>
-																</DeviceProvider>
-															</VideoConfProvider>
-														</AuthorizationProvider>
-													</ModalProvider>
+																</VideoConfProvider>
+															</AuthorizationProvider>
+														</ModalProvider>
+													</DeviceProvider>
 												</UserProvider>
 											</CustomSoundProvider>
 										</AvatarUrlProvider>
