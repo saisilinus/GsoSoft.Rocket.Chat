@@ -11,7 +11,7 @@ Meteor.methods({
 			params,
 			Match.ObjectIncluding({
 				caption: String,
-				images: [String],
+				images: Array,
 			}),
 		);
 
@@ -74,7 +74,7 @@ Meteor.methods({
 			params,
 			Match.ObjectIncluding({
 				caption: Match.Optional(String),
-				images: Match.Optional([String]),
+				images: Match.Optional(Array),
 			}),
 		);
 
@@ -83,5 +83,28 @@ Meteor.methods({
 		const blog = await MediaPosts.update(blogId, params);
 
 		return blog;
+	},
+
+	async getMediaPostsWithoutComment(paginationOptions, queryOptions): Promise<IMediaPost[]> {
+		check(
+			paginationOptions,
+			Match.ObjectIncluding({
+				offset: Match.Optional(Number),
+				count: Match.Optional(Number),
+			}),
+		);
+		check(
+			queryOptions,
+			Match.ObjectIncluding({
+				sort: Match.Optional(Match.Any),
+				query: Match.Optional(Object),
+			}),
+		);
+
+		const MediaPosts = new MediaPostService();
+
+		const posts = await MediaPosts.listWithoutComments(paginationOptions, queryOptions);
+
+		return posts;
 	},
 });

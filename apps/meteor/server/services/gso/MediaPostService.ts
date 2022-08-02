@@ -2,6 +2,7 @@ import { AggregationCursor, FindCursor } from 'mongodb';
 import { IMediaPost } from '@rocket.chat/core-typings/dist/gso';
 import { InsertionModel } from '@rocket.chat/model-typings';
 import { MediaPosts } from '@rocket.chat/models';
+import { IPaginationOptions, IQueryOptions } from '@rocket.chat/core-typings';
 
 import { ServiceClassInternal } from '../../sdk/types/ServiceClass';
 import { IMediaPostService, IMediaPostCreateParams, IMediaPostUpdateParams } from '../../sdk/types/gso/IMediaPostService';
@@ -60,5 +61,19 @@ export class MediaPostService extends ServiceClassInternal implements IMediaPost
 	list(limit = 10): AggregationCursor<IMediaPost> | FindCursor {
 		// return MediaPosts.find({}); 12
 		return MediaPosts.getMediaPostsWithComments(limit);
+	}
+
+	async listWithoutComments(
+		{ offset, count }: Partial<IPaginationOptions> = { offset: 0, count: 50 },
+		{ sort, query }: IQueryOptions<IMediaPost> = { sort: {} },
+	): Promise<IMediaPost[]> {
+		return MediaPosts.find(
+			{ ...query },
+			{
+				...(sort && { sort }),
+				limit: count,
+				skip: offset,
+			},
+		).toArray();
 	}
 }
